@@ -1,0 +1,6 @@
+services:
+  honorsthesis:
+    image: honorsthesis
+    build:
+      context: .
+      dockerfile: ./Dockerfile
