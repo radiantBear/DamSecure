@@ -5,7 +5,9 @@ FROM php:${PHP_VERSION}-apache AS web
 ARG COMPOSER_VERSION
 
 # Install system dependencies
-RUN apt-get update && apt-get install -y libyaml-dev
+RUN echo "Acquire::http::Pipeline-Depth 0; \n Acquire::http::No-Cache true;" > /etc/apt/apt.conf.d/99fixbadproxy && \
+    apt-get update && \
+    apt-get install -y libyaml-dev
 # Install built-in PHP extensions
 RUN docker-php-ext-install mysqli pdo_mysql
 # Allow Apache to rewrite URLs via .htaccess 
@@ -21,6 +23,6 @@ RUN sh /tmp/install-composer.sh --version=${COMPOSER_VERSION} && \
 
 WORKDIR /var/www/html
 
-COPY ./src /var/www/html
+COPY ./ /var/www/html
 
 EXPOSE 80
