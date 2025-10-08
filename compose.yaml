@@ -1,30 +1,20 @@
 services:
-  honorsthesis:
+  apache_php:
     build: .
-    container_name: honorsthesis_apache_php
     restart: unless-stopped
     ports:
       - 127.0.0.1:8080:80
     volumes:
-      - .:/var/www/html
-    networks:
-      - devnet
+      - ./src:/var/www/html
 
   mysql:
     image: mysql:latest
-    container_name: honorsthesis_mysql
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       MYSQL_DATABASE: ${DB_NAME}
-    networks:
-      - devnet
     volumes:
       - db_data:/var/lib/mysql
-
-networks:
-  devnet:
-    driver: bridge
 
 volumes:
   db_data:
