@@ -5,14 +5,25 @@ services:
     ports:
       - 127.0.0.1:8080:80
     volumes:
-      - .:/var/www/html
+      - ./.env:/var/www/html/.env:ro
+    develop:
+      watch:
+        - path: .
+          target: /var/www/html/
+          ignore: 
+            - .git/
+            - node_modules/
+            - vendor/
+          action: sync
+        - path: composer.json
+          action: rebuild
 
   mysql:
     image: mysql:latest
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_DATABASE: ${DB_DATABASE}
     volumes:
       - db_data:/var/lib/mysql
 

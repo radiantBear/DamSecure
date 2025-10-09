@@ -1,13 +1,19 @@
 ARG PHP_VERSION=8.1.29
 ARG COMPOSER_VERSION=2.8.11
 
+
+FROM composer/composer:${COMPOSER_VERSION}-bin AS composer
+# This stage is just needed to allow templating the version in the image name
+
+
 FROM php:${PHP_VERSION}-apache AS web
-ARG COMPOSER_VERSION
+WORKDIR /var/www/html
+EXPOSE 80
 
 # Install system dependencies
 RUN echo "Acquire::http::Pipeline-Depth 0; \n Acquire::http::No-Cache true;" > /etc/apt/apt.conf.d/99fixbadproxy && \
     apt-get update && \
-    apt-get install -y libyaml-dev
+    apt-get install -y libyaml-dev zip unzip
 # Install built-in PHP extensions
 RUN docker-php-ext-install mysqli pdo_mysql
 # Allow Apache to rewrite URLs via .htaccess 
@@ -17,12 +23,10 @@ RUN sed 's#;date.timezone =#date.timezone = America/Los_Angeles#' /usr/local/etc
 > /usr/local/etc/php/php.ini
 
 # Install Composer
-COPY scripts/install-composer.sh /tmp/install-composer.sh
-RUN sh /tmp/install-composer.sh --version=${COMPOSER_VERSION} && \
-    rm /tmp/install-composer.sh
+COPY --from=composer /composer /usr/bin/composer
 
-WORKDIR /var/www/html
+# Install application dependencies. Many files needed for post-install hooks, so just copy it all
+COPY . .
+RUN composer install
 
-COPY ./ /var/www/html
-
-EXPOSE 80
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
