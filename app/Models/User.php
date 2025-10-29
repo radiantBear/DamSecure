@@ -2,44 +2,34 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations;
 
-class User extends Authenticatable
+class User extends Model
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasFactory;
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
+     * Attributes that can be mass-filled using `User::create()`
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'osu_uuid',
+        'onid'
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
+     * Attributes that should be hidden during serialization (e.g. for logs/responses)
      */
     protected $hidden = [
-        'password',
-        'remember_token',
+        'onid'
     ];
-
+    
     /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
+     * Gets the user's project permissions
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password' => 'hashed',
-    ];
+    public function project_permissions(): Relations\HasMany {
+        // Automatically maps via project_user.user_id
+        return $this->hasMany(ProjectUser::class);
+    }
 }
