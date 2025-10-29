@@ -16,8 +16,12 @@
     "workspaceFolder": "/var/www/html",
 
     "mounts": [
+        // Mount the project for editing within the container
         "source=${localWorkspaceFolder},target=/var/www/html,type=bind,consistency=cached",
-        "type=volume,source=composer_cache,target=/var/www/html/vendor"
+        // Exclude vendor directory to ensure the container's `composer install` is used
+        "type=volume,source=composer_cache,target=/var/www/html/vendor",
+        // Mount the user's git config to pull username & email (if exists)
+        "source=${localEnv:HOME}${localEnv:USERPROFILE}/.gitconfig,target=/root/.gitconfig,type=bind,readonly,if-exists=true"
     ],
 
     // Features to add to the dev container. More info: https://containers.dev/features.
@@ -38,8 +42,8 @@
     // Uncomment the next line if you want to keep your containers running after VS Code shuts down.
     // "shutdownAction": "none",
 
-    // Uncomment the next line to run commands after the container is created.
-    // "postCreateCommand": "cat /etc/os-release",
+    // Run commands after the container is created.
+    "postCreateCommand": "if [ -f /root/.ssh/git_signing ]; then git config user.signingkey /root/.ssh/git_signing.pub; fi",
 
     // Configure tool-specific properties.
     "customizations": {
@@ -49,7 +53,4 @@
             ]
         }
     }
-
-    // Uncomment to connect as an existing user other than the container default. More info: https://aka.ms/dev-containers-non-root.
-    // "remoteUser": "devcontainer"
 }
