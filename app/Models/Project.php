@@ -5,18 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations;
+use Laravel\Sanctum\HasApiTokens;
 
 class Project extends Model
 {
-    use HasFactory;
+    use HasApiTokens, HasFactory;
 
     /**
      * Attributes that can be mass-filled using `Project::create()`
      */
     protected $fillable = [
         'uuid',
-        'name',
-        'api_key'
+        'name'
     ];
 
     

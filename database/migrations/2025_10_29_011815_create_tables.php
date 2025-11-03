@@ -22,7 +22,6 @@ return new class extends Migration
             $table->id();
             $table->uuid()->unique();
             $table->string('name', 128);
-            $table->char('api_key', 128)->unique();
             $table->timestamps();
         });
 

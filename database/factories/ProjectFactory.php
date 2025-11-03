@@ -16,8 +16,7 @@ class ProjectFactory extends Factory
     {
         return [
             'uuid' => fake()->uuid(),
-            'name' => fake()->company(),
-            'api_key' => fake()->regexify('[A-Za-z0-9]{128}')
+            'name' => fake()->company()
         ];
     }
 }
