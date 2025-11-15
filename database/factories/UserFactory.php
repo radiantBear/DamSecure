@@ -14,9 +14,16 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $firstName = fake()->lastName();
+        $lastName = fake()->lastName();
+        $onid = strtolower($lastName . $firstName[0]);
+
         return [
-            'osu_uuid' => fake()->uuid(),
-            'onid' => strtolower(fake()->lastName() . fake()->randomLetter())
+            'osuuid' => fake()->numerify('###########'),
+            'onid' => $onid,
+            'firstName' => $firstName,
+            'lastName' => $lastName,
+            'email' => $onid . '@oregonstate.edu'
         ];
     }
 }

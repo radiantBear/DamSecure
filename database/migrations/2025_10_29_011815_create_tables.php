@@ -13,8 +13,11 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->uuid('osu_uuid')->unique()->invisible();
-            $table->string('onid', 32);
+            $table->bigInteger('osuuid')->unique()->invisible();
+            $table->string('onid', 16);
+            $table->string('firstName', 64);
+            $table->string('lastName', 64);
+            $table->string('email', 128);
             $table->timestamps();
         });
 
@@ -22,7 +25,6 @@ return new class extends Migration
             $table->id();
             $table->uuid()->unique();
             $table->string('name', 128);
-            $table->char('api_key', 128)->unique();
             $table->timestamps();
         });
 
