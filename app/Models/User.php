@@ -3,10 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations;
 
-class User extends Model
+class User extends Authenticatable
 {
     use HasFactory;
 
@@ -14,15 +14,21 @@ class User extends Model
      * Attributes that can be mass-filled using `User::create()`
      */
     protected $fillable = [
-        'osu_uuid',
-        'onid'
+        'osuuid',
+        'onid',
+        'firstName',
+        'lastName',
+        'email'
     ];
 
     /**
      * Attributes that should be hidden during serialization (e.g. for logs/responses)
      */
     protected $hidden = [
-        'onid'
+        'onid',
+        'firstName',
+        'lastName',
+        'email'
     ];
     
     /**
