@@ -18,5 +18,5 @@ Route::get('/', function () {
     return view('home');
 });
 
-Route::get('/login', [Controllers\UserController::class, 'login']);
+Route::get('/login', [Controllers\UserController::class, 'login'])->name('login');
 Route::get('/authenticate', [Controllers\UserController::class, 'authenticate']);
