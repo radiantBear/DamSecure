@@ -19,6 +19,15 @@ class Project extends Model
         'name'
     ];
 
+
+    /**
+     * Attribute that should be used to locate the project from HTTP routes' ID
+     */
+    public function getRouteKeyName()
+    {
+        return 'uuid';
+    }
+
     
     /**
      * Gets the user permissions for the project

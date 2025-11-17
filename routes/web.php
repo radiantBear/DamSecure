@@ -15,8 +15,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('home');
+    return view('index');
 });
 
 Route::get('/login', [Controllers\UserController::class, 'login'])->name('login');
 Route::get('/authenticate', [Controllers\UserController::class, 'authenticate']);
+
+Route::middleware('auth')->group(function () {
+    Route::resource('projects', Controllers\ProjectController::class);
+    Route::get('/projects/{project}/token', [Controllers\ProjectController::class, 'rotate_token']);
+});

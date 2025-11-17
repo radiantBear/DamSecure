@@ -64,7 +64,7 @@ class UserController extends Controller
         Auth::login($user);
 
         $request->session()->regenerate();
-        return redirect()->intended('home');
+        return redirect()->intended('projects');
     }
 
 

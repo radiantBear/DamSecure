@@ -46,7 +46,7 @@ class UserTest extends TestCase
             '/authenticate?osuuid=12345678901&onid=beaverb&firstName=Benny&lastName=Beaver&email=beaverb@oregonstate.edu'
         );
 
-        $response->assertRedirect('/home');
+        $response->assertRedirect('/projects');
         $this->assertAuthenticatedAs(Models\User::firstWhere('osuuid', 12345678901));
         $this->assertDatabaseHas('users', [
             'osuuid' => 12345678901,
@@ -88,7 +88,7 @@ XML;
 
         $response = $this->get('/authenticate?ticket=fakeTicket');
 
-        $response->assertRedirect('/home');
+        $response->assertRedirect('/projects');
         $this->assertAuthenticatedAs(Models\User::firstWhere('osuuid', 12345678901));
         $this->assertDatabaseHas('users', [
             'osuuid' => 12345678901,
@@ -114,7 +114,7 @@ XML;
             '/authenticate?osuuid=12345678901&onid=beaverb&firstName=Benny&lastName=Beaver&email=beaverb@oregonstate.edu'
         );
 
-        $response->assertRedirect('/home');
+        $response->assertRedirect('/projects');
         $this->assertAuthenticatedAs(Models\User::find($user->id));
         $this->assertDatabaseCount('users', 1);
     }
@@ -157,7 +157,7 @@ XML;
 
         $response = $this->get('/authenticate?ticket=fakeTicket');
 
-        $response->assertRedirect('/home');
+        $response->assertRedirect('/projects');
         $this->assertAuthenticatedAs(Models\User::find($user->id));
         $this->assertDatabaseCount('users', 1);
     }
