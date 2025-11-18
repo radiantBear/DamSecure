@@ -1,7 +1,7 @@
 <x-layout>
     <x-slot:title>Login</x-slot:title>
 
-    <form action="/authenticate">
+    <form action="authenticate">
         <label for="osuuid">OSUUID</label>
         <input id="osuuid" name="osuuid">
         
