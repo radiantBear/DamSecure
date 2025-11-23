@@ -30,6 +30,76 @@ class DataTest extends TestCase
     }
 
 
+    public function test_data_insertion_can_be_json(): void
+    {
+        $project = Models\Project::factory()->create();
+        $token = $project->createToken('test_token');
+
+        $response = $this
+            ->withHeader('Authorization', 'Bearer ' . $token->plainTextToken)
+            ->postJson('/api/data', ['id' => 5, 'user' => 'john']);
+
+        $response->assertStatus(201);
+        $this->assertDatabaseHas('data', [
+            'type' => 'json'
+        ]);
+    }
+
+
+    public function test_data_insertion_can_be_csv(): void
+    {
+        $project = Models\Project::factory()->create();
+        $token = $project->createToken('test_token');
+
+        // Have to use raw `call` method since Laravel 11 (and consequently the withBody
+        // method) isn't supported at OSU yet
+        $response = $this->call(
+            'POST',
+            '/api/data',
+            [],
+            [],
+            [],
+            [
+                'HTTP_AUTHORIZATION' => 'Bearer ' . $token->plainTextToken,
+                'CONTENT_TYPE' => 'text/csv'
+            ],
+            '5,john'
+        );
+
+        $response->assertStatus(201);
+        $this->assertDatabaseCount('data', 1);
+        $this->assertDatabaseHas('data', [
+            'type' => 'csv',
+            'data' => '5,john'
+        ]);
+    }
+
+
+    public function test_data_insertion_can_be_undeclared(): void
+    {
+        $project = Models\Project::factory()->create();
+        $token = $project->createToken('test_token');
+
+        // Have to use raw `call` method since Laravel 11 (and consequently the withBody
+        // method) isn't supported at OSU yet
+        $response = $this->call(
+            'POST',
+            '/api/data',
+            [],
+            [],
+            [],
+            ['HTTP_AUTHORIZATION' => 'Bearer ' . $token->plainTextToken],
+            'some sort of data'
+        );
+
+        $response->assertStatus(201);
+        $this->assertDatabaseHas('data', [
+            'type' => 'unknown',
+            'data' => 'some sort of data'
+        ]);
+    }
+
+
     public function test_data_update_succeeds_with_valid_token(): void
     {
         $project = Models\Project::factory()->create();
