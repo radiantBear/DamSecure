@@ -8,9 +8,11 @@
             <a href="projects/{{ $project->uuid }}/permissions" class="btn btn-primary">
                 <i class="fa-solid fa-users"></i> Permissions
             </a>
+            @can('update', $project)
             <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#rotateTokenModal">
                 <i class="fa-solid fa-lock"></i> Rotate API token
             </button>
+            @endcan
         </div>
     </div>
 

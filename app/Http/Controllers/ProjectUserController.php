@@ -14,7 +14,7 @@ class ProjectUserController extends Controller
     {
         $this->authorize('viewAny', [Models\ProjectUser::class, $project]);
 
-        $permissions = $project->user_permissions()->with('user')->get();
+        $permissions = $project->user_permissions()->with('user')->with('project')->get();
 
         return view('project_users', ['project' => $project, 'permissions' => $permissions]);
     }
