@@ -1,6 +1,10 @@
 <x-layout>
     <x-slot:title>{{ $project->name }} Permissions</x-slot:title>
 
+    <div class="row">
+        <div class="col text-center"><h1>{{ $project->name }} Permissions</h1></div>
+    </div>
+
     <table class="table table-responsive table-striped">
         <thead>
             <tr>
@@ -34,6 +38,16 @@
             @endforeach
         </tbody>
     </table>
+
+    <div class="row">
+        <div class="col">
+            <ul>
+                <li><strong>Owner:</strong> has full permissions for the project</li>
+                <li><strong>Contributors:</strong> can view project data and rotate the API key</li>
+                <li><strong>Viewers:</strong> can view project data (including permissions)</li>
+            </ul>
+        </div>
+    </div>
 
     @can('create', [App\Models\ProjectUser::class, $project])
     <form method="post" class="row needs-validation {{ $errors->isNotEmpty() ? 'was-validated' : '' }}" novalidate>
