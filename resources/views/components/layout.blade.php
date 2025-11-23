@@ -7,9 +7,8 @@
 
         <title>{{ $title ?? 'Honors Thesis' }}</title>
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+        <!-- Icons -->
+        <link href="https://use.fontawesome.com/releases/v7.1.0/css/all.css" rel="stylesheet" integrity="da9215c2c33304afdc5f491dd34cb7b75eba2f932c3f19c5b872cf7242fd5e24a684d201c1eb0428f88c2cf0a310b8eb" crossorigin="anonymous">
 
     </head>
     <body>

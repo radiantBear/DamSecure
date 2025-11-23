@@ -48,6 +48,7 @@ class ProjectController extends Controller
         $owner = new Models\ProjectUser();
         $owner->project_id = $project->id;
         $owner->user_id = auth()->user()->id;
+        $owner->role = 'owner';
         $owner->save();
 
         return redirect("projects/{$project->uuid}");

@@ -1,6 +1,7 @@
 <x-layout>
     <x-slot:title>{{ $project->name }}</x-slot:title>
 
+    <a href="projects/{{ $project->uuid }}/permissions">Permissions</a>
     <a href="projects/{{ $project->uuid }}/token">Rotate API token</a>
 
     <table>
