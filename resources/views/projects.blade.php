@@ -27,7 +27,7 @@
                     <tr>
                         <td><a href="projects/{{ $p->uuid }}">{{ $p->name }}</a></td>
                         <td>{{ $p->created_at }}</td>
-                        <td>{{ $p->created_at }}</td>
+                        <td>{{ $p->latest_upload?->updated_at ?: 'None' }}</td>
                     </tr>
                     @endforeach
                 </tbody>
