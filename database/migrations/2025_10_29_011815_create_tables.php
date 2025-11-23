@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('osuuid')->unique()->invisible();
+            $table->bigInteger('osuuid')->unique()->invisible()->default(0);
             $table->string('onid', 16);
             $table->string('firstName', 64);
             $table->string('lastName', 64);
