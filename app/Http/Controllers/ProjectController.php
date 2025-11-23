@@ -19,16 +19,6 @@ class ProjectController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        $this->authorize('create', Models\Project::class);
-        
-        return view('create_project');
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
@@ -51,7 +41,10 @@ class ProjectController extends Controller
         $owner->role = 'owner';
         $owner->save();
 
-        return redirect("projects/{$project->uuid}");
+        $token = $project->createToken('upload_token');
+
+        return redirect("/projects/{$project->uuid}")
+            ->with(['apiToken' => $token->plainTextToken]);
     }
 
     /**
@@ -91,12 +84,10 @@ class ProjectController extends Controller
         $this->authorize('update', $project);
 
         $project->tokens()->delete();
-        $token = $project->createToken('project_token');
+        $token = $project->createToken('upload_token');
 
-        return view('project_token', [
-            'project' => $project,
-            'token' => $token->plainTextToken
-        ]);
+        return redirect("/projects/{$project->uuid}")
+            ->with(['apiToken' => $token->plainTextToken]);
     }
 
     /**

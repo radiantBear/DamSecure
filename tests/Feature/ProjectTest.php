@@ -21,7 +21,7 @@ class ProjectTest extends TestCase
 
         $response->assertOk();
         $response->assertSee('No projects yet.');
-        $response->assertSee('Create new project');
+        $response->assertSee('New project');
         $response->assertViewHas('projects', fn ($p) => $p->isEmpty());
     }
 
@@ -73,25 +73,6 @@ class ProjectTest extends TestCase
     public function test_unauthenticated_user_cannot_see_projects_page(): void
     {
         $response = $this->get('/projects');
-        $response->assertRedirect('/login');
-    }
-
-
-    public function test_user_can_see_create_projects_page(): void
-    {
-        $user = Models\User::factory()->create();
-
-        $response = $this->actingAs($user)->get('/projects/create');
-
-        $response->assertOk();
-        $response->assertSee('Name');
-        $response->assertSee('Submit');
-    }
-
-
-    public function test_unauthenticated_user_cannot_see_create_project_page(): void
-    {
-        $response = $this->get('/projects/create');
         $response->assertRedirect('/login');
     }
 
@@ -187,11 +168,11 @@ class ProjectTest extends TestCase
             'user_id' => $user->id,
             'role' => 'owner'
         ]);
-        $token = $project->createToken('project_token');
+        $token = $project->createToken('upload_token');
 
         $response = $this->actingAs($user)->get("/projects/{$project->uuid}/token");
 
-        $response->assertOk();
+        $response->assertRedirect("/projects/{$project->uuid}");
         $this->assertDatabaseMissing('personal_access_tokens', [
             'token' => $token->accessToken->token
         ]);
@@ -211,7 +192,7 @@ class ProjectTest extends TestCase
             'project_id' => $project->id,
             'user_id' => $other_user->id
         ]);
-        $token = $project->createToken('project_token');
+        $token = $project->createToken('upload_token');
 
         $response = $this->actingAs($user)->get("/projects/{$project->uuid}/token");
 
@@ -231,7 +212,7 @@ class ProjectTest extends TestCase
             'project_id' => $project->id,
             'user_id' => $user->id
         ]);
-        $token = $project->createToken('project_token');
+        $token = $project->createToken('upload_token');
 
         $response = $this->get("/projects/{$project->uuid}/token");
         
