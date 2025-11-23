@@ -31,4 +31,6 @@ Route::middleware('auth')->group(function () {
         Route::patch('/permissions/{project_user}', 'update');
         Route::delete('/permissions/{project_user}', 'destroy');
     });
+
+    Route::get('/logout', [Controllers\UserController::class, 'logout'])->name('logout');
 });

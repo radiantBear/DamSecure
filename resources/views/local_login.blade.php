@@ -2,21 +2,26 @@
     <x-slot:title>Login</x-slot:title>
 
     <form action="authenticate">
-        <label for="osuuid">OSUUID</label>
-        <input id="osuuid" name="osuuid">
-        
-        <label for="onid">ONID</label>
-        <input id="onid" name="onid">
-        
-        <label for="firstName">First Name</label>
-        <input id="firstName" name="firstName">
-        
-        <label for="lastName">Last Name</label>
-        <input id="lastName" name="lastName">
-        
-        <label for="email">Email</label>
-        <input id="email" name="email">
+        <div class="row g-3">
+            <div class="col-2">
+                <input id="osuuid" name="osuuid" placeholder="OSUUID" aria-label="OSUUID" type="number" class="form-control">
+            </div>
+            <div class="col-2">
+                <input id="onid" name="onid" placeholder="ONID" aria-label="ONID" type="text" class="form-control">
+            </div>
+            <div class="col-2">
+                <input id="firstName" name="firstName" placeholder="First Name" aria-label="First Name" type="text" class="form-control">
+            </div>
+            <div class="col-2">
+                <input id="lastName" name="lastName" placeholder="Last Name" aria-label="Email" type="text" class="form-control">
+            </div>
+            <div class="col-3">
+                <input id="email" name="email" placeholder="Email" aria-label="Email" type="email" class="form-control">
+            </div>
+            <div class="col-1">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
 
-        <button type="submit">Submit</button>
     </form>
 </x-layout>

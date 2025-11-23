@@ -45,4 +45,12 @@ class Project extends Model
         // Automatically maps via data.project_id
         return $this->hasMany(Data::class);
     }
+
+    /** 
+     * Gets the most recently uploaded data for the project
+     */
+    public function latest_upload(): Relations\HasOne
+    {
+        return $this->hasOne(Data::class)->latestOfMany('updated_at');
+    }
 }

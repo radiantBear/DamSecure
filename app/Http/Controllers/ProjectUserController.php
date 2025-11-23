@@ -14,7 +14,7 @@ class ProjectUserController extends Controller
     {
         $this->authorize('viewAny', [Models\ProjectUser::class, $project]);
 
-        $permissions = $project->user_permissions()->with('user')->get();
+        $permissions = $project->user_permissions()->with('user')->with('project')->get();
 
         return view('project_users', ['project' => $project, 'permissions' => $permissions]);
     }
@@ -27,16 +27,23 @@ class ProjectUserController extends Controller
         $this->authorize('create', [Models\ProjectUser::class, $project]);
 
         $validated = $request->validate([
-            'onid' => 'required|exists:users',
+            'onid' => 'required',
             'role' => 'required|in:owner,contributor,viewer'
         ]);
+
+        if (Models\User::where('onid', $validated['onid'])->doesntExist())
+        {
+            return back()->withErrors([
+                'onid' => 'User does not exist. Have they logged into DamSecure yet?'
+            ]);
+        }
 
         if ($project->user_permissions()
             ->whereIn('user_id', Models\User::select('id')->where('onid', $validated['onid']))
             ->exists()
         ) {
             return back()->withErrors([
-                'onid' => 'This user is already assigned to the project'
+                'onid' => 'User is already assigned to the project.'
             ]);
         }
         
