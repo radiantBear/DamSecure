@@ -24,6 +24,7 @@ class DataFactory extends Factory
 
         return [
             'data' => json_encode($data),
+            'type' => fake()->randomElement(['json', 'csv', 'unknown']),
             'project_id' => Models\Project::factory()
         ];
     }

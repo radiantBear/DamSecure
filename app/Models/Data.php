@@ -19,7 +19,8 @@ class Data extends Model
      * Attributes that can be mass-filled using `Data::create()`
      */
     protected $fillable = [
-        'data'
+        'data',
+        'type'
     ];
     
 

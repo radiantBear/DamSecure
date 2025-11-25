@@ -18,10 +18,22 @@ class DataController extends Controller
         
         $this->authorize('create', Data::class);
 
-        if (!json_validate($request->getContent()))
-            return response('Invalid JSON', 400);
+        $type = 'unknown';
+        
+        if ($request->header('Content-Type') === 'application/json')
+        {
+            $type = 'json';
 
-        $project->project_data()->create(['data' => $request->getContent()]);
+            if (!json_validate($request->getContent()))
+                return response('Invalid JSON', 400);
+        }
+        else if ($request->header('Content-Type') === 'text/csv')
+            $type = 'csv';
+
+        $project->project_data()->create([
+            'type' => $type,
+            'data' => $request->getContent()
+        ]);
 
         return response('Created', 201);
     }
