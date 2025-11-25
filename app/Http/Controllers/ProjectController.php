@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models;
+use App\Services\DataService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -53,10 +54,17 @@ class ProjectController extends Controller
     public function show(Models\Project $project)
     {
         $this->authorize('view', $project);
+
+        $data = DataService::splitData($project->project_data);
+
+        $jsonFields = DataService::getJsonFields($data['json']);
+        $csvLength = DataService::getCsvLength($data['csv']);
         
         return view('project', [
             'project' => $project,
-            'data' => $project->project_data
+            'json' => [ 'fields' => $jsonFields, 'data' => $data['json']],
+            'csv' => [ 'length' => $csvLength, 'data' => $data['csv']],
+            'unknown' => $data['unknown']
         ]);
     }
 

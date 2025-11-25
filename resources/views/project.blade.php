@@ -16,22 +16,13 @@
         </div>
     </div>
 
-    <table class="table table-responsive table-striped">
-        <thead>
-            <tr>
-                <th>Data</th>
-                <th>Timestamp</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($data as $d)
-            <tr>
-                <td>{{ $d->data }}</td>
-                <td>{{ $d->created_at }}</td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
+    <div class="d-flex flex-column gap-4">
+        <x-data.json-table $json />
+
+        <x-data.csv-table $csv />
+
+        <x-data.unknown-table :unknown-data=$unknown />
+    </div>
 
     <div class="modal fade" id="rotateTokenModal" tabindex="-1" aria-labelledby="rotateTokenModalLabel" aria-hidden="true">
         <div class="modal-dialog">

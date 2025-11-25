@@ -118,10 +118,6 @@ class ProjectTest extends TestCase
         $response = $this->actingAs($user)->get("/projects/{$project->uuid}");
 
         $response->assertOk();
-        $response->assertViewHas('data', fn ($d) => $this->assertEqualsCanonicalizing(
-            $d->modelKeys(),
-            $data->modelKeys()
-        ) ?: true);
     }
 
 
