@@ -15,16 +15,33 @@ class DataFactory extends Factory
      */
     public function definition(): array
     {
-        $data = [
-            fake()->word() => fake()->word(),
-            fake()->word() => fake()->randomNumber(),
-            fake()->word() => fake()->boolean(),
-            fake()->word() => fake()->words(3),
-        ];
+        $type = fake()->randomElement(['json', 'csv', 'unknown']);
+
+        switch ($type)
+        {
+            case 'json':
+                $data = json_encode([
+                    fake()->word() => fake()->word(),
+                    fake()->word() => fake()->randomNumber(),
+                    fake()->word() => fake()->boolean(),
+                    fake()->word() => fake()->words(3),
+                ]);
+                break;
+            case 'csv':
+                $data = implode(',', [
+                    fake()->word(),
+                    fake()->randomNumber(),
+                    fake()->boolean()
+                ]);
+                break;
+            case 'unknown':
+                $data = 'Miscellaneous special characters that could break stuff: ,./\<{[("\';!@#$%^&*`~>}])';
+                break;
+        }
 
         return [
-            'data' => json_encode($data),
-            'type' => fake()->randomElement(['json', 'csv', 'unknown']),
+            'data' => $data,
+            'type' => $type,
             'project_id' => Models\Project::factory()
         ];
     }
