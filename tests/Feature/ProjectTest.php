@@ -166,7 +166,8 @@ class ProjectTest extends TestCase
         ]);
         $token = $project->createToken('upload_token');
 
-        $response = $this->actingAs($user)->get("/projects/{$project->uuid}/token");
+        $response = $this->actingAs($user)
+            ->get("/projects/{$project->uuid}/token?expiration=year");
 
         $response->assertRedirect("/projects/{$project->uuid}");
         $this->assertDatabaseMissing('personal_access_tokens', [

@@ -42,10 +42,13 @@ class ProjectController extends Controller
         $owner->role = 'owner';
         $owner->save();
 
-        $token = $project->createToken('upload_token');
+        $token = $project->createToken('upload_token', ['*'], now()->addYear());
 
         return redirect("/projects/{$project->uuid}")
-            ->with(['apiToken' => $token->plainTextToken]);
+            ->with([
+                'apiToken' => $token->plainTextToken,
+                'tokenExpiration' => $token->accessToken->expires_at
+            ]);
     }
 
     /**
@@ -87,15 +90,31 @@ class ProjectController extends Controller
     /**
      * Rotate the API token used to upload data.
      */
-    public function rotate_token(Models\Project $project)
+    public function rotate_token(Request $request, Models\Project $project)
     {
         $this->authorize('update', $project);
 
+        $validated = $request->validate([
+            'expiration' => 'required|in:day,week,month,year,never'
+        ]);
+
+        switch ($validated['expiration'])
+        {
+            case 'day':   $expiration = now()->addDay();    break;
+            case 'week':  $expiration = now()->addWeek();   break;
+            case 'month': $expiration = now()->addMonth();  break;
+            case 'year':  $expiration = now()->addYear();   break;
+            case 'never': $expiration = null;               break;
+        }
+
         $project->tokens()->delete();
-        $token = $project->createToken('upload_token');
+        $token = $project->createToken('upload_token', ['*'], $expiration);
 
         return redirect("/projects/{$project->uuid}")
-            ->with(['apiToken' => $token->plainTextToken]);
+            ->with([
+                'apiToken' => $token->plainTextToken,
+                'tokenExpiration' => $token->accessToken->expires_at
+            ]);
     }
 
     /**
