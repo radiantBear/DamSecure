@@ -22,7 +22,11 @@
                         ? (
                             is_bool($d['data'][$f])
                                 ? ($d['data'][$f] ? 'true' : 'false')
-                                : $d['data'][$f]
+                                : (
+                                    is_object($d['data'][$f]) || is_array($d['data'][$f])
+                                        ? json_encode($d['data'][$f]) 
+                                        : $d['data'][$f]
+                                )
                         ) : ''
                 }}</td>
                 @endforeach

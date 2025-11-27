@@ -17,9 +17,9 @@
     </div>
 
     <div class="d-flex flex-column gap-4">
-        <x-data.json-table $json />
+        <x-data.json-table :$json />
 
-        <x-data.csv-table $csv />
+        <x-data.csv-table :$csv />
 
         <x-data.unknown-table :unknown-data=$unknown />
     </div>

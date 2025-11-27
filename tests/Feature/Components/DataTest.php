@@ -10,25 +10,40 @@ class DataTest extends TestCase
     public function test_json_table_lines_up_fields(): void
     {
         $json = [
-            'fields' => ['id', 'name', 'temp', 'new'],
+            'fields' => ['id', 'name', 'temp', 'new', 'object'],
             'data' => [
                 [ 'data' => ['id' => 1, 'name' => 'John Doe', 'temp' => 68], 'created_at' => '2025-12-10' ],
                 [ 'data' => ['id' => 2, 'name' => 'John Doe', 'temp' => 70, 'new' => null], 'created_at' => '2025-12-11' ],
                 [ 'data' => ['id' => 3, 'name' => 'John Doe', 'temp' => 71, 'new' => true], 'created_at' => '2025-12-12' ],
-                [ 'data' => ['id' => 4, 'temp' => 70, 'new' => true], 'created_at' => '2025-12-13' ],
+                [ 'data' => ['id' => 4, 'temp' => 70, 'new' => [1, 2, 3], 'object' => ['key' => 'value']], 'created_at' => '2025-12-13' ],
             ]
         ];
 
         $view = $this->component(Data\JsonTable::class, [ 'json' => $json ]);
 
         $view->assertSeeText('JSON Data');
-        $view->assertSeeInOrder(['<th>id</th>', '<th>name</th>', '<th>temp</th>', '<th>new</th>'], false);
+        $view->assertSeeInOrder(['<th>id</th>', '<th>name</th>', '<th>temp</th>', '<th>new</th>', '<th>object</th>'], false);
         $view->assertSeeInOrder([
-            '<td>1</td>', '<td>John Doe</td>', '<td>68</td>', '<td></td>',
-            '<td>2</td>', '<td>John Doe</td>', '<td>70</td>', '<td></td>',
-            '<td>3</td>', '<td>John Doe</td>', '<td>71</td>', '<td>true</td>',
-            '<td>4</td>', '<td></td>',         '<td>70</td>', '<td>true</td>',
+            '<td>1</td>', '<td>John Doe</td>', '<td>68</td>', '<td></td>', '<td></td>',
+            '<td>2</td>', '<td>John Doe</td>', '<td>70</td>', '<td></td>', '<td></td>',
+            '<td>3</td>', '<td>John Doe</td>', '<td>71</td>', '<td>true</td>', '<td></td>',
+            '<td>4</td>', '<td></td>',         '<td>70</td>', '<td>[1,2,3]</td>', '<td>{&quot;key&quot;:&quot;value&quot;}</td>',
         ], false);
+    }
+
+
+    public function test_json_visible_when_populated(): void
+    {
+        $json = [
+            'fields' => ['id', 'name', 'temp', 'new'],
+            'data' => [
+                [ 'data' => ['id' => 1, 'name' => 'John Doe', 'temp' => 68], 'created_at' => '2025-12-10' ]
+            ]
+        ];
+
+        $table = new Data\JsonTable($json);
+
+        $this->assertEquals($table->shouldRender(), true);
     }
 
 
@@ -68,6 +83,21 @@ class DataTest extends TestCase
     }
 
 
+    public function test_csv_visible_when_populated(): void
+    {
+        $csv = [
+            'length' => 0,
+            'data' => [
+                ['data' => [1, 70, 'unknown'], 'created_at' => '2025-11-20']
+            ]
+        ];
+
+        $table = new Data\CsvTable($csv);
+
+        $this->assertEquals($table->shouldRender(), true);
+    }
+
+
     public function test_csv_hidden_when_empty(): void
     {
         $csv = [
@@ -98,6 +128,18 @@ class DataTest extends TestCase
             '<td>{&quot;data&quot;: true}</td>',
             '<td>1,2,3</td>'
         ], false);
+    }
+
+
+    public function test_unknown_visible_when_populated(): void
+    {
+        $unknown = [
+            (object)['data' => "[1, 70, 'unknown']", 'created_at' => '2025-11-20']
+        ];
+
+        $table = new Data\UnknownTable($unknown);
+
+        $this->assertEquals($table->shouldRender(), true);
     }
 
 
