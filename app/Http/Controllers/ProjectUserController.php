@@ -31,8 +31,7 @@ class ProjectUserController extends Controller
             'role' => 'required|in:owner,contributor,viewer'
         ]);
 
-        if (Models\User::where('onid', $validated['onid'])->doesntExist())
-        {
+        if (Models\User::where('onid', $validated['onid'])->doesntExist()) {
             return back()->withErrors([
                 'onid' => 'User does not exist. Have they logged into DamSecure yet?'
             ]);
@@ -46,12 +45,12 @@ class ProjectUserController extends Controller
                 'onid' => 'User is already assigned to the project.'
             ]);
         }
-        
+
         $project_user = new Models\ProjectUser();
         $project_user->project_id = $project->id;
         $project_user->role = $validated['role'];
         $project_user->user_id = Models\User::where('onid', $validated['onid'])->first()->id;
-        
+
         $project_user->save();
     }
 
@@ -67,7 +66,7 @@ class ProjectUserController extends Controller
         ]);
 
         $project_user->role = $validated['role'];
-        
+
         $project_user->save();
 
         return redirect("projects/{$project_user->project->uuid}/permissions");

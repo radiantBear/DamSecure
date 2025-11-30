@@ -186,7 +186,7 @@ class ProjectUserTest extends TestCase
         $response->assertRedirect();
         $this->assertDatabaseCount('project_users', 1);
     }
-    
+
 
     public function test_cannot_add_member_already_added(): void
     {
@@ -282,7 +282,7 @@ class ProjectUserTest extends TestCase
         ]);
     }
 
-    
+
     public function test_user_cannot_update_permissions_for_other_projects(): void
     {
         $user = Models\User::factory()->create();
@@ -300,7 +300,7 @@ class ProjectUserTest extends TestCase
             'role' => 'viewer'
         ]);
 
-        
+
         $response = $this->actingAs($user)->patch(
             "/permissions/{$updatedMember->id}",
             ['role' => 'contributor']
@@ -426,7 +426,7 @@ class ProjectUserTest extends TestCase
         ]);
     }
 
-    
+
     public function test_user_cannot_remove_members_for_other_projects(): void
     {
         $user = Models\User::factory()->create();
@@ -444,7 +444,7 @@ class ProjectUserTest extends TestCase
             'role' => 'viewer'
         ]);
 
-        
+
         $response = $this->actingAs($user)->delete("/permissions/{$removedMember->id}");
 
         $response->assertForbidden();

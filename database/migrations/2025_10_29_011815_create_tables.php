@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class () extends Migration {
     /**
      * Run the migrations
      */
@@ -32,7 +31,7 @@ return new class extends Migration
             $table->id();
             $table->enum('role', ['owner', 'contributor', 'viewer']);
             $table->timestamps();
-            
+
             $table->foreignId('project_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('user_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->unique(['project_id', 'user_id']);
@@ -42,7 +41,7 @@ return new class extends Migration
             $table->id();
             $table->text('data');
             $table->timestamps();
-            
+
             $table->foreignId('project_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
         });
     }

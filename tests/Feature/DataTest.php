@@ -299,7 +299,7 @@ class DataTest extends TestCase
         $response = $this
         ->withHeader('Authorization', 'Bearer ' . $token->plainTextToken)
         ->deleteJson('/api/data/' . $data->id);
-        
+
         $response->assertStatus(401);
         $this->assertDatabaseHas('data', [
             'data' => $data->data,

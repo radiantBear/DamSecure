@@ -30,17 +30,18 @@ class ProjectTest extends TestCase
     {
         $user = Models\User::factory()->create();
         $projects = Models\Project::factory(2)->create();
-        foreach ($projects as $p)
+        foreach ($projects as $p) {
             Models\ProjectUser::factory()->create([
                 'project_id' => $p->id,
                 'user_id' => $user->id
             ]);
+        }
 
         $response = $this->actingAs($user)->get('/projects');
 
         $response->assertOk();
         $response->assertViewHas('projects', fn ($p) => (
-            $p->contains($projects[0]) 
+            $p->contains($projects[0])
             && $p->contains($projects[1])
         ));
     }
@@ -50,12 +51,13 @@ class ProjectTest extends TestCase
     {
         $user = Models\User::factory()->create();
         $user_projects = Models\Project::factory(2)->create();
-        foreach ($user_projects as $p)
+        foreach ($user_projects as $p) {
             Models\ProjectUser::factory()->create([
                 'project_id' => $p->id,
                 'user_id' => $user->id
             ]);
-        
+        }
+
         $other_user = Models\User::factory()->create();
         $other_user_project = Models\Project::factory()->create();
         Models\ProjectUser::factory()->create([
@@ -174,7 +176,7 @@ class ProjectTest extends TestCase
             'token' => $token->accessToken->token
         ]);
         $this->assertDatabaseCount('personal_access_tokens', 1);
-        // NOTE: cannot directly assert that the token value displayed to the user is 
+        // NOTE: cannot directly assert that the token value displayed to the user is
         // correct since the plaintext isn't stored in the database
     }
 
@@ -212,7 +214,7 @@ class ProjectTest extends TestCase
         $token = $project->createToken('upload_token');
 
         $response = $this->get("/projects/{$project->uuid}/token");
-        
+
         $response->assertRedirect('/login');
         $this->assertDatabaseHas('personal_access_tokens', [
             'token' => $token->accessToken->token

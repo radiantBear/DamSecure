@@ -12,14 +12,14 @@ class DataService
         $csvData = [];
         $unknownData = [];
 
-        foreach($data as $d)
-        {
-            if ($d->type === 'json')
+        foreach ($data as $d) {
+            if ($d->type === 'json') {
                 $jsonData[] = [ 'data' => json_decode($d->data, true), 'created_at' => $d->created_at ];
-            else if ($d->type === 'csv')
+            } elseif ($d->type === 'csv') {
                 $csvData[] = [ 'data' => str_getcsv($d->data), 'created_at' => $d->created_at ];
-            else
+            } else {
                 $unknownData[] = $d;
+            }
         }
 
         return [
@@ -28,19 +28,20 @@ class DataService
             'unknown' => $unknownData
         ];
     }
-    
+
 
     public static function getJsonFields(array $json): array
     {
         return array_keys(
             array_reduce(
                 array_map(fn ($d) => $d['data'], $json),
-
-                function($carry, $d) {
-                    foreach ($d as $key => $_)
+                function ($carry, $d) {
+                    foreach ($d as $key => $_) {
                         $carry[$key] = true;
+                    }
                     return $carry;
-                }, []
+                },
+                []
             )
         );
     }
@@ -50,7 +51,7 @@ class DataService
     {
         return count($csv) > 0
             ? max(array_map(
-                fn($c) => count($c['data']),
+                fn ($c) => count($c['data']),
                 $csv
             ))
             : 0;

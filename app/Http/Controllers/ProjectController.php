@@ -33,7 +33,7 @@ class ProjectController extends Controller
         $project = new Models\Project();
         $project->uuid = Str::uuid();
         $project->name = $validated['name'];
-        
+
         $project->save();
 
         $owner = new Models\ProjectUser();
@@ -62,7 +62,7 @@ class ProjectController extends Controller
 
         $jsonFields = DataService::getJsonFields($data['json']);
         $csvLength = DataService::getCsvLength($data['csv']);
-        
+
         return view('project', [
             'project' => $project,
             'json' => [ 'fields' => $jsonFields, 'data' => $data['json']],
@@ -98,13 +98,22 @@ class ProjectController extends Controller
             'expiration' => 'required|in:day,week,month,year,never'
         ]);
 
-        switch ($validated['expiration'])
-        {
-            case 'day':   $expiration = now()->addDay();    break;
-            case 'week':  $expiration = now()->addWeek();   break;
-            case 'month': $expiration = now()->addMonth();  break;
-            case 'year':  $expiration = now()->addYear();   break;
-            case 'never': $expiration = null;               break;
+        switch ($validated['expiration']) {
+            case 'day':
+                $expiration = now()->addDay();
+                break;
+            case 'week':
+                $expiration = now()->addWeek();
+                break;
+            case 'month':
+                $expiration = now()->addMonth();
+                break;
+            case 'year':
+                $expiration = now()->addYear();
+                break;
+            case 'never':
+                $expiration = null;
+                break;
         }
 
         $project->tokens()->delete();

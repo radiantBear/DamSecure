@@ -12,7 +12,7 @@ class ProjectUser extends Model
 
     /**
      * Attributes that can be mass-filled using `ProjectUser::create()`
-     * 
+     *
      * Intentionally empty since this handles sensitive permissions that shouldn't
      * be exposed to user input
      */
@@ -21,8 +21,8 @@ class ProjectUser extends Model
 
     /**
      * Gets the project the user access record is for
-     * 
-     * @note Can create n + 1 issue if accessed in a loop and not eager-loaded (via 
+     *
+     * @note Can create n + 1 issue if accessed in a loop and not eager-loaded (via
      * `chaperone` method); see Eloquent Relationship "One to Many" docs
      */
     public function project(): Relations\BelongsTo
@@ -33,8 +33,8 @@ class ProjectUser extends Model
 
     /**
      * Gets the user the project access record is for
-     * 
-     * @note Can create n + 1 issue if accessed in a loop and not eager-loaded (via 
+     *
+     * @note Can create n + 1 issue if accessed in a loop and not eager-loaded (via
      * `chaperone` method); see Eloquent Relationship "One to Many" docs
      */
     public function user(): Relations\BelongsTo

@@ -30,19 +30,21 @@ class User extends Authenticatable
         'lastName',
         'email'
     ];
-    
+
     /**
      * Gets the user's project permissions
      */
-    public function project_permissions(): Relations\HasMany {
+    public function project_permissions(): Relations\HasMany
+    {
         // Automatically maps via project_user.user_id
         return $this->hasMany(ProjectUser::class);
     }
-    
+
     /**
      * Gets the user's projects
      */
-    public function projects(): Relations\BelongsToMany {
+    public function projects(): Relations\BelongsToMany
+    {
         // Automatically maps via project_user.user_id
         return $this->belongsToMany(Project::class, 'project_users');
     }

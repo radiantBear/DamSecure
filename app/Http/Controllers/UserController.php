@@ -19,14 +19,14 @@ class UserController extends Controller
     {
         $this->cas_service_url = 'https://' . request()->getHost() . '/public/authenticate';
     }
-    
-    
+
+
     public function login()
     {
         if (app()->environment('local')) {
             return view('local_login');
         }
-            
+
         return redirect("{$this->cas_login_url}?service={$this->cas_service_url}");
     }
 
@@ -37,17 +37,17 @@ class UserController extends Controller
             $user_data = [
                 'osuuid' => $request->input('osuuid'),
                 'onid' => $request->input('onid'),
-                'firstName' => $request->input('firstName') ?: $request->input('givenName'), 
+                'firstName' => $request->input('firstName') ?: $request->input('givenName'),
                 'lastName' => $request->input('lastName') ?: $request->input('surname'),
                 'email' => $request->input('email')
             ];
-        }
-        else {
+        } else {
             $ticket = $request->input('ticket');
 
-            if (!$ticket)
+            if (!$ticket) {
                 return redirect('/')->withErrors('No CAS ticket provided');
-            
+            }
+
             $response = Http::withQueryParameters([
                 'ticket' => $ticket,
                 'service' => $this->cas_service_url
@@ -74,7 +74,7 @@ class UserController extends Controller
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-            
+
         return redirect("/");
     }
 
@@ -96,7 +96,7 @@ class UserController extends Controller
         //
     }
 
-    
+
     /**
      * Remove the specified resource from storage.
      */
@@ -116,11 +116,11 @@ class UserController extends Controller
             ->authenticationSuccess
             ->attributes;
 
-        
+
         return [
             'osuuid' => $attributes->osuuid,
             'onid' => $response->user,
-            'firstName' => $attributes->firstname ?: $attributes->givenName, 
+            'firstName' => $attributes->firstname ?: $attributes->givenName,
             'lastName' => $attributes->lastname ?: $attributes->surname,
             'email' => $attributes->email
         ];

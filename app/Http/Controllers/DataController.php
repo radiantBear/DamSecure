@@ -15,20 +15,20 @@ class DataController extends Controller
         // Laravel Sanctum is designed to provide users with API tokens. We're using it to
         // provide projects with API tokens, hence the naming discrepancy
         $project = auth()->user();
-        
+
         $this->authorize('create', Data::class);
 
         $type = 'unknown';
-        
-        if ($request->header('Content-Type') === 'application/json')
-        {
+
+        if ($request->header('Content-Type') === 'application/json') {
             $type = 'json';
 
-            if (!json_validate($request->getContent()))
+            if (!json_validate($request->getContent())) {
                 return response('Invalid JSON', 400);
-        }
-        else if ($request->header('Content-Type') === 'text/csv')
+            }
+        } elseif ($request->header('Content-Type') === 'text/csv') {
             $type = 'csv';
+        }
 
         $project->project_data()->create([
             'type' => $type,
@@ -45,8 +45,9 @@ class DataController extends Controller
     {
         $this->authorize('update', [Data::class, $data]);
 
-        if (!json_validate($request->getContent()))
+        if (!json_validate($request->getContent())) {
             return response('Invalid JSON', 400);
+        }
 
         $data->update(['data' => $request->getContent()]);
 
