@@ -99,15 +99,20 @@ class ProjectController extends Controller
         ]);
 
         switch ($validated['expiration']) {
-            case 'day':   $expiration = now()->addDay();
+            case 'day':
+                $expiration = now()->addDay();
                 break;
-            case 'week':  $expiration = now()->addWeek();
+            case 'week':
+                $expiration = now()->addWeek();
                 break;
-            case 'month': $expiration = now()->addMonth();
+            case 'month':
+                $expiration = now()->addMonth();
                 break;
-            case 'year':  $expiration = now()->addYear();
+            case 'year':
+                $expiration = now()->addYear();
                 break;
-            case 'never': $expiration = null;
+            case 'never':
+                $expiration = null;
                 break;
         }
 
