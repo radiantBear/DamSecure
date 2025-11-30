@@ -33,7 +33,7 @@ class UserTest extends TestCase
         $response = $this->get('/login');
 
         $response->assertRedirectContains('https://login.oregonstate.edu');
-        
+
         // Make sure the redirect-back URL is properly built
         $response->assertRedirectContains('https://127.0.0.1/public/authenticate');
     }

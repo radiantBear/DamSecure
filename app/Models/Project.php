@@ -9,7 +9,8 @@ use Laravel\Sanctum\HasApiTokens;
 
 class Project extends Model
 {
-    use HasApiTokens, HasFactory;
+    use HasApiTokens;
+    use HasFactory;
 
     /**
      * Attributes that can be mass-filled using `Project::create()`
@@ -28,11 +29,12 @@ class Project extends Model
         return 'uuid';
     }
 
-    
+
     /**
      * Gets the user permissions for the project
      */
-    public function user_permissions(): Relations\HasMany {
+    public function user_permissions(): Relations\HasMany
+    {
         // Automatically maps via project_user.project_id
         return $this->hasMany(ProjectUser::class);
     }
@@ -41,12 +43,13 @@ class Project extends Model
     /**
      * Gets the data uploaded for the project
      */
-    public function project_data(): Relations\HasMany {
+    public function project_data(): Relations\HasMany
+    {
         // Automatically maps via data.project_id
         return $this->hasMany(Data::class);
     }
 
-    /** 
+    /**
      * Gets the most recently uploaded data for the project
      */
     public function latest_upload(): Relations\HasOne

@@ -13,9 +13,10 @@ class UnknownTable extends Component
      */
     public function __construct(
         public array $unknownData,
-    ){ }
+    ) {
+    }
 
-    
+
     /**
      * Get the view / contents that represent the component.
      */

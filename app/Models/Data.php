@@ -22,12 +22,12 @@ class Data extends Model
         'data',
         'type'
     ];
-    
+
 
     /**
      * Gets the project the data was uploaded for
-     * 
-     * @note Can create n + 1 issue if accessed in a loop and not eager-loaded (via 
+     *
+     * @note Can create n + 1 issue if accessed in a loop and not eager-loaded (via
      * `chaperone` method); see Eloquent Relationship "One to Many" docs
      */
     public function project(): Relations\BelongsTo

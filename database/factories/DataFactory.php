@@ -17,8 +17,7 @@ class DataFactory extends Factory
     {
         $type = fake()->randomElement(['json', 'csv', 'unknown']);
 
-        switch ($type)
-        {
+        switch ($type) {
             case 'json':
                 $data = json_encode([
                     fake()->word() => fake()->word(),
