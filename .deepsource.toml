@@ -1,0 +1,9 @@
+version = 1
+
+test_patterns = ["tests/**"]
+
+[[analyzers]]
+name = "php"
+
+[[code_formatters]]
+name = "php-cs-fixer"
