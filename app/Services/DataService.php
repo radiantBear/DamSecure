@@ -4,6 +4,9 @@ namespace App\Services;
 
 use Illuminate\Database\Eloquent\Collection;
 
+// NOTE: if there are changes to how data is parsed, be sure to update the documentation
+// on the homepage
+
 class DataService
 {
     public static function splitData(Collection $data)

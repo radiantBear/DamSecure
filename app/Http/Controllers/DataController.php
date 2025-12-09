@@ -20,6 +20,9 @@ class DataController extends Controller
 
         $type = 'unknown';
 
+        // NOTE: if there are changes to how data is parsed, be sure to update the 
+        // documentation on the homepage
+        
         if ($request->header('Content-Type') === 'application/json') {
             $type = 'json';
 
