@@ -16,7 +16,7 @@ class DataTest extends TestCase
     public function test_data_insertion_succeeds_with_valid_token(): void
     {
         $project = Models\Project::factory()->create();
-        $token = $project->createToken('test_token');
+        $token = $project->createToken('test_token', ['upload']);
 
         $response = $this
             ->withHeader('Authorization', 'Bearer ' . $token->plainTextToken)
@@ -33,7 +33,7 @@ class DataTest extends TestCase
     public function test_data_insertion_can_be_json(): void
     {
         $project = Models\Project::factory()->create();
-        $token = $project->createToken('test_token');
+        $token = $project->createToken('test_token', ['upload']);
 
         $response = $this
             ->withHeader('Authorization', 'Bearer ' . $token->plainTextToken)
@@ -49,7 +49,7 @@ class DataTest extends TestCase
     public function test_data_insertion_can_be_csv(): void
     {
         $project = Models\Project::factory()->create();
-        $token = $project->createToken('test_token');
+        $token = $project->createToken('test_token', ['upload']);
 
         // Have to use raw `call` method since Laravel 11 (and consequently the withBody
         // method) isn't supported at OSU yet
@@ -78,7 +78,7 @@ class DataTest extends TestCase
     public function test_data_insertion_can_be_undeclared(): void
     {
         $project = Models\Project::factory()->create();
-        $token = $project->createToken('test_token');
+        $token = $project->createToken('test_token', ['upload']);
 
         // Have to use raw `call` method since Laravel 11 (and consequently the withBody
         // method) isn't supported at OSU yet
@@ -104,7 +104,7 @@ class DataTest extends TestCase
     {
         $project = Models\Project::factory()->create();
         $data = Models\Data::factory()->create(['project_id' => $project->id]);
-        $token = $project->createToken('test_token');
+        $token = $project->createToken('test_token', ['upload']);
 
         $response = $this
             ->withHeader('Authorization', 'Bearer ' . $token->plainTextToken)
@@ -122,7 +122,7 @@ class DataTest extends TestCase
     {
         $project = Models\Project::factory()->create();
         $data = Models\Data::factory()->create(['project_id' => $project->id]);
-        $token = $project->createToken('test_token');
+        $token = $project->createToken('test_token', ['upload']);
 
         $response = $this
             ->withHeader('Authorization', 'Bearer ' . $token->plainTextToken)
@@ -154,7 +154,7 @@ class DataTest extends TestCase
     public function test_data_insertion_fails_with_invalid_token(): void
     {
         $project = Models\Project::factory()->create();
-        $project->createToken('test_token');
+        $project->createToken('test_token', ['upload']);
 
         $response = $this
             ->withHeader('Authorization', 'Bearer s0meInv4l1dT0k3nW1th48Ch4r4ct3rs3456789012345678')
@@ -171,7 +171,7 @@ class DataTest extends TestCase
     public function test_data_insertion_fails_with_revoked_token(): void
     {
         $project = Models\Project::factory()->create();
-        $token = $project->createToken('test_token');
+        $token = $project->createToken('test_token', ['upload']);
         $token->accessToken->delete();
 
         $response = $this
@@ -212,7 +212,7 @@ class DataTest extends TestCase
         $data = Models\Data::factory()->create(['project_id' => $project->id]);
 
         $other_project = Models\Project::factory()->create();
-        $other_token = $other_project->createToken('test_token');
+        $other_token = $other_project->createToken('test_token', ['upload']);
 
         $response = $this
             ->withHeader('Authorization', 'Bearer ' . $other_token->plainTextToken)
@@ -234,7 +234,7 @@ class DataTest extends TestCase
     {
         $project = Models\Project::factory()->create();
         $data = Models\Data::factory()->create(['project_id' => $project->id]);
-        $token = $project->createToken('test_token');
+        $token = $project->createToken('test_token', ['upload']);
         $token->accessToken->delete();
 
         $response = $this
@@ -275,7 +275,7 @@ class DataTest extends TestCase
         $data = Models\Data::factory()->create(['project_id' => $project->id]);
 
         $other_project = Models\Project::factory()->create();
-        $other_token = $other_project->createToken('test_token');
+        $other_token = $other_project->createToken('test_token', ['upload']);
 
         $response = $this
             ->withHeader('Authorization', 'Bearer ' . $other_token->plainTextToken)
@@ -293,7 +293,7 @@ class DataTest extends TestCase
     {
         $project = Models\Project::factory()->create();
         $data = Models\Data::factory()->create(['project_id' => $project->id]);
-        $token = $project->createToken('test_token');
+        $token = $project->createToken('test_token', ['upload']);
         $token->accessToken->delete();
 
         $response = $this

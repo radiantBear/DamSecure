@@ -166,12 +166,12 @@ class ProjectTest extends TestCase
             'user_id' => $user->id,
             'role' => 'owner'
         ]);
-        $token = $project->createToken('upload_token');
+        $token = $project->createToken('upload_token', ['upload']);
 
         $response = $this->actingAs($user)
-            ->get("/projects/{$project->uuid}/token?expiration=year");
+            ->put("/projects/{$project->uuid}/tokens/upload?expiration=year");
 
-        $response->assertRedirect("/projects/{$project->uuid}");
+        $response->assertRedirect("/projects/{$project->uuid}/permissions");
         $this->assertDatabaseMissing('personal_access_tokens', [
             'token' => $token->accessToken->token
         ]);
@@ -191,9 +191,9 @@ class ProjectTest extends TestCase
             'project_id' => $project->id,
             'user_id' => $other_user->id
         ]);
-        $token = $project->createToken('upload_token');
+        $token = $project->createToken('upload_token', ['upload']);
 
-        $response = $this->actingAs($user)->get("/projects/{$project->uuid}/token");
+        $response = $this->actingAs($user)->put("/projects/{$project->uuid}/tokens/upload");
 
         $response->assertForbidden();
         $this->assertDatabaseHas('personal_access_tokens', [
@@ -211,9 +211,9 @@ class ProjectTest extends TestCase
             'project_id' => $project->id,
             'user_id' => $user->id
         ]);
-        $token = $project->createToken('upload_token');
+        $token = $project->createToken('upload_token', ['upload']);
 
-        $response = $this->get("/projects/{$project->uuid}/token");
+        $response = $this->put("/projects/{$project->uuid}/tokens/upload");
 
         $response->assertRedirect('/login');
         $this->assertDatabaseHas('personal_access_tokens', [

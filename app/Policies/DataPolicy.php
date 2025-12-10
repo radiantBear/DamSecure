@@ -9,11 +9,20 @@ use App\Models\User;
 class DataPolicy
 {
     /**
+     * Determine whether the API key can be used to view data records
+     */
+    public function viewAny(Project $project): bool
+    {
+        return $project->tokenCan('download');
+    }
+
+
+    /**
      * Determine whether the API key can be used to upload a data record
      */
-    public function create(): bool
+    public function create(Project $project): bool
     {
-        return true;
+        return $project->tokenCan('upload');
     }
 
     /**
@@ -21,16 +30,16 @@ class DataPolicy
      */
     public function update(Project $project, Data $data): bool
     {
-        return $data->project_id === $project->id;
+        return $data->project_id === $project->id && $project->tokenCan('upload');
     }
 
     /**
-     * Determine whether the API key can be used to delete the data record
+     * Determine whether the user can or the API key can be used to delete the data record
      */
     public function delete($actor, Data $data): bool
     {
         if ($actor instanceof Project) {
-            return $data->project_id === $actor->id;
+            return $data->project_id === $actor->id && $actor->tokenCan('upload');
         }
 
         if ($actor instanceof User) {
