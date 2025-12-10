@@ -36,7 +36,7 @@ jobs:
           done
       
       - name: Create Laravel encryption key
-        run: docker compose exec apache_php php artisan key:generate
+        run: docker compose run --rm -T apache_php php artisan key:generate
       
       - name: Apply database migrations
         run: docker compose exec apache_php php artisan migrate:fresh
