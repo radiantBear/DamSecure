@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Components;
 
+use App\Models;
 use App\View\Components\Data;
 use Tests\TestCase;
 
@@ -12,10 +13,22 @@ class DataTest extends TestCase
         $json = [
             'fields' => ['id', 'name', 'temp', 'new', 'object'],
             'data' => [
-                [ 'data' => ['id' => 1, 'name' => 'John Doe', 'temp' => 68], 'created_at' => '2025-12-10' ],
-                [ 'data' => ['id' => 2, 'name' => 'John Doe', 'temp' => 70, 'new' => null], 'created_at' => '2025-12-11' ],
-                [ 'data' => ['id' => 3, 'name' => 'John Doe', 'temp' => 71, 'new' => true], 'created_at' => '2025-12-12' ],
-                [ 'data' => ['id' => 4, 'temp' => 70, 'new' => [1, 2, 3], 'object' => ['key' => 'value']], 'created_at' => '2025-12-13' ],
+                [
+                    'raw' => Models\Data::factory()->create(['type' => 'json', 'data' => '{"id": 1, "name": "John Doe", "temp": 68}']),
+                    'data' => ['id' => 1, 'name' => 'John Doe', 'temp' => 68]
+                ],
+                [
+                    'raw' => Models\Data::factory()->create(['type' => 'json', 'data' => '{"id": 2, "name": "John Doe", "temp": 70, "new": null}']),
+                    'data' => ['id' => 2, 'name' => 'John Doe', 'temp' => 70, 'new' => null]
+                ],
+                [
+                    'raw' => Models\Data::factory()->create(['type' => 'json', 'data' => '{"id": 3, "name": "John Doe", "temp": 71, "new": true}']),
+                    'data' => ['id' => 3, 'name' => 'John Doe', 'temp' => 71, 'new' => true]
+                ],
+                [
+                    'raw' => Models\Data::factory()->create(['type' => 'json', 'data' => '{"id": 4, "temp": 70, "new": [1,2,3], "object": {"key": "value"}']),
+                    'data' => ['id' => 4, 'temp' => 70, 'new' => [1, 2, 3], 'object' => ['key' => 'value']]
+                ],
             ]
         ];
 
@@ -65,9 +78,18 @@ class DataTest extends TestCase
         $csv = [
             'length' => 4,
             'data' => [
-                ['data' => [1, 70, 'unknown'], 'created_at' => '2025-11-20'],
-                ['data' => [2, 'other', 68, 'true'], 'created_at' => '2025-11-21'],
-                ['data' => [3, 71, 'unknown'], 'created_at' => '2025-11-22']
+                [
+                    'raw' => Models\Data::factory()->create(['type' => 'csv', 'data' => '1,70,unknown']),
+                    'data' => [1, 70, 'unknown']
+                ],
+                [
+                    'raw' => Models\Data::factory()->create(['type' => 'csv', 'data' => '2,other,68,true']),
+                    'data' => [2, 'other', 68, 'true']
+                ],
+                [
+                    'raw' => Models\Data::factory()->create(['type' => 'csv', 'data' => '3,71,unknown']),
+                    'data' => [3, 71, 'unknown']
+                ]
             ]
         ];
 

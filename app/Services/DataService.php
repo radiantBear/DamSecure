@@ -17,9 +17,9 @@ class DataService
 
         foreach ($data as $d) {
             if ($d->type === 'json') {
-                $jsonData[] = [ 'data' => json_decode($d->data, true), 'created_at' => $d->created_at ];
+                $jsonData[] = [ 'raw' => $d, 'data' => json_decode($d->data, true) ];
             } elseif ($d->type === 'csv') {
-                $csvData[] = [ 'data' => str_getcsv($d->data), 'created_at' => $d->created_at ];
+                $csvData[] = [ 'raw' => $d, 'data' => str_getcsv($d->data) ];
             } else {
                 $unknownData[] = $d;
             }
