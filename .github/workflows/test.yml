@@ -35,5 +35,11 @@ jobs:
             sleep 2
           done
       
+      - name: Create Laravel encryption key
+        run: docker compose exec apache_php php artisan key:generate
+      
+      - name: Apply database migrations
+        run: docker compose exec apache_php php artisan migrate:fresh
+
       - name: Test
         run: docker compose exec apache_php php artisan test
