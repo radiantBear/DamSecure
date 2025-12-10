@@ -17,7 +17,7 @@
             <tr>
                 <td style="white-space: pre-wrap;">{{ $d->data }}</td>
                 <td>{{ $d->created_at }}</td>
-                <td>
+                <td class="text-end">
                     @can('delete', $d)
                     <form method="post" action="data/{{ $d->id }}">
                         {{ csrf_field() }}

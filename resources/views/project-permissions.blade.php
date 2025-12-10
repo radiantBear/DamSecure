@@ -33,7 +33,7 @@
                     Token does not exist
                     @endif
                 </td>
-                <td class="d-flex justify-content-end">
+                <td class="text-end">
                     @can('update', $project)
                         <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#rotateTokenModal" data-bs-scope="upload">
                             <i class="fa-solid fa-rotate"></i>
@@ -57,7 +57,7 @@
                     Token does not exist
                     @endif
                 </td>
-                <td class="d-flex justify-content-end">
+                <td class="text-end">
                     @can('update', $project)
                         <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#rotateTokenModal" data-bs-scope="download">
                             <i class="fa-solid fa-rotate"></i>

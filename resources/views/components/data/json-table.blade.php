@@ -11,6 +11,7 @@
                 <th>{{ $f }}</th>
                 @endforeach
                 <th>Creation Timestamp</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -31,7 +32,7 @@
                 }}</td>
                 @endforeach
                 <td>{{ $d['raw']->created_at }}</td>
-                <td>
+                <td class="text-end">
                     @can('delete', $d['raw'])
                     <form method="post" action="data/{{ $d['raw']->id }}">
                         {{ csrf_field() }}
