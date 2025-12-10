@@ -15,7 +15,17 @@ jobs:
       - run: docker compose up -d
       
       - name: Wait for Database
-        run: docker compose exec mysql sh -c "until mysqladmin ping -h mysql -u root --silent; do sleep 2; done"
+        run: |
+          echo "Waiting for MySQL to be ready..."
+          retries=30
+          until docker compose run --rm mysql mysqladmin ping -h mysql -u root --silent; do
+            retries=$((retries - 1))
+            if [ $retries -le 0 ]; then
+              echo "MySQL did not become ready in time"
+              exit 1
+            fi
+            sleep 2
+          done
       
       - name: Test
         run: docker compose exec apache_php php artisan test
