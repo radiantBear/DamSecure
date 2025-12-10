@@ -1,0 +1,21 @@
+name: Test
+
+on: [pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: docker/setup-buildx-action@v2
+      - run: docker compose up -d
+      
+      - name: Wait for Database
+        run: docker compose exec mysql mysqladmin ping -h localhost
+      
+      - name: Test
+        run: docker compose exec apache_php php artisan test
