@@ -5,7 +5,7 @@ services:
     ports:
       - 127.0.0.1:8080:80
     volumes:
-      - ./.env:/var/www/html/.env:ro
+      - ./.env:/var/www/html/.env
     develop:
       watch:
         - path: .
