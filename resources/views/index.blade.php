@@ -54,7 +54,9 @@
         <div class="col-sm">
             <h2>How long is my data retained?</h2>
             <p>
-                Forever, right now. Limits are coming soon...
+                All data uploaded to a given project will be preserved for 2 years after
+                the last upload. Once a project has received no uploads for 2 years, it
+                will be auto-deleted.
             </p>
         </div>
     </div>
