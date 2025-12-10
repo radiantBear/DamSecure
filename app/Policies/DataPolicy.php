@@ -34,11 +34,11 @@ class DataPolicy
         }
 
         if ($actor instanceof User) {
-            $permissions = $data->project->user_permissions()->where('user_id', $actor->id)->first(); 
-        
-            return $permissions && ( $permissions->role === 'owner' || $permissions->role === 'contributor' );
+            $permissions = $data->project->user_permissions()->where('user_id', $actor->id)->first();
+
+            return $permissions && ($permissions->role === 'owner' || $permissions->role === 'contributor');
         }
-        
+
         return false;
     }
 }

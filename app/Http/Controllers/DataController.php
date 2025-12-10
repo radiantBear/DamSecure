@@ -69,7 +69,7 @@ class DataController extends Controller
         if ($request->routeIs('api.*')) {
             return response('Deleted', 200);
         }
-        
+
         return back();
     }
 }
