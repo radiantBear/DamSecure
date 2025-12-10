@@ -161,4 +161,40 @@ XML;
         $this->assertAuthenticatedAs(Models\User::find($user->id));
         $this->assertDatabaseCount('users', 1);
     }
+
+    public function test_old_projects_are_successfully_deleted_on_login_attempt(): void
+    {
+        $oldProjects = Models\Project::factory(5)->create()->pluck('id')->all();
+        foreach ($oldProjects as $id) {
+            Models\Data::factory(5)->create([
+                'project_id' => $id,
+                'updated_at' => fake()->dateTime(now()->subYears(2)->subMinute())
+            ]);
+        }
+
+        $newProjects = Models\Project::factory(5)->create()->pluck('id')->all();
+        foreach ($newProjects as $id) {
+            Models\Data::factory(5)->create([
+                'project_id' => $id
+            ]);
+        }
+
+        $emptyProject = Models\Project::factory()->create();
+
+        $this->get('/login');
+
+        $this->assertDatabaseCount('projects', 6);
+
+        $remainingProjectIds = Models\Project::pluck('id')->all();
+        $this->assertSame(
+            [],
+            array_intersect($oldProjects, $remainingProjectIds),
+            'Old projects should be deleted'
+        );
+        $this->assertEqualsCanonicalizing(
+            [...$newProjects, $emptyProject->id],
+            $remainingProjectIds,
+            'New + empty projects should remain'
+        );
+    }
 }
