@@ -23,12 +23,12 @@
                 <td>Upload (modify data)</td>
                 <td>
                     @if (! is_null($uploadToken))
-                    {{ $uploadToken->last_used_at }}
+                    {{ $uploadToken->last_used_at ?? 'Never' }}
                     @endif
                 </td>
                 <td>
                     @if (! is_null($uploadToken))
-                    {{ $uploadToken->expires_at }}
+                    {{ $uploadToken->expires_at ?? 'Never' }}
                     @else
                     Token does not exist
                     @endif
@@ -47,12 +47,12 @@
                 <td>Download (read data)</td>
                 <td>
                     @if (! is_null($downloadToken))
-                    {{ $downloadToken->last_used_at }}
+                    {{ $downloadToken->last_used_at ?? 'Never' }}
                     @endif
                 </td>
                 <td>
                     @if (! is_null($downloadToken))
-                    {{ $downloadToken->expires_at }}
+                    {{ $downloadToken->expires_at ?? 'Never' }}
                     @else
                     Token does not exist
                     @endif
