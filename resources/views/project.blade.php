@@ -10,7 +10,7 @@
             </a>
             @can('update', $project)
             <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#rotateTokenModal">
-                <i class="fa-solid fa-lock"></i> Rotate API token
+                <i class="fa-solid fa-key"></i> Rotate API token
             </button>
             @endcan
         </div>

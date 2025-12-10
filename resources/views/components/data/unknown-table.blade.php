@@ -14,7 +14,7 @@
         <tbody>
             @foreach ($unknownData as $d)
             <tr>
-                <td>{{ $d->data }}</td>
+                <td style="white-space: pre-wrap;">{{ $d->data }}</td>
                 <td>{{ $d->created_at }}</td>
             </tr>
             @endforeach
