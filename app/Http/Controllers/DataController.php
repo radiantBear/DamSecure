@@ -33,12 +33,12 @@ class DataController extends Controller
             $type = 'csv';
         }
 
-        $project->project_data()->create([
+        $data = $project->project_data()->create([
             'type' => $type,
             'data' => $request->getContent()
         ]);
 
-        return response('Created', 201);
+        return response($data->id, 201);
     }
 
     /**
