@@ -8,7 +8,7 @@
             </div>
             <div class="modal-body">
                 <p>
-                    Your API token for uploading data is 
+                    Your API token for {{ session('tokenScope') }}ing data is 
                     <code>{{ session('apiToken') }}</code>. 
                     @if (session('tokenExpiration'))
                     It is valid until <b>{{ session('tokenExpiration')->format('Y-m-d') }}</b>.

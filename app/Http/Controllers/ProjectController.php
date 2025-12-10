@@ -47,7 +47,8 @@ class ProjectController extends Controller
         return redirect("/projects/{$project->uuid}")
             ->with([
                 'apiToken' => $token->plainTextToken,
-                'tokenExpiration' => $token->accessToken->expires_at
+                'tokenExpiration' => $token->accessToken->expires_at,
+                'tokenScope' => 'upload'
             ]);
     }
 
@@ -126,7 +127,8 @@ class ProjectController extends Controller
         return redirect("/projects/{$project->uuid}/permissions")
             ->with([
                 'apiToken' => $token->plainTextToken,
-                'tokenExpiration' => $token->accessToken->expires_at
+                'tokenExpiration' => $token->accessToken->expires_at,
+                'tokenScope' => $scope
             ]);
     }
 
