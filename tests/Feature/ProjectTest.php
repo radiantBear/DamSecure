@@ -119,6 +119,7 @@ class ProjectTest extends TestCase
 
         $response = $this->actingAs($user)->get("/projects/{$project->uuid}");
 
+        echo substr($response->getContent(), 0, 10000);
         $response->assertOk();
     }
 
