@@ -52,7 +52,7 @@
                 </td>
                 <td>
                     @if (! is_null($downloadToken))
-                    {{ $downloadToken->expirationDate }}
+                    {{ $downloadToken->expires_at }}
                     @else
                     Token does not exist
                     @endif
