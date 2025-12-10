@@ -124,9 +124,9 @@ class DataTest extends TestCase
         $view->assertSeeText('Unknown-Format Data');
         $view->assertSee('<th>Data</th>', false);
         $view->assertSeeInOrder([
-            "<td>[1, 70, &#039;unknown&#039;]</td>",
-            '<td>{&quot;data&quot;: true}</td>',
-            '<td>1,2,3</td>'
+            '<td style="white-space: pre-wrap;">[1, 70, &#039;unknown&#039;]</td>',
+            '<td style="white-space: pre-wrap;">{&quot;data&quot;: true}</td>',
+            '<td style="white-space: pre-wrap;">1,2,3</td>'
         ], false);
     }
 
