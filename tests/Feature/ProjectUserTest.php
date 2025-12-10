@@ -77,7 +77,7 @@ class ProjectUserTest extends TestCase
             ['onid' => $newUser->onid, 'role' => 'contributor']
         );
 
-        $response->assertOk();
+        $response->assertRedirect("/projects/{$project->uuid}/permissions");
         $this->assertDatabaseCount('project_users', 2);
         $this->assertDatabaseHas('project_users', [
             'project_id' => $project->id,

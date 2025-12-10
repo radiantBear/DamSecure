@@ -52,6 +52,8 @@ class ProjectUserController extends Controller
         $project_user->user_id = Models\User::where('onid', $validated['onid'])->first()->id;
 
         $project_user->save();
+
+        return redirect("projects/{$project_user->project->uuid}/permissions");
     }
 
     /**
