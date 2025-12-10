@@ -165,17 +165,19 @@ XML;
     public function test_old_projects_are_successfully_deleted_on_login_attempt(): void
     {
         $oldProjects = Models\Project::factory(5)->create()->pluck('id')->all();
-        foreach ($oldProjects as $id)
+        foreach ($oldProjects as $id) {
             Models\Data::factory(5)->create([
                 'project_id' => $id,
                 'updated_at' => fake()->dateTime(now()->subYears(2)->subMinute())
             ]);
+        }
 
         $newProjects = Models\Project::factory(5)->create()->pluck('id')->all();
-        foreach ($newProjects as $id)
+        foreach ($newProjects as $id) {
             Models\Data::factory(5)->create([
                 'project_id' => $id
             ]);
+        }
 
         $emptyProject = Models\Project::factory()->create();
 
