@@ -15,7 +15,7 @@ jobs:
       - run: docker compose up -d
       
       - name: Wait for Database
-        run: docker compose exec mysql mysqladmin ping -h localhost
+        run: docker compose exec mysql sh -c "until mysqladmin ping -h mysql -u root --silent; do sleep 2; done"
       
       - name: Test
         run: docker compose exec apache_php php artisan test
