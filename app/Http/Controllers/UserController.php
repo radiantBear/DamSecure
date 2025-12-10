@@ -17,7 +17,7 @@ class UserController extends Controller
 
     public function __construct()
     {
-        $this->cas_service_url = 'https://' . request()->getHost() . '/public/authenticate';
+        $this->cas_service_url = config('app.url') . '/public/authenticate';
     }
 
 
