@@ -6,6 +6,7 @@
         <div class="col text-center"><h1>Projects</h1></div>
         <div class="col-sm-4 d-flex gap-2 justify-content-end align-items-center">
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
+                <i class="fa-solid fa-database"></i>
                 New project
             </button>
         </div>

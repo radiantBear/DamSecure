@@ -65,7 +65,10 @@
             </select>
         </div>
         <div class="col">
-            <button type="submit" class="btn btn-primary">Add</button>
+            <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-user-plus"></i>
+                Add
+            </button>
         </div>
     </form>
     @endcan
