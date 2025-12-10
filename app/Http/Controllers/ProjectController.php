@@ -56,6 +56,7 @@ class ProjectController extends Controller
      */
     public function show(Models\Project $project)
     {
+        $project->load('project_data.project');
         $this->authorize('view', $project);
 
         $data = DataService::splitData($project->project_data);
