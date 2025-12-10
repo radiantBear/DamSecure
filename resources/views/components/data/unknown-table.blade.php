@@ -9,6 +9,7 @@
             <tr>
                 <th>Data</th>
                 <th>Creation Timestamp</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -16,6 +17,15 @@
             <tr>
                 <td style="white-space: pre-wrap;">{{ $d->data }}</td>
                 <td>{{ $d->created_at }}</td>
+                <td>
+                    @can('delete', $d)
+                    <form method="post" action="data/{{ $d->id }}">
+                        {{ csrf_field() }}
+                        {{ method_field('DELETE') }}
+                        <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
+                    </form>
+                    @endcan
+                </td>
             </tr>
             @endforeach
         </tbody>

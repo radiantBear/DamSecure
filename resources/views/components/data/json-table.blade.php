@@ -30,7 +30,16 @@
                         ) : ''
                 }}</td>
                 @endforeach
-                <td>{{ $d['created_at'] }}</td>
+                <td>{{ $d['raw']->created_at }}</td>
+                <td>
+                    @can('delete', $d['raw'])
+                    <form method="post" action="data/{{ $d['id'] }}">
+                        {{ csrf_field() }}
+                        {{ method_field('DELETE') }}
+                        <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
+                    </form>
+                    @endcan
+                </td>
             </tr>
             @endforeach
         </tbody>

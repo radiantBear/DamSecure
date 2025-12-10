@@ -59,7 +59,7 @@
             @enderror
         </div>
         <div class="col">
-            <select name="role" onchange="this.form.submit()" class="form-select">
+            <select name="role" class="form-select">
                 <option value="contributor">Contributor</option>
                 <option value="viewer">Viewer</option>
             </select>

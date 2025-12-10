@@ -19,7 +19,16 @@
                 @for ($i = 0; $i < $csv['length']; $i++)
                 <td>{{ count($d['data']) > $i ? $d['data'][$i] : '' }}</td>
                 @endfor
-                <td>{{ $d['created_at'] }}</td>
+                <td>{{ $d['raw']->created_at }}</td>
+                <td>
+                    @can('delete', $d['raw'])
+                    <form method="post" action="data/{{ $d['raw']->id }}">
+                        {{ csrf_field() }}
+                        {{ method_field('DELETE') }}
+                        <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
+                    </form>
+                    @endcan
+                </td>
             </tr>
             @endforeach
         </tbody>

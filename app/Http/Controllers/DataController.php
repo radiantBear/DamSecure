@@ -60,10 +60,16 @@ class DataController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(int $data)
+    public function destroy(Request $request, int $data)
     {
         $this->authorize('delete', [Data::class, Data::findOrFail($data)]);
 
         Data::destroy($data);
+
+        if ($request->routeIs('api.*')) {
+            return response('Deleted', 200);
+        }
+
+        return back();
     }
 }
