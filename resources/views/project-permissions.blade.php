@@ -59,7 +59,7 @@
                 </td>
                 <td class="d-flex justify-content-end">
                     @can('update', $project)
-                        <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#rotateTokenModal" data-bs-type="download">
+                        <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#rotateTokenModal" data-bs-scope="download">
                             <i class="fa-solid fa-rotate"></i>
                             Rotate
                         </button>
