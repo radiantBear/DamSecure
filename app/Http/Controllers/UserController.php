@@ -23,7 +23,7 @@ class UserController extends Controller
 
     public function login()
     {
-        ProjectController::audit();
+        (new ProjectController())->audit();
 
         if (app()->environment('local')) {
             return view('local_login');

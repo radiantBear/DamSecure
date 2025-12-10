@@ -137,9 +137,9 @@ class ProjectController extends Controller
     /**
      * Determine which projects can now be pruned & remove them from the database
      */
-    public static function audit()
+    public function audit()
     {
-        Models\Project::whereHas('data', function ($query) {
+        Models\Project::whereHas('project_data', function ($query) {
             $query->select('project_id')
                 ->groupBy('project_id')
                 ->havingRaw('MAX(updated_at) < ?', [now()->subYears(2)]);
