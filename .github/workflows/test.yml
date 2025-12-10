@@ -12,15 +12,17 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: docker/setup-buildx-action@v2
-      - run: docker compose up -d
 
       - name: Set up environment
         run: |
           cp .env.example .env
           sed -i 's/^DB_HOST=.*/DB_HOST=mysql/' .env
           sed -i 's/^DB_PASSWORD=.*/DB_PASSWORD=example_password/' .env
+
+      - name: Start Docker
+        run: docker compose up -d
       
-      - name: Wait for Database
+      - name: Wait for database
         run: |
           echo "Waiting for MySQL to be ready..."
           retries=30
