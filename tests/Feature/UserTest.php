@@ -35,11 +35,7 @@ class UserTest extends TestCase
         $response->assertRedirectContains('https://login.oregonstate.edu');
 
         // Make sure the redirect-back URL is properly built
-        $redirectUrl = $response->headers->get('Location');
-        $this->assertTrue(
-            str_contains($redirectUrl, 'https://localhost/public/authenticate')
-            || str_contains($redirectUrl, 'https://127.0.0.1/public/authenticate')
-        );
+        $response->assertRedirectContains('https://127.0.0.1/public/authenticate');
     }
 
     public function test_local_form_authentication_creates_user(): void
