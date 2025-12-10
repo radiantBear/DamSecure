@@ -16,5 +16,5 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->name('api.')->group(function () {
     Route::resource('data', Controllers\DataController::class)
-        ->only(['store', 'update', 'destroy']);
+        ->only(['index', 'store', 'update', 'destroy']);
 });

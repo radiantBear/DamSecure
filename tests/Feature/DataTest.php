@@ -13,6 +13,24 @@ class DataTest extends TestCase
     use RefreshDatabase;
 
 
+    public function test_data_view_succeeds_with_valid_token(): void
+    {
+        $project = Models\Project::factory()->create();
+        $data = Models\Data::factory(20)->create(['project_id' => $project->id]);
+        $token = $project->createToken('test_token', ['download']);
+
+        $response = $this
+            ->withHeader('Authorization', 'Bearer ' . $token->plainTextToken)
+            ->get('/api/data');
+
+        $response->assertStatus(200);
+        $response->assertJsonCount(20);
+        foreach ($data as $model) {
+            $response->assertJsonFragment($model->toArray());
+        }
+    }
+
+
     public function test_data_insertion_succeeds_with_valid_token(): void
     {
         $project = Models\Project::factory()->create();

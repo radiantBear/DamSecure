@@ -8,6 +8,20 @@ use Illuminate\Http\Request;
 class DataController extends Controller
 {
     /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        // Laravel Sanctum is designed to provide users with API tokens. We're using it to
+        // provide projects with API tokens, hence the naming discrepancy
+        $project = auth()->user();
+
+        $this->authorize('viewAny', [Data::class, $project]);
+
+        return response()->json($project->project_data);
+    }
+
+    /**
      * Store a newly created resource in the database
      */
     public function store(Request $request)
