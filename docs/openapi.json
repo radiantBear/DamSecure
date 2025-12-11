@@ -1,0 +1,223 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "DamSecure IoT Portal API",
+    "version": "1.0.0",
+    "description": "Connect your project to the Internet with ease",
+    "license": {
+      "name": "AGPL 3.0",
+      "url": "https://www.gnu.org/licenses/agpl-3.0.txt"
+    }
+  },
+  "paths": {
+    "/data": {
+      "get": {
+        "summary": "View all records for a project",
+        "description": "The project's **download** token must be passed via the `Authorization` header.",
+        "tags": ["Data"],
+        "security": [
+          {
+            "downloadToken": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request succeeded; records returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Data"
+                }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/ForbiddenForDownload" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      },
+      "post": {
+        "summary": "Upload a new record for a project",
+        "description": "The project's **upload** token must be passed via the `Authorization` header.",
+        "tags": ["Data"],
+        "security": [
+          {
+            "uploadToken": []
+          }
+        ],
+        "requestBody": { "$ref": "#/components/requestBodies/Data" },
+        "responses": {
+          "201": {
+            "description": "Record successfully uploaded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "description": "The record's ID; needed for updating or deleting"
+                },
+                "example": 59
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/ForbiddenForUpload" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      }
+    },
+    "/data/{id}": {
+      "put": {
+        "summary": "Update a record",
+        "description": "The project's **upload** token must be passed via the `Authorization` header.",
+        "tags": ["Data"],
+        "security": [
+          {
+            "uploadToken": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the record to update",
+            "schema": { "type": "integer" }
+          }
+        ],
+        "requestBody": { "$ref": "#/components/requestBodies/Data" },
+        "responses": {
+          "200": { "description": "Record successfully updated" },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/ForbiddenForUpload" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      },
+      "delete": {
+        "summary": "Delete a record",
+        "description": "The project's **upload** token must be passed via the `Authorization` header.",
+        "tags": ["Data"],
+        "security": [
+          {
+            "uploadToken": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the record to delete",
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Record successfully deleted" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/ForbiddenForUpload" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      }
+    }
+  },
+  "components": {
+    "requestBodies": {
+      "Data": {
+        "content": {
+          "application/json": {
+            "schema": { 
+              "type": "string",
+              "format": "json",
+              "maxLength": 65535,
+              "description": "Any valid JSON string. Using an object [as the top-level structure](https://chatgpt.com/share/693b4647-45c8-800d-a709-6a940ec0c7fb) is recommended because (a) the object's keys can be extracted to generate table columns in the web view, and (b) uploads are future-proof because any new fields, removed fields, or reordered fields are still clearly identifiable by their keys. It is harder to make these changes when using arrays or single values as the top-level structure because it's not automatically clear what each entry's values mean."
+            },
+            "example": { "user": "John Doe", "temperature": 68 }
+          },
+          "text/csv": {
+            "schema": {
+              "type": "string",
+              "format": "csv",
+              "maxLength": 65535,
+              "description": "Any valid CSV string. Commas should be used to delimit fields; if commas are needed within a field, the whole field should be wrapped in quotation marks. The web view parses the CSV data into columns following the rules of PHP's `str_getcsv()` function - a highly forgiving CSV parser that will convert any string into CSV, even if (for example) it has unmatched quotation marks. However, passing improperly-formatted CSV data may lead to unexpected parsing results.\n\nCSV-formatted data is only recommended if the data schema (i.e. how many values are included, what each value means, and what order they are listed in) is unlikely to change since the order of values is the only indication of meaning/purpose. If changes are needed, it is highly recommended that you add new values at the right end of the values list, handle removed values by including an empty slot (i.e. `value1,,value3`), and **avoid reordering values**. The web view fills each row's columns from left to right, so following this protocol will ensure that each column represents the same field across all rows."
+            },
+            "example": "John Doe,68"
+          },
+          "text/plain": {
+            "schema": {
+              "type": "string",
+              "maxLength": 65535,
+              "description": "Any contents whatsoever (as long as it's less than the maximum length). This option is discouraged in favor of standard formats (i.e. JSON or CSV), but is provided to support lesser-known standards or highly custom needs. The web view will not attempt to parse the contents and will simply display them as-is."
+            },
+            "example": "Just a big blob of text with no particular structure | John Doe | 68"
+          }
+        },
+        "required": true
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "The request body is malformed. This typically means you provided a `Content-Type: application/json` header but your request body is not valid JSON. Did you specify the wrong `Content-Type`?"
+      },
+      "Unauthorized": {
+        "description": "API token not found or invalid. Don't forget an `Authorization: Bearer {token}` header with your project's token replacing `{token}` (including the brackets). If you don't remember what your token is, you can rotate it to generate a new one and be shown it (API tokens aren't stored in plain text, so current tokens' values cannot be retrieved). If you recently rotated your token, make sure you're using the new one in your request."
+      },
+      "ForbiddenForDownload": {
+        "description": "The given API token isn't intended to be used for this request or belongs to a different project than the specified record. Are you using your project's download token?"
+      },
+      "ForbiddenForUpload": {
+        "description": "The given API token isn't intended to be used for this request or belongs to a different project than the specified record. Are you using your project's upload token?"
+      },
+      "InternalServerError": {
+        "description": "Something went wrong on the DamSecure IoT Portal server. This isn't your fault; please report it to us so we can fix it!"
+      }
+    },
+    "schemas": {
+      "Data": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The ID for updating or deleting the record",
+            "example": 492
+          },
+          "data": {
+            "type": "string",
+            "description": "The raw value uploaded to DamSecure. This remains character-for-character identical with the upload's request body",
+            "example": "{\"user\": \"John Doe\", \"temperature\": 68}"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The UTC timestamp for when the record was first uploaded",
+            "example": "2025-12-11T06:21:53.000000Z"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The UTC timestamp for when the record was last updated",
+            "example": "2025-12-13T07:37:38.000000Z"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["json", "csv", "unknown"],
+            "description": "What data type the record is supposed to be",
+            "example": "json"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "downloadToken": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "The token for retrieving records"
+      },
+      "uploadToken": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "The token for updating records"
+      }
+    }
+  }
+}

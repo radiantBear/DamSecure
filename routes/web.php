@@ -21,6 +21,8 @@ Route::get('/', function () {
 Route::get('/login', [Controllers\UserController::class, 'login'])->name('login');
 Route::get('/authenticate', [Controllers\UserController::class, 'authenticate']);
 
+Route::view('/docs/api', 'api');
+
 Route::middleware('auth')->group(function () {
     Route::resource('projects', Controllers\ProjectController::class);
     Route::get('/projects/{project}/tokens', [Controllers\ProjectController::class, 'indexTokens']);

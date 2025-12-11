@@ -23,20 +23,23 @@
                 parsed and displayed in a table on the website. Each upload is limited to
                 65,535 characters, but you can upload as many times as needed. If you need
                 to upload more than 65 KB at time, you will need to split the upload into
-                several parts. Upload timestamps are automatically tracked 
+                several parts. Upload timestamps are automatically tracked and displayed
+                alongside the data.
             </p>
         </div>
         <div class="col-sm">
             <h2>How do I upload data?</h2>
             <p>
                 After logging in with your ONID and creating a project, you will be given
-                an an initial API key. To upload data, make an HTTP POST request to the 
-                <code>public/data</code> endpoint on this site and include a header with
-                the key <code>Authorization</code> and contents matching
-                <code>Bearer {api_key}</code> (where <code>{api_key}</code>, including the
-                brackets, is replaced with the key you were assigned). This will connect
-                your upload to your project. Anything included in the POST request's body
-                will be stored as the uploaded data.
+                an an initial API key for uploading data. Uploading is as simple as making
+                an HTTP POST request to the <code>public/api/data</code> endpoint on this
+                site, including a header with the key <code>Authorization</code> and
+                contents matching <code>Bearer {api_key}</code> <i>(where 
+                <code>{api_key}</code>, including the brackets, is replaced with the key
+                you were given)</i> to indicate which project the upload is for. For more
+                details, check out the <a href="docs/api">API schema</a> or
+                <a href="https://github.com/radiantBear/DamSecure/tree/main/docs/examples" target="_blank">
+                code examples</a>.
             </p>
         </div>
     </div>
@@ -44,11 +47,11 @@
         <div class="col-sm">
             <h2>How do I access my data after it's uploaded?</h2>
             <p>
-                If you just need to upload data and view/share it, you can do so using the
-                web portal by simply reopening the project on this site. If you need to
-                perform further modification, data can also be exported as a CSV file 
-                (coming soon). You can also click the "permissions" button to
-                invite others to view or contribute to the project.
+                If you just need to upload data and view/share it, simply reopen the
+                project on this site. If you need to manipulate/process the data, it can
+                also be exported as a CSV file (coming soon) or retrieved using the
+                download API key. To share the data with others, you can simply click the
+                project's "permissions" button to invite collaborators or viewers by ONID.
             </p>
         </div>
         <div class="col-sm">

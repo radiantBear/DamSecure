@@ -13,11 +13,13 @@
         <!-- Bootstrap -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
         <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+        {{ $includes ?? '' }}
     </head>
     <body>
         <nav class="navbar navbar-expand-sm bg-body-tertiary">
             <div class="container-xxl">
-                <a class="navbar-brand fw-lighter" href="#">DamSecure IoT Portal</a>
+                <a class="navbar-brand fw-lighter" href="">DamSecure IoT Portal</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -25,6 +27,9 @@
                     <ul class="navbar-nav ms-auto">
                         @auth
                         <li class="nav-item"><a href="{{ url('/projects') }}" class="nav-link">Projects</a></li>
+                        @endauth
+                        <li class="nav-item"><a href="{{ url('/docs/api') }}" class="nav-link">API schema</a></li>
+                        @auth
                         <li class="nav-item"><a href="{{ route('logout') }}" class="nav-link">Log out</a></li>
                         @else
                         <li class="nav-item"><a href="{{ route('login') }}" class="nav-link">Log in</a></li>
