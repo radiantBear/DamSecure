@@ -127,15 +127,29 @@
       "Data": {
         "content": {
           "application/json": {
-            "schema": { "type": "string", "maxLength": 65535 },
+            "schema": { 
+              "type": "string",
+              "format": "json",
+              "maxLength": 65535,
+              "description": "Any valid JSON string. Using an object [as the top-level structure](https://chatgpt.com/share/693b4647-45c8-800d-a709-6a940ec0c7fb) is recommended because (a) the object's keys can be extracted to generate table columns in the web view, and (b) uploads are future-proof because any new fields, removed fields, or reordered fields are still clearly identifiable by their keys. It is harder to make these changes when using arrays or single values as the top-level structure because it's not automatically clear what each entry's values mean."
+            },
             "example": { "user": "John Doe", "temperature": 68 }
           },
           "text/csv": {
-            "schema": { "type": "string", "maxLength": 65535 },
+            "schema": {
+              "type": "string",
+              "format": "csv",
+              "maxLength": 65535,
+              "description": "Any valid CSV string. Commas should be used to delimit fields; if commas are needed within a field, the whole field should be wrapped in quotation marks. The web view parses the CSV data into columns following the rules of PHP's `str_getcsv()` function - a highly forgiving CSV parser that will convert any string into CSV, even if (for example) it has unmatched quotation marks. However, passing improperly-formatted CSV data may lead to unexpected parsing results.\n\nCSV-formatted data is only recommended if the data schema (i.e. how many values are included, what each value means, and what order they are listed in) is unlikely to change since the order of values is the only indication of meaning/purpose. If changes are needed, it is highly recommended that you add new values at the right end of the values list, handle removed values by including an empty slot (i.e. `value1,,value3`), and **avoid reordering values**. The web view fills each row's columns from left to right, so following this protocol will ensure that each column represents the same field across all rows."
+            },
             "example": "John Doe,68"
           },
           "text/plain": {
-            "schema": { "type": "string", "maxLength": 65535 },
+            "schema": {
+              "type": "string",
+              "maxLength": 65535,
+              "description": "Any contents whatsoever (as long as it's less than the maximum length). This option is discouraged in favor of standard formats (i.e. JSON or CSV), but is provided to support lesser-known standards or highly custom needs. The web view will not attempt to parse the contents and will simply display them as-is."
+            },
             "example": "Just a big blob of text with no particular structure | John Doe | 68"
           }
         },
@@ -170,7 +184,7 @@
           },
           "data": {
             "type": "string",
-            "description": "The raw value uploaded to DamSecure",
+            "description": "The raw value uploaded to DamSecure. This remains character-for-character identical with the upload's request body",
             "example": "{\"user\": \"John Doe\", \"temperature\": 68}"
           },
           "created_at": {
