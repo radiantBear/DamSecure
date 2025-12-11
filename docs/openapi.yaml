@@ -1,0 +1,8 @@
+openapi: 3.0.0
+info:
+  description: Connect your project to the Internet with ease
+  version: '1.0.0'
+  title: DamSecure IoT Portal API
+  license:
+    name: AGPL 3.0
+    url: 'https://www.gnu.org/licenses/agpl-3.0.txt'
