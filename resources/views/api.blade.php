@@ -12,6 +12,9 @@
         SwaggerUIBundle({
             url: "../../docs/openapi.yaml",
             dom_id: "#swagger",
+            defaultModelRendering: "model",
+            defaultModelExpandDepth: 2, // Expand models in route bodies
+            defaultModelsExpandDepth: -1 // Hide models at the bottom of the page
         });
     </script>
 </x-layout>

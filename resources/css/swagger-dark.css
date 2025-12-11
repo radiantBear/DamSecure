@@ -37,18 +37,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     color: var(--accept-header-color);
 }
 
-.swagger-ui .btn.authorize {
-    color: var(--post-method-color);
-}
-
-.swagger-ui .btn.authorize {
-    border-color: var(--post-method-color);
-}
-
-.swagger-ui .btn.authorize svg {
-    fill: var(--post-method-color);
-}
-
 /* blocks */
 .swagger-ui .topbar {
     background-color: var(--header-bg-color);
