@@ -87,7 +87,7 @@
         ],
         "requestBody": { "$ref": "#/components/requestBodies/Data" },
         "responses": {
-          "200": { "description": "User updated" },
+          "200": { "description": "Record successfully updated" },
           "400": { "$ref": "#/components/responses/BadRequest" },
           "401": { "$ref": "#/components/responses/Unauthorized" },
           "403": { "$ref": "#/components/responses/ForbiddenForUpload" },
@@ -113,8 +113,7 @@
           }
         ],
         "responses": {
-          "200": { "description": "User updated" },
-          "400": { "$ref": "#/components/responses/BadRequest" },
+          "200": { "description": "Record successfully deleted" },
           "401": { "$ref": "#/components/responses/Unauthorized" },
           "403": { "$ref": "#/components/responses/ForbiddenForUpload" },
           "500": { "$ref": "#/components/responses/InternalServerError" }
