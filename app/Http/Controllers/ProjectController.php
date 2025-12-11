@@ -122,7 +122,7 @@ class ProjectController extends Controller
         }
 
         $project->tokens()->whereJsonContains('abilities', $scope)->delete();
-        $token = $project->createToken('upload_token', [$scope], $expiration);
+        $token = $project->createToken("{$scope}_token", [$scope], $expiration);
 
         return redirect("/projects/{$project->uuid}/permissions")
             ->with([
