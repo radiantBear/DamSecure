@@ -7,6 +7,12 @@ info:
     name: AGPL 3.0
     url: 'https://www.gnu.org/licenses/agpl-3.0.txt'
 
+servers:
+  - url: https://eecs.engineering.oregonstate.edu/education/damsecure/public
+    description: College of Engineering hosted
+  - url: http://127.0.0.1:8080/public
+    description: Locally hosted
+
 paths:
   /api/data:
     get:
