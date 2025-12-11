@@ -11,6 +11,7 @@
                 <th></th>
                 @endfor
                 <th>Creation Timestamp</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -20,7 +21,7 @@
                 <td>{{ count($d['data']) > $i ? $d['data'][$i] : '' }}</td>
                 @endfor
                 <td>{{ $d['raw']->created_at }}</td>
-                <td>
+                <td class="text-end">
                     @can('delete', $d['raw'])
                     <form method="post" action="data/{{ $d['raw']->id }}">
                         {{ csrf_field() }}

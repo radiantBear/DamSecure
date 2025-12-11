@@ -42,12 +42,13 @@ class ProjectController extends Controller
         $owner->role = 'owner';
         $owner->save();
 
-        $token = $project->createToken('upload_token', ['*'], now()->addYear());
+        $token = $project->createToken('upload_token', ['upload'], now()->addYear());
 
         return redirect("/projects/{$project->uuid}")
             ->with([
                 'apiToken' => $token->plainTextToken,
-                'tokenExpiration' => $token->accessToken->expires_at
+                'tokenExpiration' => $token->accessToken->expires_at,
+                'tokenScope' => 'upload'
             ]);
     }
 
@@ -56,6 +57,7 @@ class ProjectController extends Controller
      */
     public function show(Models\Project $project)
     {
+        $project->load('project_data.project');
         $this->authorize('view', $project);
 
         $data = DataService::splitData($project->project_data);
@@ -90,12 +92,15 @@ class ProjectController extends Controller
     /**
      * Rotate the API token used to upload data.
      */
-    public function rotate_token(Request $request, Models\Project $project)
+    public function rotateToken(Request $request, Models\Project $project, string $scope)
     {
         $this->authorize('update', $project);
 
+        $request->merge(['scope' => $scope]);
+
         $validated = $request->validate([
-            'expiration' => 'required|in:day,week,month,year,never'
+            'expiration' => 'required|in:day,week,month,year,never',
+            'scope' => 'required|in:upload,download'
         ]);
 
         switch ($validated['expiration']) {
@@ -116,13 +121,14 @@ class ProjectController extends Controller
                 break;
         }
 
-        $project->tokens()->delete();
-        $token = $project->createToken('upload_token', ['*'], $expiration);
+        $project->tokens()->whereJsonContains('abilities', $scope)->delete();
+        $token = $project->createToken("{$scope}_token", [$scope], $expiration);
 
-        return redirect("/projects/{$project->uuid}")
+        return redirect("/projects/{$project->uuid}/permissions")
             ->with([
                 'apiToken' => $token->plainTextToken,
-                'tokenExpiration' => $token->accessToken->expires_at
+                'tokenExpiration' => $token->accessToken->expires_at,
+                'tokenScope' => $scope
             ]);
     }
 

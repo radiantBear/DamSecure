@@ -16,7 +16,15 @@ class ProjectUserController extends Controller
 
         $permissions = $project->user_permissions()->with('user')->with('project')->get();
 
-        return view('project_users', ['project' => $project, 'permissions' => $permissions]);
+        $uploadToken = $project->tokens()->whereJsonContains('abilities', 'upload')->first();
+        $downloadToken = $project->tokens()->whereJsonContains('abilities', 'download')->first();
+
+        return view('project-permissions', [
+            'project' => $project,
+            'permissions' => $permissions,
+            'uploadToken' => $uploadToken,
+            'downloadToken' => $downloadToken
+        ]);
     }
 
     /**

@@ -97,6 +97,12 @@ class ProjectTest extends TestCase
             'user_id' => $user->id,
             'role' => 'owner'
         ]);
+        $this->assertDatabaseHas('personal_access_tokens', [
+            'tokenable_type' => 'App\\Models\\Project',
+            'tokenable_id' => Models\Project::where('name', 'test_project')->first()->id,
+            'name' => 'upload_token',
+            'abilities' => '["upload"]'
+        ]);
     }
 
 
@@ -157,7 +163,7 @@ class ProjectTest extends TestCase
     }
 
 
-    public function test_user_can_rotate_project_token(): void
+    public function test_user_can_rotate_project_upload_token(): void
     {
         $user = Models\User::factory()->create();
         $project = Models\Project::factory()->create();
@@ -166,16 +172,128 @@ class ProjectTest extends TestCase
             'user_id' => $user->id,
             'role' => 'owner'
         ]);
-        $token = $project->createToken('upload_token');
+        $token = $project->createToken('upload_token', ['upload']);
 
         $response = $this->actingAs($user)
-            ->get("/projects/{$project->uuid}/token?expiration=year");
+            ->put("/projects/{$project->uuid}/tokens/upload?expiration=year");
 
-        $response->assertRedirect("/projects/{$project->uuid}");
+        $response->assertRedirect("/projects/{$project->uuid}/permissions");
         $this->assertDatabaseMissing('personal_access_tokens', [
             'token' => $token->accessToken->token
         ]);
         $this->assertDatabaseCount('personal_access_tokens', 1);
+        $this->assertDatabaseHas('personal_access_tokens', [
+            'tokenable_type' => 'App\\Models\\Project',
+            'tokenable_id' => $project->id,
+            'name' => 'upload_token',
+            'abilities' => '["upload"]'
+        ]);
+        // NOTE: cannot directly assert that the token value displayed to the user is
+        // correct since the plaintext isn't stored in the database
+    }
+
+
+    public function test_user_can_rotate_project_download_token(): void
+    {
+        $user = Models\User::factory()->create();
+        $project = Models\Project::factory()->create();
+        Models\ProjectUser::factory()->create([
+            'project_id' => $project->id,
+            'user_id' => $user->id,
+            'role' => 'owner'
+        ]);
+        $token = $project->createToken('download_token', ['download']);
+
+        $response = $this->actingAs($user)
+            ->put("/projects/{$project->uuid}/tokens/download?expiration=year");
+
+        $response->assertRedirect("/projects/{$project->uuid}/permissions");
+        $this->assertDatabaseMissing('personal_access_tokens', [
+            'token' => $token->accessToken->token
+        ]);
+        $this->assertDatabaseCount('personal_access_tokens', 1);
+        $this->assertDatabaseHas('personal_access_tokens', [
+            'tokenable_type' => 'App\\Models\\Project',
+            'tokenable_id' => $project->id,
+            'name' => 'download_token',
+            'abilities' => '["download"]'
+        ]);
+        // NOTE: cannot directly assert that the token value displayed to the user is
+        // correct since the plaintext isn't stored in the database
+    }
+
+
+    public function test_rotating_project_upload_token_leaves_download_alone(): void
+    {
+        $user = Models\User::factory()->create();
+        $project = Models\Project::factory()->create();
+        Models\ProjectUser::factory()->create([
+            'project_id' => $project->id,
+            'user_id' => $user->id,
+            'role' => 'owner'
+        ]);
+        $uploadToken = $project->createToken('upload_token', ['upload']);
+        $downloadToken = $project->createToken('download_token', ['download']);
+
+        $response = $this->actingAs($user)
+            ->put("/projects/{$project->uuid}/tokens/upload?expiration=year");
+
+        $response->assertRedirect("/projects/{$project->uuid}/permissions");
+        $this->assertDatabaseMissing('personal_access_tokens', [
+            'token' => $uploadToken->accessToken->token
+        ]);
+        $this->assertDatabaseCount('personal_access_tokens', 2);
+        $this->assertDatabaseHas('personal_access_tokens', [
+            'tokenable_type' => 'App\\Models\\Project',
+            'tokenable_id' => $project->id,
+            'name' => 'download_token',
+            'token' => $downloadToken->accessToken->token,
+            'abilities' => '["download"]'
+        ]);
+        $this->assertDatabaseHas('personal_access_tokens', [
+            'tokenable_type' => 'App\\Models\\Project',
+            'tokenable_id' => $project->id,
+            'name' => 'upload_token',
+            'abilities' => '["upload"]'
+        ]);
+        // NOTE: cannot directly assert that the token value displayed to the user is
+        // correct since the plaintext isn't stored in the database
+    }
+
+
+    public function test_rotating_project_download_token_leaves_upload_alone(): void
+    {
+        $user = Models\User::factory()->create();
+        $project = Models\Project::factory()->create();
+        Models\ProjectUser::factory()->create([
+            'project_id' => $project->id,
+            'user_id' => $user->id,
+            'role' => 'owner'
+        ]);
+        $uploadToken = $project->createToken('upload_token', ['upload']);
+        $downloadToken = $project->createToken('download_token', ['download']);
+
+        $response = $this->actingAs($user)
+            ->put("/projects/{$project->uuid}/tokens/download?expiration=year");
+
+        $response->assertRedirect("/projects/{$project->uuid}/permissions");
+        $this->assertDatabaseMissing('personal_access_tokens', [
+            'token' => $downloadToken->accessToken->token
+        ]);
+        $this->assertDatabaseCount('personal_access_tokens', 2);
+        $this->assertDatabaseHas('personal_access_tokens', [
+            'tokenable_type' => 'App\\Models\\Project',
+            'tokenable_id' => $project->id,
+            'name' => 'upload_token',
+            'token' => $uploadToken->accessToken->token,
+            'abilities' => '["upload"]'
+        ]);
+        $this->assertDatabaseHas('personal_access_tokens', [
+            'tokenable_type' => 'App\\Models\\Project',
+            'tokenable_id' => $project->id,
+            'name' => 'download_token',
+            'abilities' => '["download"]'
+        ]);
         // NOTE: cannot directly assert that the token value displayed to the user is
         // correct since the plaintext isn't stored in the database
     }
@@ -191,9 +309,9 @@ class ProjectTest extends TestCase
             'project_id' => $project->id,
             'user_id' => $other_user->id
         ]);
-        $token = $project->createToken('upload_token');
+        $token = $project->createToken('upload_token', ['upload']);
 
-        $response = $this->actingAs($user)->get("/projects/{$project->uuid}/token");
+        $response = $this->actingAs($user)->put("/projects/{$project->uuid}/tokens/upload");
 
         $response->assertForbidden();
         $this->assertDatabaseHas('personal_access_tokens', [
@@ -211,14 +329,37 @@ class ProjectTest extends TestCase
             'project_id' => $project->id,
             'user_id' => $user->id
         ]);
-        $token = $project->createToken('upload_token');
+        $token = $project->createToken('upload_token', ['upload']);
 
-        $response = $this->get("/projects/{$project->uuid}/token");
+        $response = $this->put("/projects/{$project->uuid}/tokens/upload");
 
         $response->assertRedirect('/login');
         $this->assertDatabaseHas('personal_access_tokens', [
             'token' => $token->accessToken->token
         ]);
         $this->assertDatabaseCount('personal_access_tokens', 1);
+    }
+
+
+    public function test_user_cannot_create_token_with_other_scope(): void
+    {
+        $user = Models\User::factory()->create();
+        $project = Models\Project::factory()->create();
+        Models\ProjectUser::factory()->create([
+            'project_id' => $project->id,
+            'user_id' => $user->id,
+            'role' => 'owner'
+        ]);
+        $token = $project->createToken('upload_token', ['upload']);
+
+        $response = $this->actingAs($user)
+            ->put("/projects/{$project->uuid}/tokens/*?expiration=year");
+
+        $response->assertSessionHasErrors(['scope']);
+        $this->assertDatabaseHas('personal_access_tokens', [
+            'token' => $token->accessToken->token
+        ]);
+        // NOTE: cannot directly assert that the token value displayed to the user is
+        // correct since the plaintext isn't stored in the database
     }
 }
