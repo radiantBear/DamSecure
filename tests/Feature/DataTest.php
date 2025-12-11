@@ -13,7 +13,7 @@ class DataTest extends TestCase
     use RefreshDatabase;
 
 
-    public function test_data_view_succeeds_with_valid_token(): void
+    public function test_data_retrieval_succeeds_with_valid_token(): void
     {
         $project = Models\Project::factory()->create();
         $data = Models\Data::factory(20)->create(['project_id' => $project->id]);
@@ -154,7 +154,7 @@ class DataTest extends TestCase
     }
 
 
-    public function test_data_view_fails_without_token(): void
+    public function test_data_retrieval_fails_without_token(): void
     {
         $project = Models\Project::factory()->create();
         Models\Data::factory(20)->create(['project_id' => $project->id]);
@@ -167,7 +167,7 @@ class DataTest extends TestCase
     }
 
 
-    public function test_data_view_fails_with_invalid_token(): void
+    public function test_data_retrieval_fails_with_invalid_token(): void
     {
         $project = Models\Project::factory()->create();
         Models\Data::factory(20)->create(['project_id' => $project->id]);
@@ -181,7 +181,7 @@ class DataTest extends TestCase
     }
 
 
-    public function test_data_view_fails_with_revoked_token(): void
+    public function test_data_retrieval_fails_with_revoked_token(): void
     {
         $project = Models\Project::factory()->create();
         Models\Data::factory(20)->create(['project_id' => $project->id]);
@@ -197,7 +197,7 @@ class DataTest extends TestCase
     }
 
 
-    public function test_data_view_fails_with_upload_token(): void
+    public function test_data_retrieval_fails_with_upload_token(): void
     {
         $project = Models\Project::factory()->create();
         Models\Data::factory(20)->create(['project_id' => $project->id]);
