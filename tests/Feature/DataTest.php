@@ -21,7 +21,7 @@ class DataTest extends TestCase
 
         $response = $this
             ->withHeader('Authorization', 'Bearer ' . $token->plainTextToken)
-            ->get('/api/data');
+            ->getJson('/api/data');
 
         $response->assertOk();
         $response->assertJsonCount(20);
@@ -154,6 +154,63 @@ class DataTest extends TestCase
     }
 
 
+    public function test_data_view_fails_without_token(): void
+    {
+        $project = Models\Project::factory()->create();
+        Models\Data::factory(20)->create(['project_id' => $project->id]);
+
+        $response = $this
+            ->getJson('/api/data');
+
+        $response->assertUnauthorized();
+        $response->assertContent('{"message":"Unauthenticated."}');
+    }
+
+
+    public function test_data_view_fails_with_invalid_token(): void
+    {
+        $project = Models\Project::factory()->create();
+        Models\Data::factory(20)->create(['project_id' => $project->id]);
+
+        $response = $this
+            ->withHeader('Authorization', 'Bearer s0meInv4l1dT0k3nW1th48Ch4r4ct3rs3456789012345678')
+            ->getJson('/api/data');
+
+        $response->assertUnauthorized();
+        $response->assertContent('{"message":"Unauthenticated."}');
+    }
+
+
+    public function test_data_view_fails_with_revoked_token(): void
+    {
+        $project = Models\Project::factory()->create();
+        Models\Data::factory(20)->create(['project_id' => $project->id]);
+        $token = $project->createToken('test_token', ['download']);
+        $token->accessToken->delete();
+
+        $response = $this
+            ->withHeader('Authorization', 'Bearer ' . $token->plainTextToken)
+            ->getJson('/api/data');
+
+        $response->assertUnauthorized();
+        $response->assertContent('{"message":"Unauthenticated."}');
+    }
+
+
+    public function test_data_view_fails_with_upload_token(): void
+    {
+        $project = Models\Project::factory()->create();
+        Models\Data::factory(20)->create(['project_id' => $project->id]);
+        $token = $project->createToken('test_token', ['upload']);
+
+        $response = $this
+            ->withHeader('Authorization', 'Bearer ' . $token->plainTextToken)
+            ->getJson('/api/data');
+
+        $response->assertForbidden();
+    }
+
+
     public function test_data_insertion_fails_without_token(): void
     {
         $project = Models\Project::factory()->create();
@@ -197,6 +254,23 @@ class DataTest extends TestCase
             ->postJson('/api/data', ['id' => 5, 'user' => 'john']);
 
         $response->assertUnauthorized();
+        $this->assertDatabaseMissing('data', [
+            'data' => '{"id":5,"user":"john"}',
+            'project_id' => $project->id
+        ]);
+    }
+
+
+    public function test_data_insertion_fails_with_download_token(): void
+    {
+        $project = Models\Project::factory()->create();
+        $token = $project->createToken('test_token', ['download']);
+
+        $response = $this
+            ->withHeader('Authorization', 'Bearer ' . $token->plainTextToken)
+            ->postJson('/api/data', ['id' => 5, 'user' => 'john']);
+
+        $response->assertForbidden();
         $this->assertDatabaseMissing('data', [
             'data' => '{"id":5,"user":"john"}',
             'project_id' => $project->id
@@ -271,6 +345,28 @@ class DataTest extends TestCase
     }
 
 
+    public function test_data_update_fails_with_download_token(): void
+    {
+        $project = Models\Project::factory()->create();
+        $data = Models\Data::factory()->create(['project_id' => $project->id]);
+        $token = $project->createToken('test_token', ['download']);
+
+        $response = $this
+            ->withHeader('Authorization', 'Bearer ' . $token->plainTextToken)
+            ->putJson('/api/data/' . $data->id, ['id' => 5, 'user' => 'john']);
+
+        $response->assertForbidden();
+        $this->assertDatabaseHas('data', [
+            'data' => $data->data,
+            'project_id' => $project->id
+        ]);
+        $this->assertDatabaseMissing('data', [
+            'data' => '{"id":5,"user":"john"}',
+            'project_id' => $project->id
+        ]);
+    }
+
+
     public function test_data_deletion_fails_without_token(): void
     {
         $project = Models\Project::factory()->create();
@@ -319,6 +415,24 @@ class DataTest extends TestCase
         ->deleteJson('/api/data/' . $data->id);
 
         $response->assertUnauthorized();
+        $this->assertDatabaseHas('data', [
+            'data' => $data->data,
+            'project_id' => $project->id
+        ]);
+    }
+
+
+    public function test_data_deletion_fails_with_download_token(): void
+    {
+        $project = Models\Project::factory()->create();
+        $data = Models\Data::factory()->create(['project_id' => $project->id]);
+        $token = $project->createToken('test_token', ['download']);
+
+        $response = $this
+        ->withHeader('Authorization', 'Bearer ' . $token->plainTextToken)
+        ->deleteJson('/api/data/' . $data->id);
+
+        $response->assertForbidden();
         $this->assertDatabaseHas('data', [
             'data' => $data->data,
             'project_id' => $project->id
