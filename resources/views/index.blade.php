@@ -23,7 +23,8 @@
                 parsed and displayed in a table on the website. Each upload is limited to
                 65,535 characters, but you can upload as many times as needed. If you need
                 to upload more than 65 KB at time, you will need to split the upload into
-                several parts. Upload timestamps are automatically tracked 
+                several parts. Upload timestamps are automatically tracked and displayed
+                alongside the data.
             </p>
         </div>
         <div class="col-sm">
