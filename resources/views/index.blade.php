@@ -38,7 +38,7 @@
                 <code>{api_key}</code>, including the brackets, is replaced with the key
                 you were given)</i> to indicate which project the upload is for. For more
                 details, check out the <a href="docs/api">API schema</a> or
-                <a href="https://github.com/radiantBear/DamSecure/tree/main/docs/examples">
+                <a href="https://github.com/radiantBear/DamSecure/tree/main/docs/examples" target="_blank">
                 code examples</a>.
             </p>
         </div>
