@@ -6,29 +6,40 @@ from urllib.request import urlopen, Request
 
 
 def get_temp():
+    """
+    Just need to create some example data
+    """
     return random.randint(50, 80)
 
 
 def upload(url, token, payload):
-    data = json.dumps(payload).encode("utf-8")
+    """
+    Actually perform the upload
+    """
+    data = json.dumps(payload) # Turns the Python dict into JSON
 
     request = Request(
-        url=url,
-        data=data,
+        url=url + "/api/data",
+        data=data.encode("utf-8"), # Python's Request requires data to be binary-encoded, not just a Python string
         method="POST",
         headers={
-            "Accept": "application/json",
-            "Authorization": f"Bearer {token}",
-            "Content-Type": "application/json"
+            "Accept": "application/json",       # Tells DamSecure to respond with JSON, not HTML
+            "Authorization": f"Bearer {token}", # Tells DamSecure what project this is for
+            "Content-Type": "application/json"  # Tells DamSecure this is JSON data
         }
     )
 
     with urlopen(request) as response:
         print(f"Status: {response.status}")
+
+        # If uploading succeeds, this gives the ID for updating/deleting the upload
         print(f"Response: {response.read().decode("utf-8")}")
 
 
 def main():
+    """
+    Just some setup... This can be ignored for learning how to interact with DamSecure
+    """
     API_DOMAIN = os.environ.get("API_DOMAIN")
     API_TOKEN = os.environ.get("API_TOKEN")
 
@@ -36,10 +47,8 @@ def main():
         print("API_DOMAIN and API_TOKEN environment variables must be set", file=sys.stderr)
         sys.exit(1)
 
-    url = API_DOMAIN.rstrip("/") + "/api/data"
-
     while True:
-        upload(url, API_TOKEN, {"user": "John Doe", "temp": get_temp()})
+        upload(API_DOMAIN.rstrip("/"), API_TOKEN, {"user": "John Doe", "temp": get_temp()})
         time.sleep(2)
 
 
