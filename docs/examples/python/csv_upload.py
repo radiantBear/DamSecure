@@ -4,11 +4,14 @@ import time
 from urllib.request import urlopen, Request
 
 
-def get_temp():
+def get_next_number():
     """
     Just need to create some example data
     """
-    return random.randint(50, 80)
+    number = 0
+    while True:
+        number += 1
+        yield number
 
 
 def upload(url, token, payload):
@@ -45,7 +48,7 @@ def main():
         sys.exit(1)
 
     while True:
-        upload(API_DOMAIN.rstrip("/"), API_TOKEN, f"John Doe,{get_temp()}")
+        upload(API_DOMAIN.rstrip("/"), API_TOKEN, f"John Doe,{get_next_number()}")
         time.sleep(2)
 
 
