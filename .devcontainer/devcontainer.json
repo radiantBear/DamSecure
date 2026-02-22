@@ -21,7 +21,10 @@
         // Exclude vendor directory to ensure the container's `composer install` is used
         "type=volume,source=composer_cache,target=/var/www/html/vendor",
         // Mount the user's git config to pull username & email (if exists)
-        "source=${localEnv:HOME}${localEnv:USERPROFILE}/.gitconfig,target=/root/.gitconfig,type=bind,readonly,if-exists=true"
+        "source=${localEnv:HOME}${localEnv:USERPROFILE}/.gitconfig,target=/root/.gitconfig,type=bind,readonly,if-exists=true",
+        // Mount the user's git signing key
+        "source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh/git_signing,target=/root/.ssh/git_signing,type=bind,readonly,if-exists=true",
+        "source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh/git_signing.pub,target=/root/.ssh/git_signing.pub,type=bind,readonly,if-exists=true"
     ],
 
     // Features to add to the dev container. More info: https://containers.dev/features.
@@ -40,10 +43,10 @@
     ],
 
     // Uncomment the next line if you want to keep your containers running after VS Code shuts down.
-    // "shutdownAction": "none",
+    "shutdownAction": "stopCompose",
 
     // Run commands after the container is created.
-    "postCreateCommand": "if [ -f /root/.ssh/git_signing ]; then git config user.signingkey /root/.ssh/git_signing.pub; fi",
+    "postCreateCommand": "if [ -f /root/.ssh/git_signing ]; then git config user.signingkey /root/.ssh/git_signing.pub; apt update && apt install openssh-client -y; fi",
 
     // Configure tool-specific properties.
     "customizations": {
