@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Data;
+use App\Models\UploadData;
 use Illuminate\Http\Request;
 
-class DataController extends Controller
+class UploadDataController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +16,9 @@ class DataController extends Controller
         // provide projects with API tokens, hence the naming discrepancy
         $project = auth()->user();
 
-        $this->authorize('viewAny', [Data::class, $project]);
+        $this->authorize('viewAny', [UploadData::class, $project]);
 
-        return response()->json($project->project_data);
+        return response()->json($project->project_upload_data);
     }
 
     /**
@@ -30,7 +30,7 @@ class DataController extends Controller
         // provide projects with API tokens, hence the naming discrepancy
         $project = auth()->user();
 
-        $this->authorize('create', Data::class);
+        $this->authorize('create', UploadData::class);
 
         $type = 'unknown';
 
@@ -47,7 +47,7 @@ class DataController extends Controller
             $type = 'csv';
         }
 
-        $data = $project->project_data()->create([
+        $data = $project->project_upload_data()->create([
             'type' => $type,
             'data' => $request->getContent()
         ]);
@@ -58,9 +58,9 @@ class DataController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Data $data)
+    public function update(Request $request, UploadData $data)
     {
-        $this->authorize('update', [Data::class, $data]);
+        $this->authorize('update', [UploadData::class, $data]);
 
         if (!json_validate($request->getContent())) {
             return response('Invalid JSON', 400);
@@ -76,9 +76,9 @@ class DataController extends Controller
      */
     public function destroy(Request $request, int $data)
     {
-        $this->authorize('delete', [Data::class, Data::findOrFail($data)]);
+        $this->authorize('delete', [UploadData::class, UploadData::findOrFail($data)]);
 
-        Data::destroy($data);
+        UploadData::destroy($data);
 
         if ($request->routeIs('api.*')) {
             return response('Deleted', 200);

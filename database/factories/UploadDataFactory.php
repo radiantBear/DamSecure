@@ -6,9 +6,9 @@ use App\Models;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Data>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\UploadData>
  */
-class DataFactory extends Factory
+class UploadDataFactory extends Factory
 {
     /**
      * Defines the model's default state
@@ -33,7 +33,7 @@ class DataFactory extends Factory
                     fake()->boolean()
                 ]);
                 break;
-            case 'unknown':
+            default:
                 $data = 'Miscellaneous special characters that could break stuff: ,./\<{[("\';!@#$%^&*`~>}])';
                 break;
         }

@@ -55,6 +55,20 @@
             </p>
         </div>
         <div class="col-sm">
+            <h2>
+                Can I just host my data to download?
+            </h2>
+            <p>
+                Yes! If you just need to test that your project can download and parse
+                your data, you can do this without worrying about manually uploading data!
+                After creating you project in DamSecure, simply use the Test Data section
+                to configure the data that <code>GET public/api/data/test</code> will
+                serve.
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm">
             <h2>How long is my data retained?</h2>
             <p>
                 All data uploaded to a given project will be preserved for 2 years after

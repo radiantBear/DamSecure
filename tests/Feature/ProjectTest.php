@@ -88,9 +88,12 @@ class ProjectTest extends TestCase
         ]);
 
         $response->assertRedirectContains('/projects/');
+        $this->assertDatabaseCount('projects', 1);
         $this->assertDatabaseHas('projects', [
             'name' => 'test_project'
         ]);
+        $this->assertDatabaseCount('test_data', 1);
+        $this->assertDatabaseHas('test_data', ['data' => "If you see this, we're successfully pulling data!"]);
         $this->assertDatabaseCount('project_users', 1);
         $this->assertDatabaseHas('project_users', [
             'project_id' => Models\Project::where('name', 'test_project')->first()->id,
@@ -121,7 +124,8 @@ class ProjectTest extends TestCase
             'project_id' => $project->id,
             'user_id' => $user->id
         ]);
-        $data = Models\Data::factory(4)->create(['project_id' => $project->id]);
+        Models\UploadData::factory(4)->create(['project_id' => $project->id]);
+        Models\TestData::factory()->create(['project_id' => $project->id]);
 
         $response = $this->actingAs($user)->get("/projects/{$project->uuid}");
 
@@ -139,7 +143,7 @@ class ProjectTest extends TestCase
             'project_id' => $project->id,
             'user_id' => $other_user->id
         ]);
-        Models\Data::factory(4)->create(['project_id' => $project->id]);
+        Models\UploadData::factory(4)->create(['project_id' => $project->id]);
 
         $response = $this->actingAs($user)->get("/projects/{$project->uuid}");
 
@@ -155,7 +159,7 @@ class ProjectTest extends TestCase
             'project_id' => $project->id,
             'user_id' => $user->id
         ]);
-        Models\Data::factory(4)->create(['project_id' => $project->id]);
+        Models\UploadData::factory(4)->create(['project_id' => $project->id]);
 
         $response = $this->get("/projects/{$project->uuid}");
 

@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-class DataTest extends TestCase
+class UploadDataTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -16,7 +16,7 @@ class DataTest extends TestCase
     public function test_data_retrieval_succeeds_with_valid_token(): void
     {
         $project = Models\Project::factory()->create();
-        $data = Models\Data::factory(20)->create(['project_id' => $project->id]);
+        $data = Models\UploadData::factory(20)->create(['project_id' => $project->id]);
         $token = $project->createToken('test_token', ['download']);
 
         $response = $this
@@ -41,7 +41,7 @@ class DataTest extends TestCase
             ->postJson('/api/data', ['id' => 5, 'user' => 'john']);
 
         $response->assertCreated();
-        $this->assertDatabaseHas('data', [
+        $this->assertDatabaseHas('upload_data', [
             'data' => '{"id":5,"user":"john"}',
             'project_id' => $project->id
         ]);
@@ -58,7 +58,7 @@ class DataTest extends TestCase
             ->postJson('/api/data', ['id' => 5, 'user' => 'john']);
 
         $response->assertCreated();
-        $this->assertDatabaseHas('data', [
+        $this->assertDatabaseHas('upload_data', [
             'type' => 'json'
         ]);
     }
@@ -85,8 +85,8 @@ class DataTest extends TestCase
         );
 
         $response->assertCreated();
-        $this->assertDatabaseCount('data', 1);
-        $this->assertDatabaseHas('data', [
+        $this->assertDatabaseCount('upload_data', 1);
+        $this->assertDatabaseHas('upload_data', [
             'type' => 'csv',
             'data' => '5,john'
         ]);
@@ -111,7 +111,7 @@ class DataTest extends TestCase
         );
 
         $response->assertCreated();
-        $this->assertDatabaseHas('data', [
+        $this->assertDatabaseHas('upload_data', [
             'type' => 'unknown',
             'data' => 'some sort of data'
         ]);
@@ -121,7 +121,7 @@ class DataTest extends TestCase
     public function test_data_update_succeeds_with_valid_token(): void
     {
         $project = Models\Project::factory()->create();
-        $data = Models\Data::factory()->create(['project_id' => $project->id]);
+        $data = Models\UploadData::factory()->create(['project_id' => $project->id]);
         $token = $project->createToken('test_token', ['upload']);
 
         $response = $this
@@ -129,7 +129,7 @@ class DataTest extends TestCase
             ->putJson('/api/data/' . $data->id, ['id' => 5, 'user' => 'john']);
 
         $response->assertOk();
-        $this->assertDatabaseHas('data', [
+        $this->assertDatabaseHas('upload_data', [
             'data' => '{"id":5,"user":"john"}',
             'project_id' => $project->id
         ]);
@@ -139,7 +139,7 @@ class DataTest extends TestCase
     public function test_data_deletion_succeeds_with_valid_token(): void
     {
         $project = Models\Project::factory()->create();
-        $data = Models\Data::factory()->create(['project_id' => $project->id]);
+        $data = Models\UploadData::factory()->create(['project_id' => $project->id]);
         $token = $project->createToken('test_token', ['upload']);
 
         $response = $this
@@ -147,7 +147,7 @@ class DataTest extends TestCase
             ->deleteJson('/api/data/' . $data->id);
 
         $response->assertOk();
-        $this->assertDatabaseMissing('data', [
+        $this->assertDatabaseMissing('upload_data', [
             'data' => $data->data,
             'project_id' => $project->id
         ]);
@@ -157,7 +157,7 @@ class DataTest extends TestCase
     public function test_data_retrieval_fails_without_token(): void
     {
         $project = Models\Project::factory()->create();
-        Models\Data::factory(20)->create(['project_id' => $project->id]);
+        Models\UploadData::factory(20)->create(['project_id' => $project->id]);
 
         $response = $this
             ->getJson('/api/data');
@@ -170,7 +170,7 @@ class DataTest extends TestCase
     public function test_data_retrieval_fails_with_invalid_token(): void
     {
         $project = Models\Project::factory()->create();
-        Models\Data::factory(20)->create(['project_id' => $project->id]);
+        Models\UploadData::factory(20)->create(['project_id' => $project->id]);
 
         $response = $this
             ->withHeader('Authorization', 'Bearer s0meInv4l1dT0k3nW1th48Ch4r4ct3rs3456789012345678')
@@ -184,7 +184,7 @@ class DataTest extends TestCase
     public function test_data_retrieval_fails_with_revoked_token(): void
     {
         $project = Models\Project::factory()->create();
-        Models\Data::factory(20)->create(['project_id' => $project->id]);
+        Models\UploadData::factory(20)->create(['project_id' => $project->id]);
         $token = $project->createToken('test_token', ['download']);
         $token->accessToken->delete();
 
@@ -200,7 +200,7 @@ class DataTest extends TestCase
     public function test_data_retrieval_fails_with_upload_token(): void
     {
         $project = Models\Project::factory()->create();
-        Models\Data::factory(20)->create(['project_id' => $project->id]);
+        Models\UploadData::factory(20)->create(['project_id' => $project->id]);
         $token = $project->createToken('test_token', ['upload']);
 
         $response = $this
@@ -219,7 +219,7 @@ class DataTest extends TestCase
             ->postJson('/api/data', ['id' => 5, 'user' => 'john']);
 
         $response->assertUnauthorized();
-        $this->assertDatabaseMissing('data', [
+        $this->assertDatabaseMissing('upload_data', [
             'data' => '{"id":5,"user":"john"}',
             'project_id' => $project->id
         ]);
@@ -236,7 +236,7 @@ class DataTest extends TestCase
             ->postJson('/api/data', ['id' => 5, 'user' => 'john']);
 
         $response->assertUnauthorized();
-        $this->assertDatabaseMissing('data', [
+        $this->assertDatabaseMissing('upload_data', [
             'data' => '{"id":5,"user":"john"}',
             'project_id' => $project->id
         ]);
@@ -254,7 +254,7 @@ class DataTest extends TestCase
             ->postJson('/api/data', ['id' => 5, 'user' => 'john']);
 
         $response->assertUnauthorized();
-        $this->assertDatabaseMissing('data', [
+        $this->assertDatabaseMissing('upload_data', [
             'data' => '{"id":5,"user":"john"}',
             'project_id' => $project->id
         ]);
@@ -271,7 +271,7 @@ class DataTest extends TestCase
             ->postJson('/api/data', ['id' => 5, 'user' => 'john']);
 
         $response->assertForbidden();
-        $this->assertDatabaseMissing('data', [
+        $this->assertDatabaseMissing('upload_data', [
             'data' => '{"id":5,"user":"john"}',
             'project_id' => $project->id
         ]);
@@ -281,17 +281,17 @@ class DataTest extends TestCase
     public function test_data_update_fails_without_token(): void
     {
         $project = Models\Project::factory()->create();
-        $data = Models\Data::factory()->create(['project_id' => $project->id]);
+        $data = Models\UploadData::factory()->create(['project_id' => $project->id]);
 
         $response = $this
             ->putJson('/api/data/' . $data->id, ['id' => 5, 'user' => 'john']);
 
         $response->assertUnauthorized();
-        $this->assertDatabaseHas('data', [
+        $this->assertDatabaseHas('upload_data', [
             'data' => $data->data,
             'project_id' => $project->id
         ]);
-        $this->assertDatabaseMissing('data', [
+        $this->assertDatabaseMissing('upload_data', [
             'data' => '{"id":5,"user":"john"}',
             'project_id' => $project->id
         ]);
@@ -301,7 +301,7 @@ class DataTest extends TestCase
     public function test_data_update_fails_with_invalid_token(): void
     {
         $project = Models\Project::factory()->create();
-        $data = Models\Data::factory()->create(['project_id' => $project->id]);
+        $data = Models\UploadData::factory()->create(['project_id' => $project->id]);
 
         $other_project = Models\Project::factory()->create();
         $other_token = $other_project->createToken('test_token', ['upload']);
@@ -311,11 +311,11 @@ class DataTest extends TestCase
             ->putJson('/api/data/' . $data->id, ['id' => 5, 'user' => 'john']);
 
         $response->assertForbidden();
-        $this->assertDatabaseHas('data', [
+        $this->assertDatabaseHas('upload_data', [
             'data' => $data->data,
             'project_id' => $project->id
         ]);
-        $this->assertDatabaseMissing('data', [
+        $this->assertDatabaseMissing('upload_data', [
             'data' => '{"id":5,"user":"john"}',
             'project_id' => $project->id
         ]);
@@ -325,7 +325,7 @@ class DataTest extends TestCase
     public function test_data_update_fails_with_revoked_token(): void
     {
         $project = Models\Project::factory()->create();
-        $data = Models\Data::factory()->create(['project_id' => $project->id]);
+        $data = Models\UploadData::factory()->create(['project_id' => $project->id]);
         $token = $project->createToken('test_token', ['upload']);
         $token->accessToken->delete();
 
@@ -334,11 +334,11 @@ class DataTest extends TestCase
             ->putJson('/api/data/' . $data->id, ['id' => 5, 'user' => 'john']);
 
         $response->assertUnauthorized();
-        $this->assertDatabaseHas('data', [
+        $this->assertDatabaseHas('upload_data', [
             'data' => $data->data,
             'project_id' => $project->id
         ]);
-        $this->assertDatabaseMissing('data', [
+        $this->assertDatabaseMissing('upload_data', [
             'data' => '{"id":5,"user":"john"}',
             'project_id' => $project->id
         ]);
@@ -348,7 +348,7 @@ class DataTest extends TestCase
     public function test_data_update_fails_with_download_token(): void
     {
         $project = Models\Project::factory()->create();
-        $data = Models\Data::factory()->create(['project_id' => $project->id]);
+        $data = Models\UploadData::factory()->create(['project_id' => $project->id]);
         $token = $project->createToken('test_token', ['download']);
 
         $response = $this
@@ -356,11 +356,11 @@ class DataTest extends TestCase
             ->putJson('/api/data/' . $data->id, ['id' => 5, 'user' => 'john']);
 
         $response->assertForbidden();
-        $this->assertDatabaseHas('data', [
+        $this->assertDatabaseHas('upload_data', [
             'data' => $data->data,
             'project_id' => $project->id
         ]);
-        $this->assertDatabaseMissing('data', [
+        $this->assertDatabaseMissing('upload_data', [
             'data' => '{"id":5,"user":"john"}',
             'project_id' => $project->id
         ]);
@@ -370,13 +370,13 @@ class DataTest extends TestCase
     public function test_data_deletion_fails_without_token(): void
     {
         $project = Models\Project::factory()->create();
-        $data = Models\Data::factory()->create(['project_id' => $project->id]);
+        $data = Models\UploadData::factory()->create(['project_id' => $project->id]);
 
         $response = $this
             ->deleteJson('/api/data/' . $data->id);
 
         $response->assertUnauthorized();
-        $this->assertDatabaseHas('data', [
+        $this->assertDatabaseHas('upload_data', [
             'data' => $data->data,
             'project_id' => $project->id
         ]);
@@ -386,7 +386,7 @@ class DataTest extends TestCase
     public function test_data_deletion_fails_with_invalid_token(): void
     {
         $project = Models\Project::factory()->create();
-        $data = Models\Data::factory()->create(['project_id' => $project->id]);
+        $data = Models\UploadData::factory()->create(['project_id' => $project->id]);
 
         $other_project = Models\Project::factory()->create();
         $other_token = $other_project->createToken('test_token', ['upload']);
@@ -396,7 +396,7 @@ class DataTest extends TestCase
             ->deleteJson('/api/data/' . $data->id);
 
         $response->assertForbidden();
-        $this->assertDatabaseHas('data', [
+        $this->assertDatabaseHas('upload_data', [
             'data' => $data->data,
             'project_id' => $project->id
         ]);
@@ -406,7 +406,7 @@ class DataTest extends TestCase
     public function test_data_deletion_fails_with_revoked_token(): void
     {
         $project = Models\Project::factory()->create();
-        $data = Models\Data::factory()->create(['project_id' => $project->id]);
+        $data = Models\UploadData::factory()->create(['project_id' => $project->id]);
         $token = $project->createToken('test_token', ['upload']);
         $token->accessToken->delete();
 
@@ -415,7 +415,7 @@ class DataTest extends TestCase
         ->deleteJson('/api/data/' . $data->id);
 
         $response->assertUnauthorized();
-        $this->assertDatabaseHas('data', [
+        $this->assertDatabaseHas('upload_data', [
             'data' => $data->data,
             'project_id' => $project->id
         ]);
@@ -425,7 +425,7 @@ class DataTest extends TestCase
     public function test_data_deletion_fails_with_download_token(): void
     {
         $project = Models\Project::factory()->create();
-        $data = Models\Data::factory()->create(['project_id' => $project->id]);
+        $data = Models\UploadData::factory()->create(['project_id' => $project->id]);
         $token = $project->createToken('test_token', ['download']);
 
         $response = $this
@@ -433,7 +433,7 @@ class DataTest extends TestCase
         ->deleteJson('/api/data/' . $data->id);
 
         $response->assertForbidden();
-        $this->assertDatabaseHas('data', [
+        $this->assertDatabaseHas('upload_data', [
             'data' => $data->data,
             'project_id' => $project->id
         ]);

@@ -35,7 +35,7 @@ class UserTest extends TestCase
         $response->assertRedirectContains('https://login.oregonstate.edu');
 
         // Make sure the redirect-back URL is properly built
-        $response->assertRedirectContains('http://127.0.0.1/public/authenticate');
+        $response->assertRedirectContains('http://127.0.0.1:8080/public/authenticate');
     }
 
     public function test_local_form_authentication_creates_user(): void
@@ -166,7 +166,7 @@ XML;
     {
         $oldProjects = Models\Project::factory(5)->create()->pluck('id')->all();
         foreach ($oldProjects as $id) {
-            Models\Data::factory(5)->create([
+            Models\UploadData::factory(5)->create([
                 'project_id' => $id,
                 'updated_at' => fake()->dateTime(now()->subYears(2)->subMinute())
             ]);
@@ -174,7 +174,7 @@ XML;
 
         $newProjects = Models\Project::factory(5)->create()->pluck('id')->all();
         foreach ($newProjects as $id) {
-            Models\Data::factory(5)->create([
+            Models\UploadData::factory(5)->create([
                 'project_id' => $id
             ]);
         }

@@ -42,6 +42,11 @@ class ProjectController extends Controller
         $owner->role = 'owner';
         $owner->save();
 
+        $testData = new Models\TestData();
+        $testData->project_id = $project->id;
+        $testData->data = "If you see this, we're successfully pulling data!";
+        $testData->save();
+
         $token = $project->createToken('upload_token', ['upload'], now()->addYear());
 
         return redirect("/projects/{$project->uuid}")
@@ -57,10 +62,10 @@ class ProjectController extends Controller
      */
     public function show(Models\Project $project)
     {
-        $project->load('project_data.project');
+        $project->load('project_upload_data.project');
         $this->authorize('view', $project);
 
-        $data = DataService::splitData($project->project_data);
+        $data = DataService::splitData($project->project_upload_data);
 
         $jsonFields = DataService::getJsonFields($data['json']);
         $csvLength = DataService::getCsvLength($data['csv']);
@@ -145,7 +150,7 @@ class ProjectController extends Controller
      */
     public function audit()
     {
-        Models\Project::whereHas('project_data', function ($query) {
+        Models\Project::whereHas('project_upload_data', function ($query) {
             $query->select('project_id')
                 ->groupBy('project_id')
                 ->havingRaw('MAX(updated_at) < ?', [now()->subYears(2)]);
