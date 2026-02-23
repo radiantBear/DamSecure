@@ -126,7 +126,7 @@ class TestDataTest extends TestCase
     public function test_user_cannot_update_other_project_data(): void
     {
         $user = Models\User::factory()->create();
-    
+
         $otherUser = Models\User::factory()->create();
         $project = Models\Project::factory()->create();
         $data = Models\TestData::factory()->create(['project_id' => $project->id]);
