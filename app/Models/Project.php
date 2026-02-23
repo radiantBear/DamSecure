@@ -51,12 +51,12 @@ class Project extends Model
 
 
     /**
-     * Gets the data downloaded for the project
+     * Gets the test data associated with the project
      */
-    public function project_download_data(): Relations\HasOne
+    public function project_test_data(): Relations\HasOne
     {
         // Automatically maps via data.project_id
-        return $this->hasOne(DownloadData::class);
+        return $this->hasOne(TestData::class);
     }
 
     /**

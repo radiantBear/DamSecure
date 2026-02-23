@@ -6,17 +6,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations;
 
-class DownloadData extends Model
+class TestData extends Model
 {
     use HasFactory;
 
     /**
      * The name of the table associated with this model (n.b. it doesn't end with "s")
      */
-    protected $table = 'download_data';
+    protected $table = 'test_data';
 
     /**
-     * Attributes that can be mass-filled using `DownloadData::create()`
+     * Attributes that can be mass-filled using `TestData::create()`
      */
     protected $fillable = [
         'data'

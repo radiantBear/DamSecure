@@ -92,8 +92,8 @@ class ProjectTest extends TestCase
         $this->assertDatabaseHas('projects', [
             'name' => 'test_project'
         ]);
-        $this->assertDatabaseCount('download_data', 1);
-        $this->assertDatabaseHas('download_data', ['data' => '']);
+        $this->assertDatabaseCount('test_data', 1);
+        $this->assertDatabaseHas('test_data', ['data' => "If you see this, we're successfully pulling data!"]);
         $this->assertDatabaseCount('project_users', 1);
         $this->assertDatabaseHas('project_users', [
             'project_id' => Models\Project::where('name', 'test_project')->first()->id,
@@ -125,7 +125,7 @@ class ProjectTest extends TestCase
             'user_id' => $user->id
         ]);
         Models\UploadData::factory(4)->create(['project_id' => $project->id]);
-        Models\DownloadData::factory()->create(['project_id' => $project->id]);
+        Models\TestData::factory()->create(['project_id' => $project->id]);
 
         $response = $this->actingAs($user)->get("/projects/{$project->uuid}");
 

@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\DownloadData;
+use App\Models\TestData;
 use App\Models\Project;
 use App\Models\User;
 
-class DownloadDataPolicy
+class TestDataPolicy
 {
     /**
      * Determine whether the API key can be used to view the data record
@@ -19,7 +19,7 @@ class DownloadDataPolicy
     /**
      * Determine whether the user can update the data record
      */
-    public function update(User $user, DownloadData $data): bool
+    public function update(User $user, TestData $data): bool
     {
         $permissions = $data->project->user_permissions()->where('user_id', $user->id)->first();
 

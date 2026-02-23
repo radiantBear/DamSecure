@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::rename('data', 'upload_data');
 
-        Schema::create('download_data', function (Blueprint $table) {
+        Schema::create('test_data', function (Blueprint $table) {
             $table->id();
             $table->text('data');
             $table->timestamps();
@@ -29,6 +29,6 @@ return new class extends Migration
     {
         Schema::rename('upload_data', 'data');
 
-        Schema::dropIfExists('download_data');
+        Schema::dropIfExists('test_data');
     }
 };

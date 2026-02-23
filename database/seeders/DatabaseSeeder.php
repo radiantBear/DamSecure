@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
             }
 
             Models\UploadData::factory(rand(1, 4))->create(['project_id' => $project->id]);
-            Models\DownloadData::factory()->create(['project_id' => $project->id]);
+            Models\TestData::factory()->create(['project_id' => $project->id]);
         }
     }
 }

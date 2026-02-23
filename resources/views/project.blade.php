@@ -30,18 +30,20 @@
     
         <div class="d-flex flex-column gap-4">
             <div>
-                <h2>Download Data</h2>
+                <h2>Test Data</h2>
                 <p>
-                    This payload will be emitted verbaitum from <code>/data/test</code>. Use
-                    it to test that your project can receive data properly!
+                    This payload will be emitted verbaitum from <code>/data/test</code>.
+                    Use it to test that your project can receive data properly!
                 </p>
             </div>
     
-            <form method="post" action="data/test/{{ $project->project_download_data->id }}" class="row">
+            <form method="post" action="data/test/{{ $project->project_test_data->id }}" class="row">
                 {{ csrf_field() }}
                 {{ method_field('PUT') }}
                 <div class="col-lg-10">
-                    <textarea name="data" class="form-control font-monospace">{{ $project->project_download_data->data }}</textarea>
+                    <textarea name="data" class="form-control font-monospace">
+                        {{ $project->project_test_data->data }}
+                    </textarea>
                 </div>
                 <div class="col-sm-2 d-flex align-items-center">
                     <button type="submit" class="btn btn-primary">

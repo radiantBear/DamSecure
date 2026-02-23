@@ -70,7 +70,7 @@
       "get": {
         "summary": "View the test record for a project",
         "description": "The project's **download** token must be passed via the `Authorization` header.",
-        "tags": ["Download Data"],
+        "tags": ["Test Data"],
         "security": [
           {
             "downloadToken": []
@@ -82,7 +82,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/DownloadData"
+                  "$ref": "#/components/schemas/TestData"
                 }
               }
             }
@@ -233,7 +233,7 @@
           }
         }
       },
-      "DownloadData": {
+      "TestData": {
         "type": "string",
         "description": "The verbatium test record saved on the project page in DamSecure",
         "example": "If you see this, we're successfully pulling data!"

@@ -6,9 +6,9 @@ use App\Models;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\DownloadData>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\TestData>
  */
-class DownloadDataFactory extends Factory
+class TestDataFactory extends Factory
 {
     /**
      * Defines the model's default state

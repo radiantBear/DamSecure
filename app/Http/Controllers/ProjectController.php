@@ -42,10 +42,10 @@ class ProjectController extends Controller
         $owner->role = 'owner';
         $owner->save();
 
-        $downloadData = new Models\DownloadData();
-        $downloadData->project_id = $project->id;
-        $downloadData->data = "If you see this, we're successfully pulling data!";
-        $downloadData->save();
+        $testData = new Models\TestData();
+        $testData->project_id = $project->id;
+        $testData->data = "If you see this, we're successfully pulling data!";
+        $testData->save();
 
         $token = $project->createToken('upload_token', ['upload'], now()->addYear());
 
