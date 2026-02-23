@@ -33,7 +33,7 @@ class UploadDataFactory extends Factory
                     fake()->boolean()
                 ]);
                 break;
-            case 'unknown':
+            default:
                 $data = 'Miscellaneous special characters that could break stuff: ,./\<{[("\';!@#$%^&*`~>}])';
                 break;
         }
