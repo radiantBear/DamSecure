@@ -17,4 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->name('api.')->group(function () {
     Route::resource('data', Controllers\UploadDataController::class)
         ->only(['index', 'store', 'update', 'destroy']);
+    
+    Route::get('data/test', [Controllers\DownloadDataController::class, 'show']);
 });

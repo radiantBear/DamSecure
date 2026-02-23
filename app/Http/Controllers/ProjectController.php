@@ -42,6 +42,11 @@ class ProjectController extends Controller
         $owner->role = 'owner';
         $owner->save();
 
+        $downloadData = new Models\DownloadData();
+        $downloadData->project_id = $project->id;
+        $downloadData->data = '';
+        $downloadData->save();
+
         $token = $project->createToken('upload_token', ['upload'], now()->addYear());
 
         return redirect("/projects/{$project->uuid}")

@@ -88,9 +88,12 @@ class ProjectTest extends TestCase
         ]);
 
         $response->assertRedirectContains('/projects/');
+        $this->assertDatabaseCount('projects', 1);
         $this->assertDatabaseHas('projects', [
             'name' => 'test_project'
         ]);
+        $this->assertDatabaseCount('download_data', 1);
+        $this->assertDatabaseHas('download_data', ['data' => '']);
         $this->assertDatabaseCount('project_users', 1);
         $this->assertDatabaseHas('project_users', [
             'project_id' => Models\Project::where('name', 'test_project')->first()->id,

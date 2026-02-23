@@ -1,0 +1,31 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models;
+use Illuminate\Http\Request;
+
+class DownloadDataController extends Controller
+{
+    /**
+     * Display the specified resource.
+     */
+    public function show()
+    {
+        $this->authorize('view', Models\DownloadData::class);
+
+        return response(auth()->user()->project_download_data->data);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Models\DownloadData $data)
+    {
+        $this->authorize('update', [Models\DownloadData::class, $data]);
+
+        $data->update(['data' => $request->input('data')]);
+
+        return response('Updated', 200);
+    }
+}
