@@ -39,7 +39,7 @@ class DownloadDataTest extends TestCase
             ->actingAs($user)
             ->put('/data/test/' . $data->id, ['data' => '{"id": 5, "user": "john"}']);
 
-        $response->assertOk();
+        $response->assertRedirect("/projects/{$project->uuid}");
         $this->assertDatabaseHas('download_data', [
             'data' => '{"id": 5, "user": "john"}',
             'project_id' => $project->id

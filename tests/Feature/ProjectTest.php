@@ -124,7 +124,8 @@ class ProjectTest extends TestCase
             'project_id' => $project->id,
             'user_id' => $user->id
         ]);
-        $data = Models\UploadData::factory(4)->create(['project_id' => $project->id]);
+        Models\UploadData::factory(4)->create(['project_id' => $project->id]);
+        Models\DownloadData::factory()->create(['project_id' => $project->id]);
 
         $response = $this->actingAs($user)->get("/projects/{$project->uuid}");
 
