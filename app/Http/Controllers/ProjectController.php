@@ -44,7 +44,7 @@ class ProjectController extends Controller
 
         $downloadData = new Models\DownloadData();
         $downloadData->project_id = $project->id;
-        $downloadData->data = '';
+        $downloadData->data = "If you see this, we're successfully pulling data!";
         $downloadData->save();
 
         $token = $project->createToken('upload_token', ['upload'], now()->addYear());

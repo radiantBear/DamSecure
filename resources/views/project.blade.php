@@ -16,7 +16,7 @@
             <div>
                 <h2>Upload Data</h2>
                 <p>
-                    All data uploaded to <code>/api/data</code> will be displayed here. JSON and
+                    All data uploaded to <code>/data</code> will be displayed here. JSON and
                     CSV data will be parsed into tables for easy viewing!
                 </p>
             </div>
@@ -32,7 +32,7 @@
             <div>
                 <h2>Download Data</h2>
                 <p>
-                    This payload will be emitted verbaitum from <code>/api/data/test</code>. Use
+                    This payload will be emitted verbaitum from <code>/data/test</code>. Use
                     it to test that your project can receive data properly!
                 </p>
             </div>
@@ -46,7 +46,7 @@
                 <div class="col-sm-2 d-flex align-items-center">
                     <button type="submit" class="btn btn-primary">
                         <i class="fa-solid fa-cloud-arrow-up"></i>
-                        Update
+                        Save
                     </button>
                 </div>
             </form>

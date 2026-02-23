@@ -14,7 +14,7 @@
       "get": {
         "summary": "View all records for a project",
         "description": "The project's **download** token must be passed via the `Authorization` header.",
-        "tags": ["UploadData"],
+        "tags": ["Upload Data"],
         "security": [
           {
             "downloadToken": []
@@ -39,7 +39,7 @@
       "post": {
         "summary": "Upload a new record for a project",
         "description": "The project's **upload** token must be passed via the `Authorization` header.",
-        "tags": ["UploadData"],
+        "tags": ["Upload Data"],
         "security": [
           {
             "uploadToken": []
@@ -66,11 +66,38 @@
         }
       }
     },
+    "/data/test": {
+      "get": {
+        "summary": "View the test record for a project",
+        "description": "The project's **download** token must be passed via the `Authorization` header.",
+        "tags": ["Download Data"],
+        "security": [
+          {
+            "downloadToken": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request succeeded; records returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DownloadData"
+                }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/ForbiddenForDownload" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      }
+    },
     "/data/{id}": {
       "put": {
         "summary": "Update a record",
         "description": "The project's **upload** token must be passed via the `Authorization` header.",
-        "tags": ["UploadData"],
+        "tags": ["Upload Data"],
         "security": [
           {
             "uploadToken": []
@@ -97,7 +124,7 @@
       "delete": {
         "summary": "Delete a record",
         "description": "The project's **upload** token must be passed via the `Authorization` header.",
-        "tags": ["UploadData"],
+        "tags": ["Upload Data"],
         "security": [
           {
             "uploadToken": []
@@ -205,6 +232,11 @@
             "example": "json"
           }
         }
+      },
+      "DownloadData": {
+        "type": "string",
+        "description": "The verbatium test record saved on the project page in DamSecure",
+        "example": "If you see this, we're successfully pulling data!"
       }
     },
     "securitySchemes": {
