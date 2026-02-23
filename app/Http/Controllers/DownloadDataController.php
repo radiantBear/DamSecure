@@ -26,6 +26,6 @@ class DownloadDataController extends Controller
 
         $data->update(['data' => $request->input('data')]);
 
-        return response('Updated', 200);
+        return redirect("projects/{$data->project->uuid}");
     }
 }
