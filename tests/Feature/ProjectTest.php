@@ -121,7 +121,7 @@ class ProjectTest extends TestCase
             'project_id' => $project->id,
             'user_id' => $user->id
         ]);
-        $data = Models\Data::factory(4)->create(['project_id' => $project->id]);
+        $data = Models\UploadData::factory(4)->create(['project_id' => $project->id]);
 
         $response = $this->actingAs($user)->get("/projects/{$project->uuid}");
 
@@ -139,7 +139,7 @@ class ProjectTest extends TestCase
             'project_id' => $project->id,
             'user_id' => $other_user->id
         ]);
-        Models\Data::factory(4)->create(['project_id' => $project->id]);
+        Models\UploadData::factory(4)->create(['project_id' => $project->id]);
 
         $response = $this->actingAs($user)->get("/projects/{$project->uuid}");
 
@@ -155,7 +155,7 @@ class ProjectTest extends TestCase
             'project_id' => $project->id,
             'user_id' => $user->id
         ]);
-        Models\Data::factory(4)->create(['project_id' => $project->id]);
+        Models\UploadData::factory(4)->create(['project_id' => $project->id]);
 
         $response = $this->get("/projects/{$project->uuid}");
 

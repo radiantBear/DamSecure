@@ -14,7 +14,7 @@
       "get": {
         "summary": "View all records for a project",
         "description": "The project's **download** token must be passed via the `Authorization` header.",
-        "tags": ["Data"],
+        "tags": ["UploadData"],
         "security": [
           {
             "downloadToken": []
@@ -26,7 +26,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Data"
+                  "$ref": "#/components/schemas/UploadData"
                 }
               }
             }
@@ -39,13 +39,13 @@
       "post": {
         "summary": "Upload a new record for a project",
         "description": "The project's **upload** token must be passed via the `Authorization` header.",
-        "tags": ["Data"],
+        "tags": ["UploadData"],
         "security": [
           {
             "uploadToken": []
           }
         ],
-        "requestBody": { "$ref": "#/components/requestBodies/Data" },
+        "requestBody": { "$ref": "#/components/requestBodies/UploadData" },
         "responses": {
           "201": {
             "description": "Record successfully uploaded",
@@ -70,7 +70,7 @@
       "put": {
         "summary": "Update a record",
         "description": "The project's **upload** token must be passed via the `Authorization` header.",
-        "tags": ["Data"],
+        "tags": ["UploadData"],
         "security": [
           {
             "uploadToken": []
@@ -85,7 +85,7 @@
             "schema": { "type": "integer" }
           }
         ],
-        "requestBody": { "$ref": "#/components/requestBodies/Data" },
+        "requestBody": { "$ref": "#/components/requestBodies/UploadData" },
         "responses": {
           "200": { "description": "Record successfully updated" },
           "400": { "$ref": "#/components/responses/BadRequest" },
@@ -97,7 +97,7 @@
       "delete": {
         "summary": "Delete a record",
         "description": "The project's **upload** token must be passed via the `Authorization` header.",
-        "tags": ["Data"],
+        "tags": ["UploadData"],
         "security": [
           {
             "uploadToken": []
@@ -123,7 +123,7 @@
   },
   "components": {
     "requestBodies": {
-      "Data": {
+      "UploadData": {
         "content": {
           "application/json": {
             "schema": { 
@@ -173,7 +173,7 @@
       }
     },
     "schemas": {
-      "Data": {
+      "UploadData": {
         "type": "object",
         "properties": {
           "id": {

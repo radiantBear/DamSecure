@@ -43,10 +43,10 @@ class Project extends Model
     /**
      * Gets the data uploaded for the project
      */
-    public function project_data(): Relations\HasMany
+    public function project_upload_data(): Relations\HasMany
     {
         // Automatically maps via data.project_id
-        return $this->hasMany(Data::class);
+        return $this->hasMany(UploadData::class);
     }
 
     /**
@@ -54,6 +54,6 @@ class Project extends Model
      */
     public function latest_upload(): Relations\HasOne
     {
-        return $this->hasOne(Data::class)->latestOfMany('updated_at');
+        return $this->hasOne(UploadData::class)->latestOfMany('updated_at');
     }
 }

@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Data;
+use App\Models\UploadData;
 use App\Models\Project;
 use App\Models\User;
 
-class DataPolicy
+class UploadDataPolicy
 {
     /**
      * Determine whether the API key can be used to view data records
@@ -28,7 +28,7 @@ class DataPolicy
     /**
      * Determine whether the API key can be used to update the data record
      */
-    public function update(Project $project, Data $data): bool
+    public function update(Project $project, UploadData $data): bool
     {
         return $data->project_id === $project->id && $project->tokenCan('upload');
     }
@@ -36,7 +36,7 @@ class DataPolicy
     /**
      * Determine whether the user can or the API key can be used to delete the data record
      */
-    public function delete($actor, Data $data): bool
+    public function delete($actor, UploadData $data): bool
     {
         if ($actor instanceof Project) {
             return $data->project_id === $actor->id && $actor->tokenCan('upload');

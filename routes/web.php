@@ -37,5 +37,5 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/logout', [Controllers\UserController::class, 'logout'])->name('logout');
 
-    Route::delete('/data/{data}', [Controllers\DataController::class, 'destroy']);
+    Route::delete('/data/{data}', [Controllers\UploadDataController::class, 'destroy']);
 });

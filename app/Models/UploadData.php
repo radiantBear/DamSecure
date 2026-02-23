@@ -6,17 +6,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations;
 
-class Data extends Model
+class UploadData extends Model
 {
     use HasFactory;
 
     /**
      * The name of the table associated with this model (n.b. it doesn't end with "s")
      */
-    protected $table = 'data';
+    protected $table = 'upload_data';
 
     /**
-     * Attributes that can be mass-filled using `Data::create()`
+     * Attributes that can be mass-filled using `UploadData::create()`
      */
     protected $fillable = [
         'data',

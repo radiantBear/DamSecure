@@ -166,7 +166,7 @@ XML;
     {
         $oldProjects = Models\Project::factory(5)->create()->pluck('id')->all();
         foreach ($oldProjects as $id) {
-            Models\Data::factory(5)->create([
+            Models\UploadData::factory(5)->create([
                 'project_id' => $id,
                 'updated_at' => fake()->dateTime(now()->subYears(2)->subMinute())
             ]);
@@ -174,7 +174,7 @@ XML;
 
         $newProjects = Models\Project::factory(5)->create()->pluck('id')->all();
         foreach ($newProjects as $id) {
-            Models\Data::factory(5)->create([
+            Models\UploadData::factory(5)->create([
                 'project_id' => $id
             ]);
         }

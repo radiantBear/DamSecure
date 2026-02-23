@@ -14,19 +14,19 @@ class DataTest extends TestCase
             'fields' => ['id', 'name', 'temp', 'new', 'object'],
             'data' => [
                 [
-                    'raw' => Models\Data::factory()->create(['type' => 'json', 'data' => '{"id": 1, "name": "John Doe", "temp": 68}']),
+                    'raw' => Models\UploadData::factory()->create(['type' => 'json', 'data' => '{"id": 1, "name": "John Doe", "temp": 68}']),
                     'data' => ['id' => 1, 'name' => 'John Doe', 'temp' => 68]
                 ],
                 [
-                    'raw' => Models\Data::factory()->create(['type' => 'json', 'data' => '{"id": 2, "name": "John Doe", "temp": 70, "new": null}']),
+                    'raw' => Models\UploadData::factory()->create(['type' => 'json', 'data' => '{"id": 2, "name": "John Doe", "temp": 70, "new": null}']),
                     'data' => ['id' => 2, 'name' => 'John Doe', 'temp' => 70, 'new' => null]
                 ],
                 [
-                    'raw' => Models\Data::factory()->create(['type' => 'json', 'data' => '{"id": 3, "name": "John Doe", "temp": 71, "new": true}']),
+                    'raw' => Models\UploadData::factory()->create(['type' => 'json', 'data' => '{"id": 3, "name": "John Doe", "temp": 71, "new": true}']),
                     'data' => ['id' => 3, 'name' => 'John Doe', 'temp' => 71, 'new' => true]
                 ],
                 [
-                    'raw' => Models\Data::factory()->create(['type' => 'json', 'data' => '{"id": 4, "temp": 70, "new": [1,2,3], "object": {"key": "value"}']),
+                    'raw' => Models\UploadData::factory()->create(['type' => 'json', 'data' => '{"id": 4, "temp": 70, "new": [1,2,3], "object": {"key": "value"}']),
                     'data' => ['id' => 4, 'temp' => 70, 'new' => [1, 2, 3], 'object' => ['key' => 'value']]
                 ],
             ]
@@ -79,15 +79,15 @@ class DataTest extends TestCase
             'length' => 4,
             'data' => [
                 [
-                    'raw' => Models\Data::factory()->create(['type' => 'csv', 'data' => '1,70,unknown']),
+                    'raw' => Models\UploadData::factory()->create(['type' => 'csv', 'data' => '1,70,unknown']),
                     'data' => [1, 70, 'unknown']
                 ],
                 [
-                    'raw' => Models\Data::factory()->create(['type' => 'csv', 'data' => '2,other,68,true']),
+                    'raw' => Models\UploadData::factory()->create(['type' => 'csv', 'data' => '2,other,68,true']),
                     'data' => [2, 'other', 68, 'true']
                 ],
                 [
-                    'raw' => Models\Data::factory()->create(['type' => 'csv', 'data' => '3,71,unknown']),
+                    'raw' => Models\UploadData::factory()->create(['type' => 'csv', 'data' => '3,71,unknown']),
                     'data' => [3, 71, 'unknown']
                 ]
             ]
