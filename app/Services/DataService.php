@@ -3,12 +3,36 @@
 namespace App\Services;
 
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Request;
 
 // NOTE: if there are changes to how data is parsed, be sure to update the documentation
 // on the homepage
 
 class DataService
 {
+    public static function getDataType(Request $request)
+    {
+        if ($request->header('Content-Type') === 'application/json') {
+
+
+            return 'json';
+        }
+        if ($request->header('Content-Type') === 'text/csv') {
+            return 'csv';
+        }
+
+        return 'unknown';
+    }
+
+    public static function validateData($data, string $type)
+    {
+        if ($type === 'json' && !json_validate($data)) {
+            return [false, 'Invalid JSON'];
+        }
+
+        return [true, ''];
+    }
+
     public static function splitData(Collection $data)
     {
         $jsonData = [];

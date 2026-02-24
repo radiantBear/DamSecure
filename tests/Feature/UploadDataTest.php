@@ -135,6 +135,94 @@ class UploadDataTest extends TestCase
         ]);
     }
 
+    public function test_data_update_can_be_json(): void
+    {
+        $project = Models\Project::factory()->create();
+        $data = Models\UploadData::factory()->create(['project_id' => $project->id]);
+        $token = $project->createToken('test_token', ['upload']);
+
+        $response = $this
+            ->withHeader('Authorization', 'Bearer ' . $token->plainTextToken)
+            ->putJson('/api/data/' . $data->id, ['id' => 5, 'user' => 'john']);
+
+        $response->assertOk();
+        $this->assertDatabaseHas('upload_data', [
+            'type' => 'json',
+            'data' => '{"id":5,"user":"john"}',
+            'project_id' => $project->id
+        ]);
+        $this->assertDatabaseMissing('upload_data', [
+            'data' => $data->data,
+            'project_id' => $project->id
+        ]);
+    }
+
+
+    public function test_data_update_can_be_csv(): void
+    {
+        $project = Models\Project::factory()->create();
+        $data = Models\UploadData::factory()->create(['project_id' => $project->id]);
+        $token = $project->createToken('test_token', ['upload']);
+
+        // Have to use raw `call` method since Laravel 11 (and consequently the withBody
+        // method) isn't supported at OSU yet
+        $response = $this->call(
+            'PUT',
+            '/api/data/' . $data->id,
+            [],
+            [],
+            [],
+            [
+                'HTTP_AUTHORIZATION' => 'Bearer ' . $token->plainTextToken,
+                'CONTENT_TYPE' => 'text/csv'
+            ],
+            '5,john'
+        );
+
+        $response->assertOk();
+        $this->assertDatabaseCount('upload_data', 1);
+        $this->assertDatabaseHas('upload_data', [
+            'type' => 'csv',
+            'data' => '5,john',
+            'project_id' => $project->id
+        ]);
+        $this->assertDatabaseMissing('upload_data', [
+            'data' => $data->data,
+            'project_id' => $project->id
+        ]);
+    }
+
+
+    public function test_data_update_can_be_undeclared(): void
+    {
+        $project = Models\Project::factory()->create();
+        $data = Models\UploadData::factory()->create(['project_id' => $project->id]);
+        $token = $project->createToken('test_token', ['upload']);
+
+        // Have to use raw `call` method since Laravel 11 (and consequently the withBody
+        // method) isn't supported at OSU yet
+        $response = $this->call(
+            'PUT',
+            '/api/data/' . $data->id,
+            [],
+            [],
+            [],
+            ['HTTP_AUTHORIZATION' => 'Bearer ' . $token->plainTextToken],
+            'some sort of data'
+        );
+
+        $response->assertOk();
+        $this->assertDatabaseHas('upload_data', [
+            'type' => 'unknown',
+            'data' => 'some sort of data',
+            'project_id' => $project->id
+        ]);
+        $this->assertDatabaseMissing('upload_data', [
+            'data' => $data->data,
+            'project_id' => $project->id
+        ]);
+    }
+
 
     public function test_data_deletion_succeeds_with_valid_token(): void
     {
