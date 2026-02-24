@@ -19,7 +19,9 @@ class TestData extends Model
      * Attributes that can be mass-filled using `TestData::create()`
      */
     protected $fillable = [
-        'data'
+        'data',
+        'latest_times_retrieved',
+        'total_times_retrieved'
     ];
 
 

@@ -25,6 +25,12 @@ class TestDataTest extends TestCase
 
         $response->assertOk();
         $response->assertSee($data->data, false);
+        $this->assertDatabaseHas('test_data', [
+            'id' => $data->id,
+            'latest_times_retrieved' => $data->latest_times_retrieved + 1,
+            'total_times_retrieved' => $data -> total_times_retrieved + 1,
+            'updated_at' => $data->updated_at
+        ]);
     }
 
 
@@ -42,6 +48,7 @@ class TestDataTest extends TestCase
         $response->assertRedirect("/projects/{$project->uuid}");
         $this->assertDatabaseHas('test_data', [
             'data' => '{"id": 5, "user": "john"}',
+            'latest_times_retrieved' => 0,
             'project_id' => $project->id
         ]);
     }

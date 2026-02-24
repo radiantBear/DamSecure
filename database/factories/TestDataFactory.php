@@ -15,6 +15,8 @@ class TestDataFactory extends Factory
      */
     public function definition(): array
     {
+        $latest_retrieved = fake()->numberBetween();
+
         return [
             'data' => json_encode([
                 fake()->word() => fake()->word(),
@@ -22,6 +24,8 @@ class TestDataFactory extends Factory
                 fake()->word() => fake()->boolean(),
                 fake()->word() => fake()->words(3),
             ]),
+            'latest_times_retrieved' => $latest_retrieved,
+            'total_times_retrieved' => fake()->numberBetween() + $latest_retrieved,
             'project_id' => Models\Project::factory()
         ];
     }
