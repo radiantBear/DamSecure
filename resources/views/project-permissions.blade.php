@@ -5,9 +5,14 @@
         <div class="col text-center"><h1>{{ $project->name }} Permissions</h1></div>
     </div>
 
-    <div class="row">
-        <div class="col"><h2>Tokens</h2></div>
-    </div>
+    <h2>Tokens</h2>
+    
+    <x-alert>
+        Tokens securely identify your project when making API requests. They should always be
+        kept secret since they allow complete access to your project's data. Tokens can never
+        be viewed after they are rotated. If you forget your token, rotate it and update
+        everything to use the new token.
+    </x-alert>
 
     <table class="table table-responsive table-striped">
         <thead>
@@ -70,9 +75,22 @@
         </tbody>
     </table>
 
-    <div class="row">
-        <div class="col"><h2>Users</h2></div>
-    </div>
+    <h2 class="mt-4">Users</h2>
+    <x-alert>
+        Users are people with access to your project. Their permissions limit what they can
+        do:
+        <ul class="mb-0">
+            <li>
+                <strong>Viewers:</strong> can view project data (including permissions)
+            </li>
+            <li>
+                <strong>Contributors:</strong> Viewer permissions and rotate the API keys
+            </li>
+            <li>
+                <strong>Owners:</strong> Contributor permissions and can manage users
+            </li>
+        </ul>
+    </x-alert>
 
     <table class="table table-responsive table-striped">
         <thead>
@@ -107,16 +125,6 @@
             @endforeach
         </tbody>
     </table>
-
-    <div class="row">
-        <div class="col">
-            <ul>
-                <li><strong>Owner:</strong> has full permissions for the project</li>
-                <li><strong>Contributors:</strong> can view project data and rotate the API key</li>
-                <li><strong>Viewers:</strong> can view project data (including permissions)</li>
-            </ul>
-        </div>
-    </div>
 
     @can('create', [App\Models\ProjectUser::class, $project])
     <form method="post" class="row needs-validation {{ $errors->isNotEmpty() ? 'was-validated' : '' }}" novalidate>
@@ -157,7 +165,7 @@
                     <div class="modal-body">
                         <p>
                             Are you sure you wish to rotate your API token? All new data 
-                            <span class="token-scope-display"></span> with the old token will be
+                            <span class="token-scope-display"></span>s with the old token will be
                             rejected. Any devices you have configured with the old token
                             will need to be updated with the new token before they can
                             resume operation.
