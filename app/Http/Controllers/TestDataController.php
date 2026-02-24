@@ -14,7 +14,13 @@ class TestDataController extends Controller
     {
         $this->authorize('view', Models\TestData::class);
 
-        return response(auth()->user()->project_test_data->data);
+        $data = auth()->user()->project_test_data;
+        Models\TestData::withoutTimestamps(function () use ($data) {
+            $data->increment('latest_times_retrieved');
+            $data->increment('total_times_retrieved');
+        });
+
+        return response($data->data);
     }
 
     /**
@@ -24,7 +30,10 @@ class TestDataController extends Controller
     {
         $this->authorize('update', [Models\TestData::class, $data]);
 
-        $data->update(['data' => $request->input('data')]);
+        $data->update([
+            'data' => $request->input('data'),
+            'latest_times_retrieved' => 0
+        ]);
 
         return redirect("projects/{$data->project->uuid}");
     }
