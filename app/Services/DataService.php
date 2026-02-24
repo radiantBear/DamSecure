@@ -13,8 +13,6 @@ class DataService
     public static function getDataType(Request $request)
     {
         if ($request->header('Content-Type') === 'application/json') {
-
-
             return 'json';
         }
         if ($request->header('Content-Type') === 'text/csv') {
@@ -26,7 +24,11 @@ class DataService
 
     public static function validateData($data, string $type)
     {
-        if ($type === 'json' && !json_validate($data)) {
+        // JSON should be valid and an object so there're keys for column names
+        if (
+            $type === 'json'
+            && (!json_validate($data) || !is_object(json_decode($data)))
+        ) {
             return [false, 'Invalid JSON'];
         }
 
