@@ -13,7 +13,7 @@ class DataService
     public static function getDataType(Request $request)
     {
         if ($request->header('Content-Type') === 'application/json') {
-            
+
 
             return 'json';
         }
