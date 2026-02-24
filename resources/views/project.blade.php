@@ -16,8 +16,8 @@
             <div>
                 <h2>Upload Data</h2>
                 <p>
-                    All data uploaded to <code>/data</code> will be displayed here. JSON and
-                    CSV data will be parsed into tables for easy viewing!
+                    All data uploaded via the API will be displayed here. JSON and CSV
+                    data will be parsed into tables for easy viewing!
                 </p>
             </div>
     
@@ -32,8 +32,8 @@
             <div>
                 <h2>Test Data</h2>
                 <p>
-                    This payload will be emitted verbaitum from <code>/data/test</code>.
-                    Use it to test that your project can receive data properly!
+                    This payload will be emitted verbaitum from test data <code>GET</code>
+                    API endpoint. Use it to test that your project can receive data properly!
                 </p>
             </div>
     
