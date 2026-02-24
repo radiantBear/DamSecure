@@ -50,11 +50,11 @@
             <x-slot:header>How do I upload data?</x-slot:header>
 
             After logging in with your ONID and creating a project, you will be given an
-            initial API key for uploading data. Uploading is as simple as making an HTTP
-            POST request to the <code>public/api/data</code> endpoint on this site,
-            including a header with the key <code>Authorization</code> and contents
-            matching <code>Bearer {api_key}</code> <i>(where <code>{api_key}</code>,
-            including the brackets, is replaced with the key you were given)</i> to
+            initial API token for uploading data. Uploading is as simple as making an HTTP
+            POST request to this site's API, including a header with the token
+            <code>Authorization</code> and contents matching
+            <code>Bearer {api_token}</code> <i>(where <code>{api_token}</code>, including
+            the brackets, is replaced with the upload token you were given)</i> to
             indicate which project the upload is for. For more details, check out the
             <a href="docs/api">API schema</a> or
             <a href="https://github.com/radiantBear/DamSecure/tree/main/docs/examples" target="_blank">
@@ -64,19 +64,36 @@
         <x-accordion-item accordionId="usageAccordion" id="collapseAccessUpload">
             <x-slot:header>How do I access my data after it's uploaded?</x-slot:header>
 
-            If you just need to upload data and view/share it, simply reopen the project
-            on this site. If you need to manipulate/process the data, it can also be
-            exported as a CSV file (coming soon) or retrieved using the download API key.
-            To share the data with others, you can simply click the project's
-            "permissions" button to invite collaborators or viewers by ONID.
+            To view/share your uploaded data, simply reopen your project on this site. To
+            share the data with others, you can click your project's "permissions" button
+            to invite collaborators or viewers by ONID.
+        </x-accordion-item>
+        <x-accordion-item accordionId="usageAccordion" id="collapseDownload">
+            <x-slot:header>
+                Can I download my uploaded data via DamSecure's API?
+            </x-slot:header>
+
+            Yes! You can can retrieve your data via this site's upload data
+            <code>GET</code> API endpoint. You'll need to get a download API token by
+            rotating the download token on your project's Permissions page. Then, include
+            a header with the token <code>Authorization</code> and contents matching
+            <code>Bearer {api_token}</code> <i>(where <code>{api_token}</code>, including
+            the brackets, is replaced with the download token you got)</i> to indicate
+            which project to download data for. For more details, check out the
+            <a href="docs/api">API schema</a> or
+            <a href="https://github.com/radiantBear/DamSecure/tree/main/docs/examples" target="_blank">
+                code examples
+            </a>.
         </x-accordion-item>
         <x-accordion-item accordionId="usageAccordion" id="collapseHostDownload">
-            <x-slot:header>Can I just host my data to download?</x-slot:header>
+            <x-slot:header>Can I just hardcode some data to download?</x-slot:header>
 
             Yes! If you just need to test that your project can download and parse your
-            data, you can do this without worrying about manually uploading data. After
+            data, you can do this without worrying about uploading data via the API. After
             creating you project in DamSecure, simply use the Test Data section to
-            configure the data that <code>GET public/api/data/test</code> will serve.
+            configure the data that this site's test data <code>GET</code> API will serve.
+            For more details on using this API, check out the
+            <a href="docs/api">API schema</a>.
         </x-accordion-item>
     </div>
 </x-layout>
