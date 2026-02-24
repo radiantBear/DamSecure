@@ -39,7 +39,7 @@
             </div>
         </nav>
 
-        <main class="container-xxl pt-4">
+        <main class="container-xxl pt-4 pb-4">
             {{ $slot }}
         </main>
     </body>
