@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\UploadData;
+use App\Services\DataService;
 use Illuminate\Http\Request;
 
 class UploadDataController extends Controller
@@ -32,19 +33,11 @@ class UploadDataController extends Controller
 
         $this->authorize('create', UploadData::class);
 
-        $type = 'unknown';
+        $type = DataService::getDataType($request);
 
-        // NOTE: if there are changes to how data is parsed, be sure to update the
-        // documentation on the homepage
-
-        if ($request->header('Content-Type') === 'application/json') {
-            $type = 'json';
-
-            if (!json_validate($request->getContent())) {
-                return response('Invalid JSON', 400);
-            }
-        } elseif ($request->header('Content-Type') === 'text/csv') {
-            $type = 'csv';
+        [$valid, $err] = DataService::validateData($request->getContent(), $type);
+        if (!$valid) {
+            return response($err, 400);
         }
 
         $data = $project->project_upload_data()->create([
@@ -62,11 +55,14 @@ class UploadDataController extends Controller
     {
         $this->authorize('update', [UploadData::class, $data]);
 
-        if (!json_validate($request->getContent())) {
-            return response('Invalid JSON', 400);
+        $type = DataService::getDataType($request);
+
+        [$valid, $err] = DataService::validateData($request->getContent(), $type);
+        if (!$valid) {
+            return response($err, 400);
         }
 
-        $data->update(['data' => $request->getContent()]);
+        $data->update(['data' => $request->getContent(), 'type' => $type]);
 
         return response('Updated', 200);
     }
