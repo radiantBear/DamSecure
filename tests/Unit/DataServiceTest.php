@@ -8,6 +8,55 @@ use PHPUnit\Framework\TestCase;
 
 class DataServiceTest extends TestCase
 {
+    public function test_validating_json_accepts_objects(): void
+    {
+        $data = '{"a_key": "some value", "another_key": 3}';
+
+        [$valid, $err] = DataService::validateData($data, 'json');
+
+        $this->assertTrue($valid);
+    }
+
+    public function test_validating_json_rejects_numbers(): void
+    {
+        $data = '3.14';
+
+        [$valid, $err] = DataService::validateData($data, 'json');
+
+        $this->assertFalse($valid);
+        $this->assertEquals($err, 'Invalid JSON');
+    }
+
+    public function test_validating_json_rejects_strings(): void
+    {
+        $data = '"some string"';
+
+        [$valid, $err] = DataService::validateData($data, 'json');
+
+        $this->assertFalse($valid);
+        $this->assertEquals($err, 'Invalid JSON');
+    }
+
+    public function test_validating_json_rejects_arrays(): void
+    {
+        $data = '["some string", 14]';
+
+        [$valid, $err] = DataService::validateData($data, 'json');
+
+        $this->assertFalse($valid);
+        $this->assertEquals($err, 'Invalid JSON');
+    }
+
+    public function test_validating_json_rejects_malformed_objects(): void
+    {
+        $data = '{"some key":';
+
+        [$valid, $err] = DataService::validateData($data, 'json');
+
+        $this->assertFalse($valid);
+        $this->assertEquals($err, 'Invalid JSON');
+    }
+
     public function test_splitting_data_works(): void
     {
         $collection = new Collection([

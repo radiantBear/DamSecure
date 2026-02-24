@@ -41,9 +41,9 @@
                 {{ csrf_field() }}
                 {{ method_field('PUT') }}
                 <div class="col-lg-10">
-                    <textarea name="data" class="form-control font-monospace">
-                        {{ $project->project_test_data->data }}
-                    </textarea>
+                    <textarea name="data" class="form-control font-monospace">{{
+                        $project->project_test_data->data
+                    }}</textarea>
                 </div>
                 <div class="col-sm-2 d-flex align-items-center">
                     <button type="submit" class="btn btn-primary">
