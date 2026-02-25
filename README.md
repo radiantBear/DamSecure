@@ -45,6 +45,15 @@
 [devcontainers]: https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers
 [gh_signing]: https://docs.github.com/en/authentication/managing-commit-signature-verification/about-commit-signature-verification#ssh-commit-signature-verification
 
+## Deploying
+To deploy a DamSecure update to OSU's servers, follow these steps:
+1. Ensure all updates are merged to the `main` branch of this repository
+1. SSH into OSU's server and `cd` to the directory where DamSecure's source lives
+1. Run `git pull` to get the latest changes
+1. Run `bash scripts/allow.sh` to ensure all files have the necessary permissions for PHP
+    to load them
+1. Run `php artisan migrate` to apply any database changes
+
 ## Laravel
 This project is built on Laravel to simplify development. Before making changes, check out
 their [directory structure][laravel-directory] and [architecture concepts][laravel-arch]
