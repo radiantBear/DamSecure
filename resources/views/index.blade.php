@@ -51,8 +51,8 @@
 
             After logging in with your ONID and creating a project, you will be given an
             initial API token for uploading data. Uploading is as simple as making an HTTP
-            POST request to this site's API, including a header with the token
-            <code>Authorization</code> and contents matching
+            <code>POST</code> request to this site's upload data API, including a header
+            with the token <code>Authorization</code> and contents matching
             <code>Bearer {api_token}</code> <i>(where <code>{api_token}</code>, including
             the brackets, is replaced with the upload token you were given)</i> to
             indicate which project the upload is for. For more details, check out the
@@ -91,8 +91,8 @@
             Yes! If you just need to test that your project can download and parse your
             data, you can do this without worrying about uploading data via the API. After
             creating you project in DamSecure, simply use the Test Data section to
-            configure the data that this site's test data <code>GET</code> API will serve.
-            For more details on using this API, check out the
+            configure the data that this site's test data <code>GET</code> API endpoint
+            will serve. For more details on using this API, check out the
             <a href="docs/api">API schema</a>.
         </x-accordion-item>
     </div>
