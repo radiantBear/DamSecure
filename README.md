@@ -9,9 +9,9 @@
 1. Tell Git to sign commits using that key (omit `--global` if you only want to do so for
     this repo)
     ```console
-    foo@bar:~$ git config --global gpg.format ssh
-    foo@bar:~$ git config --global user.signingkey ~/.ssh/gitsigning.pub
-    foo@bar:~$ git config --global commit.gpgsign true
+    foo@bar:~/DamSecure$ git config --global gpg.format ssh
+    foo@bar:~/DamSecure$ git config --global user.signingkey ~/.ssh/gitsigning.pub
+    foo@bar:~/DamSecure$ git config --global commit.gpgsign true
     ```
 1. Perform the following step for your dev environment of choice:
     - If using VS Code and local dev containers, install the
@@ -27,6 +27,19 @@
                 `path/to/file` is replaced with the filepath to copy
 1. Run `php artisan key:generate`
 1. Start developing!
+
+> [!IMPORTANT]
+>
+> OSU's servers run PHP as a dedicated user that is not part of the user or group for this
+> project's files. To ensure that PHP can access all files to execute code and render
+> pages, all accessed files need the permissions `0o664` and all directories need the
+> permissions `0o775`. For simplicity, you can add the
+> [`scripts/allow.sh`](./scripts/allow.sh) script as a pre-commit hook to ensure all
+> committed files have the correct permissions:
+>
+> ```console
+> foo@bar:~/DamSecure$ cp ./scripts/allow.sh ./.git/hooks/pre-commit
+> ```
 
 
 [devcontainers]: https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers
