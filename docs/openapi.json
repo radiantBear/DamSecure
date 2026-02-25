@@ -157,7 +157,7 @@
               "type": "string",
               "format": "json",
               "maxLength": 65535,
-              "description": "Any valid JSON string. Using an object [as the top-level structure](https://chatgpt.com/share/693b4647-45c8-800d-a709-6a940ec0c7fb) is recommended because (a) the object's keys can be extracted to generate table columns in the web view, and (b) uploads are future-proof because any new fields, removed fields, or reordered fields are still clearly identifiable by their keys. It is harder to make these changes when using arrays or single values as the top-level structure because it's not automatically clear what each entry's values mean."
+              "description": "Any valid JSON object. This content type is highly recommended because (a) the object's keys can be extracted to generate table columns in the web view and (b) uploads are future-proof because any new fields, removed fields, or reordered fields are still clearly identifiable by their keys. It is harder to make these changes when using other content types because it's not automatically clear what each value means."
             },
             "example": { "user": "John Doe", "temperature": 68 }
           },
