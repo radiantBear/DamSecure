@@ -12,7 +12,7 @@ do
         echo "Run 'chmod 775 \"$f\"' (or 'sh scripts/allow.sh' to fix all permissions) from the repository root before committing."
         exit 1
 
-    elif [ -f "$f" ] && [ "$FILE_PERMISSIONS" -ne '664' ]; then
+    elif [ -f "$f" ] && [ "$FILE_PERMISSIONS" -ne '775' ]; then
         echo
         echo "ERROR: Found file '$f' with incorrect permissions '$FILE_PERMISSIONS'"
         echo "Would you like to update this file's permissions to rwxrwxr-x?"

@@ -6,9 +6,5 @@ for f in $(find . \( -name "*.php" -o -path "./resources/*" -o -path "./public/*
     if [ "$f" = "." ] || [ "$f" = ".." ]; then
         continue
     fi
-    if [ -d "$f" ]; then
-        chmod 775 "$f"
-    else
-        chmod 664 "$f"
-    fi
+    chmod 775 "$f"
 done
