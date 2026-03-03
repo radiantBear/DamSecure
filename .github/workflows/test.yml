@@ -1,6 +1,10 @@
 name: Test
 
-on: [pull_request]
+on: 
+  pull_request:
+  push:
+    branches:
+      - main
 
 permissions:
   contents: read
@@ -41,4 +45,14 @@ jobs:
         run: docker compose exec apache_php php artisan migrate:fresh
 
       - name: Test
-        run: docker compose exec apache_php php artisan test
+        run: docker compose exec apache_php php artisan test -- --coverage-cobertura coverage.xml
+      
+      - name: Retrieve coverage file
+        run: docker compose cp apache_php:/var/www/html/coverage.xml ./coverage.xml
+      
+      - name: Report coverage to DeepSource
+        uses: deepsourcelabs/test-coverage-action@master
+        with:
+          key: php
+          coverage-file: ./coverage.xml
+          dsn: ${{ secrets.DEEPSOURCE_DSN }}
