@@ -25,10 +25,10 @@ reference documentation the same way you would when completing this project inde
         ```py
         from urllib.request import urlopen, Request
 
-        API_DOMAIN = "https://eecs.engineering.oregonstate.edu/education/damsecure/public"
+        API_URL = "https://eecs.engineering.oregonstate.edu/education/damsecure/public/api/data"
 
         request = Request(
-            url=API_DOMAIN + "/api/data",
+            url=API_URL,
             data="Hello world!".encode("utf-8"),
             method="POST",
             headers={
@@ -79,12 +79,13 @@ reference documentation the same way you would when completing this project inde
     any necessary changes in [the DamSecure portal][homepage] and to this code so that it
     downloads the records:
     ```py
+    import json
     from urllib.request import urlopen, Request
 
-    API_DOMAIN = "https://eecs.engineering.oregonstate.edu/education/damsecure/public"
+    API_URL = "https://eecs.engineering.oregonstate.edu/education/damsecure/public/api/data"
 
     request = Request(
-        url=url + "/api/data",
+        url=API_URL,
         method="GET",
         headers={
             "Accept": "application/json",
