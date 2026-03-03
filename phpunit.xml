@@ -4,6 +4,7 @@
          bootstrap="vendor/autoload.php"
          colors="true"
 >
+    <coverage includeUncoveredFiles="true"></coverage>
     <testsuites>
         <testsuite name="Unit">
             <directory>tests/Unit</directory>
@@ -15,7 +16,14 @@
     <source>
         <include>
             <directory>app</directory>
+            <directory>routes</directory>
         </include>
+        <exclude>
+            <directory>app/Console</directory>
+            <directory>app/Exceptions</directory>
+            <directory>app/Http/Middleware</directory>
+            <directory>app/Providers</directory>
+        </exclude>
     </source>
     <php>
         <env name="APP_ENV" value="testing"/>
