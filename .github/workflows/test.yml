@@ -45,7 +45,7 @@ jobs:
         run: docker compose exec apache_php php artisan migrate:fresh
 
       - name: Test
-        run: docker compose exec apache_php php artisan test -- --coverage-cobertura coverage.xml
+        run: docker compose exec apache_php php artisan test --coverage-cobertura coverage.xml
       
       - name: Retrieve coverage file
         run: docker compose cp apache_php:/var/www/html/coverage.xml ./coverage.xml
