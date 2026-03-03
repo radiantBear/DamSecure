@@ -41,17 +41,23 @@
             <form method="post" action="data/test/{{ $project->project_test_data->id }}" class="row">
                 {{ csrf_field() }}
                 {{ method_field('PUT') }}
-                <div class="col-lg-10">
-                    <textarea name="data" class="form-control font-monospace">{{
+                <div class="col-lg">
+                    <textarea
+                        name="data"
+                        class="form-control font-monospace"
+                        @cannot('update', $project->project_test_data) disabled @endcannot
+                    >{{
                         $project->project_test_data->data
                     }}</textarea>
                 </div>
+                @can('update', $project->project_test_data)
                 <div class="col-sm-2 d-flex align-items-center">
                     <button type="submit" class="btn btn-primary">
                         <i class="fa-solid fa-cloud-arrow-up"></i>
                         Save
                     </button>
                 </div>
+                @endcan
                 <small>
                     Last updated at {{ $project->project_test_data->updated_at }}.
                     This data retrieved via API
