@@ -16,6 +16,8 @@ RUN echo "Acquire::http::Pipeline-Depth 0; \n Acquire::http::No-Cache true;" > /
     apt-get install -y libyaml-dev zip unzip
 # Install built-in PHP extensions
 RUN docker-php-ext-install mysqli pdo_mysql
+# Install test coverage extension
+RUN pecl install xdebug && docker-php-ext-enable xdebug
 # Allow Apache to rewrite URLs via .htaccess 
 RUN a2enmod rewrite
 # Set timezone
@@ -30,3 +32,5 @@ COPY . .
 RUN composer install
 
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+
+ENV XDEBUG_MODE=coverage
