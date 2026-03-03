@@ -32,7 +32,7 @@
                         @auth
                         <li class="nav-item"><a href="{{ route('logout') }}" class="nav-link">Log out</a></li>
                         @else
-                        <li class="nav-item"><a href="{{ route('login') }}" class="nav-link">Log in</a></li>
+                        <li class="nav-item"><a href="{{ route('login') }}" class="nav-link">Log in with ONID</a></li>
                         @endauth
                     </ul>
                 </div>

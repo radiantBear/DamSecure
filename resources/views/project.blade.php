@@ -6,7 +6,8 @@
         <div class="col text-center"><h1>{{ $project->name }}</h1></div>
         <div class="col-lg-4 d-flex gap-2 justify-content-end align-items-center">
             <a href="projects/{{ $project->uuid }}/permissions" class="btn btn-primary">
-                <i class="fa-solid fa-id-card"></i> Permissions
+                <i class="fa-solid fa-key"></i>/<i class="fa-solid fa-user-shield"></i>
+                Manage Access
             </a>
         </div>
     </div>
