@@ -23,6 +23,16 @@
                     defaultModelRendering: "model",
                     defaultModelExpandDepth: 2, // Expand models in route bodies
                     defaultModelsExpandDepth: -1, // Hide models at the bottom of the page
+                    requestSnippetsEnabled: true,
+                    requestSnippets: {
+                        generators: {
+                            curl_bash: { title: "cURL (bash)", syntax: "bash" },
+                            curl_powershell: { title: "cURL (PowerShell)", syntax: "powershell" },
+                            curl_cmd: {},
+                        },
+                        defaultExpanded: true,
+                        languages: ['curl_bash', 'curl_powershell']
+                    },
                     spec
                 });
             })
