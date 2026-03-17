@@ -120,6 +120,7 @@ void sendRequest(NetworkClientSecure *client, int data) {
     }
 
     Serial.println("Making POST request...");
+    https.addHeader("Accept", "application/json");
     https.addHeader("Authorization", api_token);
     https.addHeader("Content-Type", "text/plain");
     int httpCode = https.POST(String(data));
