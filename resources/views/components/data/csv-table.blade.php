@@ -26,7 +26,7 @@
                     <form method="post" action="data/{{ $d['raw']->id }}">
                         {{ csrf_field() }}
                         {{ method_field('DELETE') }}
-                        <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
+                        <button type="submit" class="btn btn-outline-danger"><i class="fa-solid fa-trash"></i></button>
                     </form>
                     @endcan
                 </td>
