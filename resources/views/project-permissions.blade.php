@@ -81,10 +81,10 @@
         do:
         <ul class="mb-0">
             <li>
-                <strong>Viewers:</strong> can view project data (including permissions)
+                <strong>Viewers:</strong> Can view project data (including permissions)
             </li>
             <li>
-                <strong>Contributors:</strong> Viewer permissions and rotate the API keys
+                <strong>Contributors:</strong> Viewer permissions and can rotate API tokens
             </li>
             <li>
                 <strong>Owners:</strong> Contributor permissions and can manage users
