@@ -89,11 +89,16 @@
         </x-accordion-item>
         <x-accordion-item accordionId="usageAccordion" id="collapseDownload">
             <x-slot:header>
-                Can I download my uploaded data via DamSecure's API?
+                Can I download my uploaded data?
             </x-slot:header>
 
-            Yes! You can can retrieve your data via this site's upload data
-            <code>GET</code> API endpoint. You'll need to get a download API token by
+            Yes! You can can download your data either as a CSV file on this site or as
+            JSON data via this site's upload data <code>GET</code> API endpoint. To
+            download your data as a CSV file, visit your project page and press the blue
+            "download" button at the top of the data table.
+            <br>
+            <br>
+            To use the API, you'll need to get a download API token by
             rotating the download token on your project's Permissions page. Then, include
             a header with the token <code>Authorization</code> and contents matching
             <code>Bearer {api_token}</code> (e.g.

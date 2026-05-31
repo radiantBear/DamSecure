@@ -13,6 +13,7 @@ class UnknownTable extends Component
      */
     public function __construct(
         public array $unknownData,
+        public ?string $projectUuid = null,
     ) {
     }
 

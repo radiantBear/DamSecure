@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models;
 use App\Models\UploadData;
 use App\Services\DataService;
 use Illuminate\Http\Request;
@@ -20,6 +21,45 @@ class UploadDataController extends Controller
         $this->authorize('viewAny', [UploadData::class, $project]);
 
         return response()->json($project->project_upload_data);
+    }
+
+    /**
+     * Download the resource as CSV.
+     */
+    public function download(Request $request, Models\Project $project)
+    {
+        $this->authorize('view', [Models\Project::class, $project]);
+
+        $validated = $request->validate([
+            'type' => 'required|in:json,csv,unknown'
+        ]);
+
+        $data = $project->project_upload_data()->where('type', $validated['type'])->get();
+        if ($data->count() < 1) {
+            return back()->withErrors([
+                'downloadError' => 'No ' . $validated['type'] . '-type records'
+            ]);
+        }
+
+        if ($validated['type'] === 'json') {
+            $tabulated_data = DataService::jsonToTable($data);
+        } elseif ($validated['type'] === 'csv') {
+            $tabulated_data = DataService::csvToTable($data);
+        } else {
+            $tabulated_data = DataService::unknownToTable($data);
+        }
+
+        return response()->streamDownload(function () use ($tabulated_data) {
+            // Can't test due to Laravel errors handling streamed response - skipcq: TCV-001
+            $handle = fopen('php://output', 'w');
+            try {
+                foreach ($tabulated_data as $row) {
+                    fputcsv($handle, $row);
+                }
+            } finally {
+                fclose($handle);
+            }
+        }, "{$project->name}_{$validated['type']}_data.csv");
     }
 
     /**

@@ -157,4 +157,69 @@ class DataServiceTest extends TestCase
 
         $this->assertEquals(4, $result);
     }
+
+    public function test_getting_json_table_normalizes_fields()
+    {
+        $collection = new Collection([
+            (object)[ 'type' => 'json', 'data' => json_encode(['id' => 1, 'name' => 'John Doe', 'temp' => 68]), 'created_at' => '2024-01-01' ],
+            (object)[ 'type' => 'json', 'data' => json_encode(['id' => 2, 'name' => 'John Doe', 'temp' => 70, 'new' => null]), 'created_at' => '2024-01-03' ],
+            (object)[ 'type' => 'json', 'data' => json_encode(['id' => 3, 'name' => 'John Doe', 'temp' => 71, 'new' => true]), 'created_at' => '2024-01-04' ],
+            (object)[ 'type' => 'json', 'data' => json_encode(['id' => 4, 'temp' => 70, 'new' => [1, 2, 3], 'object' => ['key' => 'value']]), 'created_at' => '2024-01-06' ],
+        ]);
+
+        $result = DataService::jsonToTable($collection);
+
+        $this->assertEquals(
+            $result,
+            [
+                ['id', 'name', 'temp', 'new', 'object'],
+                [1, 'John Doe', 68, null, null],
+                [2, 'John Doe', 70, null, null],
+                [3, 'John Doe', 71, true, null],
+                [4, null, 70, [1, 2, 3], ['key' => 'value']],
+            ]
+        );
+    }
+
+    public function test_getting_csv_table_normalizes_fields()
+    {
+        $collection = new Collection([
+            (object)[ 'type' => 'csv', 'data' => '1,70,unknown', 'created_at' => '2024-01-01' ],
+            (object)[ 'type' => 'csv', 'data' => '2,other,68,true', 'created_at' => '2024-01-03' ],
+            (object)[ 'type' => 'csv', 'data' => '3,71,unknown', 'created_at' => '2024-01-04' ],
+        ]);
+
+        $result = DataService::csvToTable($collection);
+
+        $this->assertEquals(
+            $result,
+            [
+                ['', '', '', ''],
+                ['1', '70', 'unknown'],
+                ['2', 'other', '68', 'true'],
+                ['3', '71', 'unknown'],
+            ]
+        );
+    }
+
+    public function test_getting_unknown_table_normalizes_fields()
+    {
+        $collection = new Collection([
+            (object)[ 'type' => 'csv', 'data' => "[1, 70, 'unknown']", 'created_at' => '2024-01-01' ],
+            (object)[ 'type' => 'csv', 'data' => '{"data": true}', 'created_at' => '2024-01-03' ],
+            (object)[ 'type' => 'csv', 'data' => '1,2,3', 'created_at' => '2024-01-04' ],
+        ]);
+
+        $result = DataService::unknownToTable($collection);
+
+        $this->assertEquals(
+            $result,
+            [
+                ['data'],
+                ["[1, 70, 'unknown']"],
+                ['{"data": true}'],
+                ['1,2,3'],
+            ]
+        );
+    }
 }

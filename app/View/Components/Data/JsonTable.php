@@ -13,6 +13,7 @@ class JsonTable extends Component
      */
     public function __construct(
         public array $json,
+        public ?string $projectUuid = null,
     ) {
     }
 
