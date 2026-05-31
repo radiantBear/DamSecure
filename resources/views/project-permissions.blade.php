@@ -19,7 +19,7 @@
             <tr>
                 <th>Token Type</th>
                 <th>Last Used</th>
-                <th>Expiration Date</th>
+                <th>Expiration Date (UTC)</th>
                 <th></th>
             </tr>
         </thead>

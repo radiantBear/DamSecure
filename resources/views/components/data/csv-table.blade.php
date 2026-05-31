@@ -10,7 +10,7 @@
                 @for ($i = 0; $i < $csv['length']; $i++)
                 <th></th>
                 @endfor
-                <th>Creation Timestamp</th>
+                <th>Creation Timestamp (UTC)</th>
                 <th></th>
             </tr>
         </thead>

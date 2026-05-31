@@ -10,7 +10,7 @@
                 @foreach ($json['fields'] as $f)
                 <th>{{ $f }}</th>
                 @endforeach
-                <th>Creation Timestamp</th>
+                <th>Creation Timestamp (UTC)</th>
                 <th></th>
             </tr>
         </thead>
