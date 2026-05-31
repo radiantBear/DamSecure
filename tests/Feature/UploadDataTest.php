@@ -50,6 +50,44 @@ class UploadDataTest extends TestCase
     }
 
 
+    public function test_data_download_succeeds_as_csv(): void
+    {
+        $user = Models\User::factory()->create();
+        $project = Models\Project::factory()->create();
+        Models\UploadData::factory(20)->csv()->create(['project_id' => $project->id]);
+        Models\ProjectUser::factory()->create([
+                'project_id' => $project->id,
+                'user_id' => $user->id
+            ]);
+
+        $response = $this
+            ->actingAs($user)
+            ->get("/projects/{$project->uuid}/data?type=csv");
+
+        $response->assertOk();
+        $response->assertDownload("{$project->name}_csv_data.csv");
+    }
+
+
+    public function test_data_download_succeeds_as_unknown(): void
+    {
+        $user = Models\User::factory()->create();
+        $project = Models\Project::factory()->create();
+        Models\UploadData::factory(20)->unknown()->create(['project_id' => $project->id]);
+        Models\ProjectUser::factory()->create([
+                'project_id' => $project->id,
+                'user_id' => $user->id
+            ]);
+
+        $response = $this
+            ->actingAs($user)
+            ->get("/projects/{$project->uuid}/data?type=unknown");
+
+        $response->assertOk();
+        $response->assertDownload("{$project->name}_unknown_data.csv");
+    }
+
+
     public function test_data_insertion_succeeds_with_valid_token(): void
     {
         $project = Models\Project::factory()->create();

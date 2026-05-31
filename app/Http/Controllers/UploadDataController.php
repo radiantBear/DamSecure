@@ -50,7 +50,7 @@ class UploadDataController extends Controller
         }
 
         return response()->streamDownload(function () use ($tabulated_data) {
-            dump('also made it here');
+            // Can't test due to Laravel errors handling streamed response - skipcq: TCV-001
             $handle = fopen('php://output', 'w');
             try {
                 foreach ($tabulated_data as $row) {
