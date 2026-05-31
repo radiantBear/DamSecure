@@ -15,6 +15,7 @@
         </div>
     </section>
 
+    <h2>Uploaded Content Type Comparison</h2>
     <x-sample-data />
 
     <h2>FAQ</h2>

@@ -1,7 +1,7 @@
 <div>
     <div class="row">
         <div class="col">
-            <h2 class="h3">CSV Data</h2>
+            <h3>CSV Data</h3>
         </div>
     </div>
     <table class="table table-responsive table-striped">
