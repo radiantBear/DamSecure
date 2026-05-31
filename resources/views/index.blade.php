@@ -18,7 +18,7 @@
     <h2>Uploaded Content Type Comparison</h2>
     <x-sample-data />
 
-    <h2>FAQ</h2>
+    <h2 id="faq">FAQ</h2>
 
     <h3 class="mt-3 mb-2">General</h3>
     <div class="accordion my-2" id="faqAccordion">

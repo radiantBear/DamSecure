@@ -28,6 +28,7 @@
                         @auth
                         <li class="nav-item"><a href="{{ url('/projects') }}" class="nav-link">Projects</a></li>
                         @endauth
+                        <li class="nav-item"><a href="{{ url('/') }}#faq" class="nav-link">FAQ</a></li>
                         <li class="nav-item"><a href="{{ url('/docs/api') }}" class="nav-link">API schema</a></li>
                         @auth
                         <li class="nav-item"><a href="{{ route('logout') }}" class="nav-link">Log out</a></li>
