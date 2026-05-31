@@ -19,8 +19,8 @@
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Created</th>
-                        <th>Last Upload</th>
+                        <th>Created (UTC)</th>
+                        <th>Last Upload (UTC)</th>
                     </tr>
                 </thead>
                 <tbody>

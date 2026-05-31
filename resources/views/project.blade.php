@@ -52,7 +52,7 @@
                     </button>
                 </div>
                 <small>
-                    Last updated at {{ $project->project_test_data->updated_at }}.
+                    Last updated at {{ $project->project_test_data->updated_at }} UTC.
                     This data retrieved via API
                     {{ $project->project_test_data->latest_times_retrieved }} times; all
                     versions retrieved via API

@@ -8,7 +8,7 @@
         <thead>
             <tr>
                 <th>Data</th>
-                <th>Creation Timestamp</th>
+                <th>Creation Timestamp (UTC)</th>
                 <th></th>
             </tr>
         </thead>
