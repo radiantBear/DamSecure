@@ -43,6 +43,14 @@
             last upload. Once a project has received no uploads for 2 years, it will be
             automatically deleted.
         </x-accordion-item>
+        <x-accordion-item accordionId="faqAccordion" id="collapseTokenRotation">
+            <x-slot:header>If I forget my API token, do I have to create a new project?</x-slot:header>
+
+            No! You can get a new API token by pressing the "Manage Access" button from
+            your project page, then pressing the "Rotate" button next to the token you
+            forgot. You'll have to update your project with the new token, but this helps
+            you keep all uploaded data in the same place.
+        </x-accordion-item>
     </div>
     
     <h3 class="mt-3 mb-2">Usage</h3>
