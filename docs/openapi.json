@@ -3,7 +3,7 @@
   "info": {
     "title": "DamSecure IoT Portal API",
     "version": "1.0.0",
-    "description": "Connect your project to the Internet with ease",
+    "description": "Welcome! This page explains how to upload, retrieve, and modify data on DamSecure using its API. If this is your first time using an HTTP API, you may also find it helpful to do some background reading about <a href=\"https://www.codecademy.com/article/what-is-http\" target=\"_blank\">what HTTP is</a> and <a href=\"https://codesignal.com/learn/courses/basics-of-http-requests-with-java-7/lessons/introduction-to-rest-apis-and-http-requests\" target=\"_blank\">how REST APIs work</a>. If you're already familiar with HTTP APIs and are looking to get started quickly, you may wish to check out the <a href=\"https://github.com/radiantBear/DamSecure/tree/main/docs/examples\" target=\"_blank\">code examples</a> first, then return here when you need more details.",
     "license": {
       "name": "AGPL 3.0",
       "url": "https://www.gnu.org/licenses/agpl-3.0.txt"

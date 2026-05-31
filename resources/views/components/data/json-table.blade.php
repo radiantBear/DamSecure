@@ -1,7 +1,7 @@
 <div>
     <div class="row">
         <div class="col">
-            <h2 class="h3">JSON Data</h2>
+            <h3>JSON Data</h3>
         </div>
     </div>
     <table class="table table-responsive table-striped">
@@ -10,7 +10,7 @@
                 @foreach ($json['fields'] as $f)
                 <th>{{ $f }}</th>
                 @endforeach
-                <th>Creation Timestamp</th>
+                <th>Creation Timestamp (UTC)</th>
                 <th></th>
             </tr>
         </thead>
@@ -37,7 +37,7 @@
                     <form method="post" action="data/{{ $d['raw']->id }}">
                         {{ csrf_field() }}
                         {{ method_field('DELETE') }}
-                        <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
+                        <button type="submit" class="btn btn-outline-danger"><i class="fa-solid fa-trash"></i></button>
                     </form>
                     @endcan
                 </td>

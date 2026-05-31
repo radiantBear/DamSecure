@@ -1,7 +1,7 @@
 <div>
     <div class="row">
         <div class="col">
-            <h2 class="h3">CSV Data</h2>
+            <h3>CSV Data</h3>
         </div>
     </div>
     <table class="table table-responsive table-striped">
@@ -10,7 +10,7 @@
                 @for ($i = 0; $i < $csv['length']; $i++)
                 <th></th>
                 @endfor
-                <th>Creation Timestamp</th>
+                <th>Creation Timestamp (UTC)</th>
                 <th></th>
             </tr>
         </thead>
@@ -26,7 +26,7 @@
                     <form method="post" action="data/{{ $d['raw']->id }}">
                         {{ csrf_field() }}
                         {{ method_field('DELETE') }}
-                        <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
+                        <button type="submit" class="btn btn-outline-danger"><i class="fa-solid fa-trash"></i></button>
                     </form>
                     @endcan
                 </td>

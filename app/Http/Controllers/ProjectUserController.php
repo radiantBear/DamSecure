@@ -91,6 +91,7 @@ class ProjectUserController extends Controller
 
         $project_user->delete();
 
-        return redirect("projects/{$project_user->project->uuid}/permissions");
+        return redirect("projects/{$project_user->project->uuid}/permissions")
+               ->with(['removedUser' => $project_user->user->onid]);
     }
 }
