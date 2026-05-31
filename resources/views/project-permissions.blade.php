@@ -130,7 +130,7 @@
     <form method="post" class="row needs-validation {{ $errors->isNotEmpty() ? 'was-validated' : '' }}" novalidate>
         {{ csrf_field() }}
         <div class="col">
-            <input name="onid" type="text" placeholder="ONID" class="form-control" required>
+            <input name="onid" type="text" placeholder="ONID" class="form-control" required autocomplete="off" spellcheck="off" autocorrect="off">
             @error('onid')
             <div class="invalid-feedback">{{ $message }}</div>
             @enderror
