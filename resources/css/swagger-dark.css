@@ -273,7 +273,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
     /* text */
     --primary-text-color: rgb(179, 187, 201);
-    --secondary-text-color: rgba(177, 203, 255, 0.3);
+    --secondary-text-color: rgba(179, 187, 201, 0.8);
 
     /* border */
     --block-border-color: rgba(220, 220, 255, 0.1);
