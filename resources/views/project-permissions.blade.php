@@ -152,6 +152,41 @@
 
     <x-api-token-display />
 
+    @if (session('removedUser'))
+    <div class="modal fade" id="revokeUserConfirmModal" tabindex="-1" aria-labelledby="revokeUserConfirmModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="revokeUserConfirmModalLabel">
+                        <i class="fa-solid fa-check text-success"></i>
+                        {{ session('removedUser') }} removed
+                    </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close"></button>
+                </div>
+                <div class="modal-body d-flex flex-column gap-4">
+                    <p>
+                        <b>{{ session('removedUser') }}</b> has been removed from this
+                        project and can no longer access it on the DamSecure website.
+                    </p>
+
+                    <x-alert type="warning">
+                        <strong>Warning:</strong> If <b>{{ session('removedUser') }}</b>
+                        might know either of your API tokens, you should rotate the tokens
+                        immediately so <b>{{ session('removedUser') }}</b> cannot continue
+                        accessing your project via the DamSecure API.
+                    </x-alert>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const myModal = new bootstrap.Modal(document.getElementById('revokeUserConfirmModal'));
+            myModal.show();
+        });
+    </script>
+    @endif
+
     <div class="modal fade" id="rotateTokenModal" tabindex="-1" aria-labelledby="rotateTokenModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
