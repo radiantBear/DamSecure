@@ -22,11 +22,11 @@
                 </p>
             </div>
     
-            <x-data.json-table :$json />
+            <x-data.json-table :$json :project-uuid="$project->uuid" />
     
-            <x-data.csv-table :$csv />
+            <x-data.csv-table :$csv :project-uuid="$project->uuid" />
     
-            <x-data.unknown-table :unknown-data=$unknown />
+            <x-data.unknown-table :unknown-data=$unknown :project-uuid="$project->uuid" />
         </div>
     
         <div class="d-flex flex-column gap-4">

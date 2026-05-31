@@ -27,6 +27,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('projects', Controllers\ProjectController::class);
     Route::get('/projects/{project}/tokens', [Controllers\ProjectController::class, 'indexTokens']);
     Route::put('/projects/{project}/tokens/{scope}', [Controllers\ProjectController::class, 'rotateToken']);
+    Route::get('/projects/{project}/data', [Controllers\UploadDataController::class, 'download']);
 
     Route::controller(Controllers\ProjectUserController::class)->group(function () {
         Route::get('/projects/{project}/permissions', 'index');

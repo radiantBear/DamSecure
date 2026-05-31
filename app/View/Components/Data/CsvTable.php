@@ -13,6 +13,7 @@ class CsvTable extends Component
      */
     public function __construct(
         public array $csv,
+        public ?string $projectUuid = null,
     ) {
     }
 

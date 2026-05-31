@@ -31,6 +31,25 @@ class UploadDataTest extends TestCase
     }
 
 
+    public function test_data_download_succeeds_when_logged_in(): void
+    {
+        $user = Models\User::factory()->create();
+        $project = Models\Project::factory()->create();
+        Models\UploadData::factory(20)->json()->create(['project_id' => $project->id]);
+        Models\ProjectUser::factory()->create([
+                'project_id' => $project->id,
+                'user_id' => $user->id
+            ]);
+
+        $response = $this
+            ->actingAs($user)
+            ->get("/projects/{$project->uuid}/data?type=json");
+
+        $response->assertOk();
+        $response->assertDownload("{$project->name}_json_data.csv");
+    }
+
+
     public function test_data_insertion_succeeds_with_valid_token(): void
     {
         $project = Models\Project::factory()->create();
@@ -296,6 +315,50 @@ class UploadDataTest extends TestCase
             ->getJson('/api/data');
 
         $response->assertForbidden();
+    }
+
+
+    public function test_data_download_fails_with_token(): void
+    {
+        $project = Models\Project::factory()->create();
+        Models\UploadData::factory(20)->json()->create(['project_id' => $project->id]);
+        $token = $project->createToken('test_token', ['download']);
+
+        $response = $this
+            ->withHeader('Authorization', 'Bearer ' . $token->plainTextToken)
+            ->getJson("/projects/{$project->uuid}/data?type=json");
+
+        $response->assertUnauthorized();
+    }
+
+
+    public function test_data_download_fails_without_authentication(): void
+    {
+        $project = Models\Project::factory()->create();
+        Models\UploadData::factory(20)->json()->create(['project_id' => $project->id]);
+
+        $response = $this
+            ->get("/projects/{$project->uuid}/data?type=json");
+
+        $response->assertRedirect('/login');
+    }
+
+
+    public function test_data_download_fails_when_no_records(): void
+    {
+        $user = Models\User::factory()->create();
+        $project = Models\Project::factory()->create();
+        Models\UploadData::factory(20)->json()->create(['project_id' => $project->id]);
+        Models\ProjectUser::factory()->create([
+                'project_id' => $project->id,
+                'user_id' => $user->id
+            ]);
+
+        $response = $this
+            ->actingAs($user)
+            ->get("/projects/{$project->uuid}/data?type=csv");
+
+        $response->assertSessionHasErrors(['downloadError' => 'No csv-type records']);
     }
 
 

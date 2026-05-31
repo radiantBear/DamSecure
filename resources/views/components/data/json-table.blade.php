@@ -11,7 +11,14 @@
                 <th>{{ $f }}</th>
                 @endforeach
                 <th>Creation Timestamp (UTC)</th>
-                <th></th>
+                <th class="text-end">
+                    @if (isset($projectUuid))
+                    <form method="get" action="projects/{{ $projectUuid }}/data">
+                        <input type="hidden" name="type" value="json">
+                        <button type="submit" class="btn btn-outline-primary"><i class="fa-solid fa-file-arrow-down"></i> Download</button>
+                    </form>
+                    @endif
+                </th>
             </tr>
         </thead>
         <tbody>
