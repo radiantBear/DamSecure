@@ -72,8 +72,8 @@
             initial API token for uploading data. Uploading is as simple as making an HTTP
             <code>POST</code> request to this site's upload data API, including a header
             with the token <code>Authorization</code> and contents matching
-            <code>Bearer {api_token}</code> <i>(where <code>{api_token}</code>, including
-            the brackets, is replaced with the upload token you were given)</i> to
+            <code>Bearer {api_token}</code> (e.g.
+            <code>Bearer 1|lBIopC6bcRzL7Jb2yopy74yTJkVltziyLVNX8V3Gc4eb41df</code>) to
             indicate which project the upload is for. For more details, check out the
             <a href="docs/api">API schema</a> or
             <a href="https://github.com/radiantBear/DamSecure/tree/main/docs/examples" target="_blank">
@@ -96,9 +96,9 @@
             <code>GET</code> API endpoint. You'll need to get a download API token by
             rotating the download token on your project's Permissions page. Then, include
             a header with the token <code>Authorization</code> and contents matching
-            <code>Bearer {api_token}</code> <i>(where <code>{api_token}</code>, including
-            the brackets, is replaced with the download token you got)</i> to indicate
-            which project to download data for. For more details, check out the
+            <code>Bearer {api_token}</code> (e.g.
+            <code>Bearer 1|lBIopC6bcRzL7Jb2yopy74yTJkVltziyLVNX8V3Gc4eb41df</code>) to
+            indicate which project to download data for. For more details, check out the
             <a href="docs/api">API schema</a> or
             <a href="https://github.com/radiantBear/DamSecure/tree/main/docs/examples" target="_blank">
                 code examples
