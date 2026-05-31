@@ -47,6 +47,16 @@
     
     <h3 class="mt-3 mb-2">Usage</h3>
     <div class="accordion" id="usageAccordion">
+        <x-accordion-item accordionId="usageAccordion" id="collapseCodeSamples">
+            <x-slot:header>Are there any example projects I can reference?</x-slot:header>
+
+            Yes! A good spot to start would be the
+            <a href="https://github.com/radiantBear/DamSecure/tree/main/docs/examples" target="_blank">
+                code examples
+            </a> that come with DamSecure. You can also use the "Try it out" button on the
+            <a href="docs/api">API schema</a> to see code examples that're tailored to
+            your specific query.
+        </x-accordion-item>
         <x-accordion-item accordionId="usageAccordion" id="collapseHowUpload">
             <x-slot:header>How do I upload data?</x-slot:header>
 
