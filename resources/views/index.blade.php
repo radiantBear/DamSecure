@@ -18,7 +18,7 @@
     <h2>Uploaded Content Type Comparison</h2>
     <x-sample-data />
 
-    <h2>FAQ</h2>
+    <h2 id="faq">FAQ</h2>
 
     <h3 class="mt-3 mb-2">General</h3>
     <div class="accordion my-2" id="faqAccordion">
@@ -43,10 +43,28 @@
             last upload. Once a project has received no uploads for 2 years, it will be
             automatically deleted.
         </x-accordion-item>
+        <x-accordion-item accordionId="faqAccordion" id="collapseTokenRotation">
+            <x-slot:header>If I forget my API token, do I have to create a new project?</x-slot:header>
+
+            No! You can get a new API token by pressing the "Manage Access" button from
+            your project page, then pressing the "Rotate" button next to the token you
+            forgot. You'll have to update your project with the new token, but this helps
+            you keep all uploaded data in the same place.
+        </x-accordion-item>
     </div>
     
     <h3 class="mt-3 mb-2">Usage</h3>
     <div class="accordion" id="usageAccordion">
+        <x-accordion-item accordionId="usageAccordion" id="collapseCodeSamples">
+            <x-slot:header>Are there any example projects I can reference?</x-slot:header>
+
+            Yes! A good spot to start would be the
+            <a href="https://github.com/radiantBear/DamSecure/tree/main/docs/examples" target="_blank">
+                code examples
+            </a> that come with DamSecure. You can also use the "Try it out" button on the
+            <a href="docs/api">API schema</a> to see code examples that're tailored to
+            your specific query.
+        </x-accordion-item>
         <x-accordion-item accordionId="usageAccordion" id="collapseHowUpload">
             <x-slot:header>How do I upload data?</x-slot:header>
 

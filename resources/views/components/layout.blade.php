@@ -25,11 +25,18 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Documentation
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="nav-item"><a href="{{ url('/') }}#faq" class="dropdown-item">FAQ</a></li>
+                                <li class="nav-item"><a href="{{ url('/docs/api') }}" class="dropdown-item">API schema</a></li>
+                                <li class="nav-item"><a href="https://github.com/radiantBear/DamSecure/tree/main/docs/examples" target="_blank" class="dropdown-item">Example code</a></li>
+                            </ul>
+                        </li>
                         @auth
                         <li class="nav-item"><a href="{{ url('/projects') }}" class="nav-link">Projects</a></li>
-                        @endauth
-                        <li class="nav-item"><a href="{{ url('/docs/api') }}" class="nav-link">API schema</a></li>
-                        @auth
                         <li class="nav-item"><a href="{{ route('logout') }}" class="nav-link">Log out</a></li>
                         @else
                         <li class="nav-item"><a href="{{ route('login') }}" class="nav-link">Log in with ONID</a></li>
