@@ -86,19 +86,25 @@ class DataService
             : 0;
     }
 
-    public static function jsonToTable(Collection $data): array {
+    public static function jsonToTable(Collection $data): array
+    {
         $decoded_data = [];
-        foreach ($data as $d)
+        foreach ($data as $d) {
             $decoded_data[] = ['data' => json_decode($d->data, true)];
+        }
 
         $keys = self::getJsonFields($decoded_data);
 
         $normalized_data = [];
         foreach ($decoded_data as $d) {
             $tmp = [];
-            foreach ($keys as $k)
-                if (isset($d['data'][$k])) $tmp[] = $d['data'][$k];
-                else $tmp[] = null;
+            foreach ($keys as $k) {
+                if (isset($d['data'][$k])) {
+                    $tmp[] = $d['data'][$k];
+                } else {
+                    $tmp[] = null;
+                }
+            }
 
             $normalized_data[] = $tmp;
         }
@@ -109,10 +115,12 @@ class DataService
         ];
     }
 
-    public static function csvToTable(Collection $data): array {
+    public static function csvToTable(Collection $data): array
+    {
         $decoded_data = [];
-        foreach ($data as $d)
+        foreach ($data as $d) {
             $decoded_data[] = ['data' => str_getcsv($d->data)];
+        }
 
         $length = self::getCsvLength($decoded_data);
 
@@ -127,10 +135,12 @@ class DataService
         ];
     }
 
-    public static function unknownToTable(Collection $data): array {
+    public static function unknownToTable(Collection $data): array
+    {
         $decoded_data = [];
-        foreach ($data as $d)
+        foreach ($data as $d) {
             $decoded_data[] = [$d->data];
+        }
 
         return [
             ['data'],

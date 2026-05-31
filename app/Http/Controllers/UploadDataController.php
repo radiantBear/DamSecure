@@ -35,26 +35,28 @@ class UploadDataController extends Controller
         ]);
 
         $data = $project->project_upload_data()->where('type', $validated['type'])->get();
-        if ($data->count() < 1)
+        if ($data->count() < 1) {
             return back()->withErrors([
                 'downloadError' => 'No ' . $validated['type'] . '-type records'
             ]);
+        }
 
-        if ($validated['type'] === 'json')
+        if ($validated['type'] === 'json') {
             $tabulated_data = DataService::jsonToTable($data);
-        else if ($validated['type'] === 'csv')
+        } elseif ($validated['type'] === 'csv') {
             $tabulated_data = DataService::csvToTable($data);
-        else
+        } else {
             $tabulated_data = DataService::unknownToTable($data);
+        }
 
         return response()->streamDownload(function () use ($tabulated_data) {
             dump('also made it here');
             $handle = fopen('php://output', 'w');
             try {
-                foreach ($tabulated_data as $row)
+                foreach ($tabulated_data as $row) {
                     fputcsv($handle, $row);
-            }
-            finally {
+                }
+            } finally {
                 fclose($handle);
             }
         }, "{$project->name}_{$validated['type']}_data.csv");

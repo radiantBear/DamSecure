@@ -18,9 +18,11 @@ class UploadDataFactory extends Factory
         $type = fake()->randomElement(['json', 'csv', 'unknown']);
 
         return [
-            ...($type === 'json'
+            ...(
+                $type === 'json'
                 ? self::generate_json()
-                : ($type === 'csv'
+                : (
+                    $type === 'csv'
                     ? self::generate_csv()
                     : self::generate_unknown()
                 )
@@ -31,17 +33,17 @@ class UploadDataFactory extends Factory
 
     public function json(): static
     {
-        return $this->state(fn() => self::generate_json());
+        return $this->state(fn () => self::generate_json());
     }
 
     public function csv(): static
     {
-        return $this->state(fn() => self::generate_csv());
+        return $this->state(fn () => self::generate_csv());
     }
 
     public function unknown(): static
     {
-        return $this->state(fn() => self::generate_unknown());
+        return $this->state(fn () => self::generate_unknown());
     }
 
     private static function generate_json(): array
