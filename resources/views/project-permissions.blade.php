@@ -95,14 +95,14 @@
     <table class="table table-responsive table-striped">
         <thead>
             <tr>
-                <th>ONID</th>
+                <th>User</th>
                 <th>Permissions</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($permissions as $p)
             <tr>
-                <td>{{ $p->user->onid }}</td>
+                <td>{{ $p->user->firstName }} {{ $p->user->lastName }} ({{ $p->user->onid }})</td>
                 <td class="d-flex gap-4">
                     <form method="post" action="permissions/{{ $p->id }}" class="flex-grow-1">
                         {{ csrf_field() }}
