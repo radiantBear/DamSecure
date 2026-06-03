@@ -3,6 +3,14 @@
 [![DeepSource](https://app.deepsource.com/gh/radiantBear/DamSecure.svg/?label=active+issues&show_trend=true&token=6erHwABJ8RhceOpSeqMf9rU3)](https://app.deepsource.com/gh/radiantBear/DamSecure/)
 [![DeepSource](https://app.deepsource.com/gh/radiantBear/DamSecure.svg/?label=code+coverage&show_trend=true&token=6erHwABJ8RhceOpSeqMf9rU3)](https://app.deepsource.com/gh/radiantBear/DamSecure/)
 
+> [!WARNING]
+> 
+> This repository is no longer maintained. It it retained as a snapshot of my work for my
+> undergraduate thesis at Oregon State University.
+> 
+> Mainenance has moved to <https://github.com/osu-tekbots/DamSecure/>. Please direct any
+> Issues or Pull Requests there.
+
 ## Development Setup
 1. Clone the repo & open it in your IDE
 1. Copy `.env.example` to `.env` and set a secure value for `DB_PASSWORD`
